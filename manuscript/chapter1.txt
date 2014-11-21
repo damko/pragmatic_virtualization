@@ -1,5 +1,3 @@
-# Virtualization {#virtualization_title}
-
 ## What's virtualization
 
 The term _Virtualization_ refers to the act of creating a virtual version of something, including but not limited to a virtual computer hardware platform, operating system, storage device, or computer network resources. [Wikipedia](https://en.wikipedia.org/wiki/Virtualization)
