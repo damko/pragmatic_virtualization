@@ -1,7 +1,3 @@
----
-anchor: virtualization
----
-
 # Virtualization {#virtualization_title}
 
 ## What's virtualization

@@ -1,9 +1,3 @@
----
-title: Create your dev vm
-isChild: true
-anchor: create_your_development_vm
----
-
 ## Create your development vm {#create_your_development_vm_title}
 
 As already said, the code will be on the workstation filesystem but it will be run on the VM. This means that:

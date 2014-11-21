@@ -1,12 +1,6 @@
----
-title: Vagrant VM Template
-isChild: true
-anchor: vagrant_vm_template
----
+## Vagrant VM Template {#vagrant_vm_template_title}
 
 TODO I should say something about the creation of a Vagrant box using http://www.vagrantbox.es/
-
-## Vagrant VM Template {#vagrant_vm_template_title}
 
 Now that the virtualization tools are installed you can start creating your development box.
 

@@ -1,9 +1,3 @@
----
-title: Destroy your dev vm
-isChild: true
-anchor: destroy_your_development_vm
----
-
 ## Destroy your development vm {#destroy_your_development_vm_title}
 
 You don't know anything until you can redo it yourself, right? So let's see how to destroy what done till now.
