@@ -24,6 +24,6 @@ In the manual I'll refer to this folder's path as `$pve` so it's convenient to s
     cd pragmatic_virtualization_extra
     pve=$(pwd)
 
-The _extra_ repository has tags bind to the manual chapters. When you start reading a chapter you should do:
+The _extra_ repository has tags bind to the manual content. During the manual I will provide the tag to use in this way:
 
-    git checkout <name of the chapter>
+    git checkout <tag>

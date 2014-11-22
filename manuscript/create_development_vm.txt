@@ -20,31 +20,19 @@ Ansible, instead, will take care to install on the vanilla vm all the services a
 
 Now have a look at the extra devvm directory:
 
-    cd $pve/fspdm1.vm
+    cd $pve/ariadne
 
 This is its content:
 
     $ tree
     .
     ├── orchestration
-    │   ├── ansible
-    │   │   ├── playbook.yml
-    │   │   ├── tasks
-    │   │   │   ├── apache2.yml
-    │   │   │   ├── hello_world.yml
-    │   │   │   ├── init.yml
-    │   │   │   ├── php5.yml
-    │   │   │   └── xdebug.yml
-    │   │   ├── templates
-    │   │   │   ├── helloworld.dev
-    │   │   │   └── standard_project.macro
-    │   │   └── vars.yml
     │   └── vagrant
     │       └── Vagrantfile
     └── projects
 
 
-This skeleton is arbitrary: the _orchestration_ contains whatever is needed for the creation, the configuration and the maintenance of the vm itself while the _projects_ folder contains the source code hosted by that vm and will be shared
+This skeleton is arbitrary: the _orchestration_ contains whatever is needed for the management of the vm while the _projects_ folder contains the source code shared with the virtual machine.
 
 Personally, I have a _development_ directory in my home (~) which contains a bunch of subdirs similar to the _devvm_ and each of them contains some projects. I feel comfortable with this schema, however, you can change it as you like.
 

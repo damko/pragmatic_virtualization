@@ -1,6 +1,6 @@
 ## Create a Vagrant Template box from iso file
 
-T> Checkout the _extra_ at the _virtualization_ tag
+T> Checkout the _extra_ at the _create_vagrant_box_ tag
     cd $pve
     git checkout create_vagrant_box
 
