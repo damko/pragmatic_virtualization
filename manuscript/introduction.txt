@@ -2,19 +2,33 @@
 
 This manual is a synthesis of my personal experiences with virtualization and doesn't pretend to be considered the "bible" of virtualization.
 
-It's a short, down to earth manual written with pragmatism in mind to help those who never worked with virtualization and those who would like to have a smooth workflow in the production / maintenance of virtual machines.
+It's a dry and down to earth manual written with pragmatism in mind to provide what's necessary to create, clone, run, maintain and destroy virtual machines, locally and remotely.
 
-The final target of this manual is to give to you whatever is necessary to create, clone, run, maintain and destroy your virtual machines, locally and remotely.
+Virtualization is a big elephant that can be eaten only in small bites, therefore it's impossible to write a manual that covers all the operating systems and the combinations of software.
+This is why I tackled the topic from a specific perspective which has some requirements and which cuts off many of the virtualization technologies currently available but, at least, brings quick and effective results to the reader.
 
-Virtualization is a big elephant that can be eaten only in small pieces. It's impossible to write a manual that covers all the operating systems and the combination of software, so I tackled the topic from a specific perspective:
+I know that someone will not be happy with this choices but I encourage everybody to take this manual and to adjust it for different perspectives.
+
+### Target
+
+This manual will drive you step by step through the creation of a Debian 64 bit virtual machine which can be used on daily bases as development environment for the most common PHP projects and will show you how to reflect the same environment on a public server.
+
+### Requirements
 
 * 64 bit hardware
-* linux operating system (both for the hosting computer and for the virtual machines)
-* virtualbox as virtualization environment
-* vagrant as virtualization manager
-* ansible as automation tool
+* Linux operating system (both for the hosting computer and for the virtual machines)
+
+### Perspective
+
+These are the virtualization software that will be used:
+
+* Virtualbox as virtualization environment
+* Vagrant as virtualization manager
+* Ansible as automation tool
 * Digital Ocean as provider for the production environment
 
-I know that somebody won't be happy with this perspective but I encourage everybody to take this manual and to adjust it for different perspectives.
 
-Step by step I'll drive you through the creation of a Debian 64 bit virtual machine 64 bit configured to run a web server and a database server hosted both on your computer and on Digital Ocean.
+
+### Audience
+
+ This manual is for those who never worked with virtualization and for those who willing to improve their development work-flow with the help of virtualization.
