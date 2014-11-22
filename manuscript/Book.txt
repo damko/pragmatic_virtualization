@@ -3,8 +3,9 @@ chapter1.txt
     get_ready.txt
     virtualization.txt
 chapter2.txt
-    create_packer_box.txt
-chapter4.txt
+    how_vagrant_works.txt
     create_vagrant_box.txt
+chapter4.txt
+    create_development_vm.txt
 chapter5.txt
     destroy_boxes.txt

@@ -1,0 +1,31 @@
+## How Vagrant works
+
+You already know that Vagrant acts as a wrapper for Virtualbox (or any other supported virtualization environment).
+This means that when you give a command to Vagrant it will route it to the virtualization environment.
+
+Among many other things, you can ask Vagrant to create a new virtual machine but this means that Vagrant will ask Virtualbox to create it.
+
+No virtualization system can create a virtual machine out of nothing because, as you can imagine, you need to install the operating system as much as you do when you buy a new computer.
+
+To solve this problem Vagrant uses "boxes" which can be considered as "template" virtual machines that are given to Virtualbox and from which Virtualbox can clone a "real" virtual machine.
+
+You might think that this solution just moves the problem from Virtualbox to Vagrant and ... you are right ... something still has to create them.
+
+So how are Vagrant "boxes" created? In two ways:
+
+1. they can be downloaded from the [Vagrant Cloud website](http://vagrantcloud.com)
+1. they can be created by Packer starting from an iso file
+
+Vagrant Cloud is a great solution. It's simple, quick and spares you a lot of time.
+
+Basically Vagrant Cloud lists boxes created by other devops who have decided to share them publicly. You go on the website, look for the operating system that you need, run some commands on the terminal and Vagrant takes care of everything.
+Vagrant downloads the box, stores it in your hard drive, makes it available for Virtualbox and then, finally, orders to Virtualbox to create a virtual machine by cloning the provided box.
+
+Perfect, isn't it? Well, it depends.
+
+What if you are a bit paranoid and you don't trust the downloaded boxes?
+What if need a distro not listed in Vagrant Cloud?
+
+In these cases you have no other choice than creating your own box.
+
+In the next paragraph I show how to create a Vagrant box using Packer starting from an iso file but if you prefer to use Vagrant Cloud you can skip it and go ahead.

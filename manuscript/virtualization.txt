@@ -75,6 +75,7 @@ Ex.:
     wget -c https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4_x86_64.deb
     sudo dpkg -i vagrant_1.5.4_x86_64.deb
 
+Be sure that you are installing a Vagrant version > 1.5
 
 ## Packer
 
@@ -89,5 +90,9 @@ In this manual Packer will be used to create a Debian based virtual machine for 
 ### Packer installation
 
 Differently from Vagrant and Virtualbox, Packer doesn't come with a debian installer so the easiest way to install it in the system is to run the `install_packer.sh` script  provided in the manual extra.
-
 Before running the script edit it and change the variables listed at the beginning of the file accordingly to your needs.
+
+    cd $pve
+    ./bin/install_packer.sh
+
+T> It's very important that you always have the latest version of all the software listed above otherwise it's quite common to run into misbehaviors and for this reason I don't suggest to use distribution based packages but to download the code directly from the official websites.
