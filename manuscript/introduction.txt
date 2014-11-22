@@ -27,8 +27,17 @@ These are the virtualization software that will be used:
 * Ansible as automation tool
 * Digital Ocean as provider for the production environment
 
-
-
 ### Audience
 
  This manual is for those who never worked with virtualization and for those who willing to improve their development work-flow with the help of virtualization.
+
+### How to use this manual
+
+There are 2 github repositories associated with this manual
+
+* [the source of the manual](https://github.com/damko/pragmatic_virtualization)
+* [the extra](https://github.com/damko/pragmatic_virtualization_extra)
+
+The _extra_ repository is very important: it contains all the code that you need to follow this manual and to create your virtual machines.
+
+
