@@ -1,6 +1,8 @@
 introduction.txt
 chapter1.txt
+    get_ready.txt
 chapter2.txt
+    virtualization.txt
 chapter3.txt
 chapter4.txt
 chapter5.txt

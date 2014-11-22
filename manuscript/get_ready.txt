@@ -1,0 +1,29 @@
+## Get ready
+
+This manual is hosted by 2 github repositories:
+
+* [the source of the manual](https://github.com/damko/pragmatic_virtualization)
+* [the extra](https://github.com/damko/pragmatic_virtualization_extra)
+
+The _extra_ repository is very important because it contains all you need to follow each chapter this manual and to create the virtual machines. Forget copy and paste, it won't be necessary most of the time.
+
+To download and use the _extra_ repository you need to have [Git](http://git-scm.com/) installed in your system and a [Github](http://github.com) account.
+
+If Git is not yet installed in your system install it with:
+
+    sudo apt-get install git git-core
+
+Download the _extra_ repository with:
+
+    git clone git@github.com:damko/pragmatic_virtualization_extra.git
+
+This will create the "pragmatic_virtualization_extra" directory
+
+In the manual I'll refer to this folder's path as `$pve` so it's convenient to save this variable in your bash environment by doing:
+
+    cd pragmatic_virtualization_extra
+    pve=$(pwd)
+
+The _extra_ repository has tags bind to the manual chapters. When you start reading a chapter you should do:
+
+    git checkout <name of the chapter>

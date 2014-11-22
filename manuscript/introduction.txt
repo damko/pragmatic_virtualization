@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 
 This manual is a synthesis of my personal experiences with virtualization and doesn't pretend to be considered the "bible" of virtualization.
 
@@ -9,20 +9,20 @@ This is why I tackled the topic from a specific perspective which has some requi
 
 I know that someone will not be happy with this choices but I encourage everybody to take this manual and to adjust it for different perspectives.
 
-### Target
+## Target
 
-This manual will drive you step by step through the creation of a Debian 64 bit virtual machine which can be used on daily bases as development environment for the most common PHP projects and will show you how to reflect the same environment on a public server.
+This manual will drive you step by step through the creation of a Debian 64 bit virtual machine which can be used on daily bases as development environment and will show you how to reflect the same environment on a public server.
 
-### Requirements
+## Requirements
 
 These are the requirements for your workstation
 
 * 64 bit hardware
-* Linux operating system
+* A Linux Debian based operating system
 
 If you have a different architecture or a different operating system you can still use this manual in most of the chances but be ready to adjust the commands to your environment.
 
-### Perspective
+## Perspective
 
 This is the virtualization software that will be used:
 
@@ -32,6 +32,14 @@ This is the virtualization software that will be used:
 * Ansible as automation tool
 * Digital Ocean as provider for the production environment
 
-### Audience
+While virtualization has many application fields, this manual will stress on virtualization for the development of PHP based web applications.
 
- This manual is for those who have never worked with virtualization and for those who are willing to improve their development work-flow.
+## Audience
+
+This manual is for those who have never worked with virtualization and for those who are willing to improve their development work-flow.
+
+## Acknowledgements
+
+Many thanks to [phptherightway](http://www.phptherightway.com/) from which I took inspiration and ... some chunks of text :-)
+
+Many thanks to Phil Sturgeon, Lorna Mitchell, Ben Edmunds, Kayla Daniels, Davey Shafik and Erika Heidi. Their constant efforts in the PHP community and their books have been of great help.
