@@ -2,7 +2,7 @@
 
 This manual is a synthesis of my personal experiences with virtualization and doesn't pretend to be considered the "bible" of virtualization.
 
-It's a dry and down to earth manual written with pragmatism in mind to provide what's necessary to create, clone, run, maintain and destroy virtual machines, locally and remotely.
+It's a straight forward and down to earth manual written with pragmatism in mind to provide what's necessary to create, clone, run, maintain and destroy virtual machines, locally and remotely.
 
 Virtualization is a big elephant that can be eaten only in small bites, therefore it's impossible to write a manual that covers all the operating systems and the combinations of software.
 This is why I tackled the topic from a specific perspective which has some requirements and which cuts off many of the virtualization technologies currently available but, at least, brings quick and effective results to the reader.
@@ -15,13 +15,18 @@ This manual will drive you step by step through the creation of a Debian 64 bit 
 
 ### Requirements
 
+These are the requirements for your workstation
+
 * 64 bit hardware
-* Linux operating system (both for the hosting computer and for the virtual machines)
+* Linux operating system
+
+If you have a different architecture or a different operating system you can still use this manual in most of the chances but be ready to adjust the commands to your environment.
 
 ### Perspective
 
-These are the virtualization software that will be used:
+This is the virtualization software that will be used:
 
+* Packer to create virtual machine from an iso
 * Virtualbox as virtualization environment
 * Vagrant as virtualization manager
 * Ansible as automation tool
@@ -29,15 +34,4 @@ These are the virtualization software that will be used:
 
 ### Audience
 
- This manual is for those who never worked with virtualization and for those who willing to improve their development work-flow with the help of virtualization.
-
-### How to use this manual
-
-There are 2 github repositories associated with this manual
-
-* [the source of the manual](https://github.com/damko/pragmatic_virtualization)
-* [the extra](https://github.com/damko/pragmatic_virtualization_extra)
-
-The _extra_ repository is very important: it contains all the code that you need to follow this manual and to create your virtual machines.
-
-
+ This manual is for those who have never worked with virtualization and for those who are willing to improve their development work-flow.
