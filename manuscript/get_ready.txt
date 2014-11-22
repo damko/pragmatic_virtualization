@@ -2,7 +2,7 @@
 
 This manual is hosted by 2 github repositories:
 
-* [the source of the manual](https://github.com/damko/pragmatic_virtualization)
+* [the source](https://github.com/damko/pragmatic_virtualization)
 * [the extra](https://github.com/damko/pragmatic_virtualization_extra)
 
 The _extra_ repository is very important because it contains all you need to follow each chapter this manual and to create the virtual machines. Forget copy and paste, it won't be necessary most of the time.

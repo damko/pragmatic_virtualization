@@ -1,8 +1,10 @@
 introduction.txt
 chapter1.txt
     get_ready.txt
-chapter2.txt
     virtualization.txt
-chapter3.txt
+chapter2.txt
+    packer.txt
 chapter4.txt
+    vagrant.txt
 chapter5.txt
+    destroy.txt
