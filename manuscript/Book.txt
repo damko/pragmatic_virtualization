@@ -3,8 +3,8 @@ chapter1.txt
     get_ready.txt
     virtualization.txt
 chapter2.txt
-    packer.txt
+    create_packer_box.txt
 chapter4.txt
-    vagrant.txt
+    create_vagrant_box.txt
 chapter5.txt
-    destroy.txt
+    destroy_boxes.txt
