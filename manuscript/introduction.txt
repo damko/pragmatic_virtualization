@@ -11,7 +11,11 @@ I know that someone will not be happy with this choices but I encourage everybod
 
 ## Target
 
-This manual will drive you step by step through the creation of a Debian 64 bit virtual machine which can be used on daily bases as development environment and will show you how to reflect the same environment on a public server.
+The main target of this manual is the creation of a Debian 64 bit virtual machine that you can reuse as development environment for your projects.
+
+To make the experience more real, the virtual machine will be automatically configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/) created by PHP Bridge project. This example will show you how you can configure the virtualization tools to automatically produce the best environment for your applications.
+
+The manual will also show you how to reflect the same environment on a public server.
 
 ## Requirements
 
@@ -19,6 +23,8 @@ These are the requirements for your workstation
 
 * 64 bit hardware
 * A Linux Debian based operating system
+* 10GB of free space
+* 4GB of RAM
 
 If you have a different architecture or a different operating system you can still use this manual in most of the chances but be ready to adjust the commands to your environment.
 

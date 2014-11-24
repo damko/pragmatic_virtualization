@@ -2,9 +2,9 @@
 
 The term _Virtualization_ refers to the act of creating a virtual version of something, including but not limited to a virtual computer hardware platform, operating system, storage device, or computer network resources. [Wikipedia](https://en.wikipedia.org/wiki/Virtualization)
 
-In this manual "_virtualization_" means "_hardware virtualization_"  which is the creation of a virtual machine that acts like a real computer with its own operating system. The software executed on virtual machines is separated from the underlying hardware resources and the whole virtual machine is stored in a few files located on the hard-drive of the host system.
+Basically with virtualization you can run virtual computers inside your own computer.
 
-Basically with virtualization you are running virtual computers inside your own computer.
+In this manual "_virtualization_" means "_hardware virtualization_"  which is the creation of a virtual machine that acts like a real computer with its own operating system. The software executed on virtual machines is separated from the underlying hardware resources and the whole virtual machine is stored in a few files located on the host system hard-drive.
 
 ## Why to use the virtualization
 
@@ -93,7 +93,7 @@ Differently from Vagrant and Virtualbox, Packer doesn't come with a debian insta
 
 T> Checkout the _extra_ at the _packer_installer_ tag
     cd $pve
-    git checkout packer_installer
+    git checkout installing_tools
 
 Before running the script edit it and change the variables listed at the beginning of the file accordingly to your needs.
 

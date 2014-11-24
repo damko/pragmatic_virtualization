@@ -24,6 +24,7 @@ In the manual I'll refer to this folder's path as `$pve` so it's convenient to s
     cd pragmatic_virtualization_extra
     pve=$(pwd)
 
-The _extra_ repository has tags bind to the manual content. During the manual I will provide the tag to use in this way:
+The _extra_ repository has branches bind to the manual content and, chapter by chapter, the manual will provide the branch to use.
+You can synchronize your local content with this command:
 
-    git checkout <tag>
+    git checkout <branch>
