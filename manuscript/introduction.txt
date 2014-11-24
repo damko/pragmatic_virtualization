@@ -41,6 +41,10 @@ These are the requirements for your workstation
 
 If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust the commands to your situation.
 
+## Audience
+
+Anyone who wants to take the advantages of virtualization to improve the development work-flow and those who wants to know what happens under the hood. Beginners included.
+
 ## Acknowledgements
 
 Many thanks to [phptherightway](http://www.phptherightway.com/) from which I took inspiration and ... some chunks of text :-)
