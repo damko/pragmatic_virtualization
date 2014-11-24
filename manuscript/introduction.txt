@@ -4,29 +4,11 @@ This manual is a synthesis of my personal experiences with virtualization and do
 
 It's a straight forward and down to earth manual written with pragmatism in mind to provide what's necessary to create, clone, run, maintain and destroy virtual machines, locally and remotely.
 
-Virtualization is a big elephant that can be eaten only in small bites, therefore it's impossible to write a manual that covers all the operating systems and the combinations of software.
-This is why I tackled the topic from a specific perspective which has some requirements and which cuts off many of the virtualization technologies currently available but, at least, brings quick and effective results to the reader.
+Virtualization is a big elephant that can be eaten only in small bites, therefore it's impossible to write a manual that covers all the operating systems and the software combinations.
 
-I know that someone will not be happy with this choices but I encourage everybody to take this manual and to adjust it for different perspectives.
+This is why I tackled the topic from a specific perspective which has some requirements and cuts off several virtualization technologies currently available but, at least, brings quick and effective results to the reader.
 
-## Target
-
-The main target of this manual is the creation of a Debian 64 bit virtual machine that you can reuse as development environment for your projects.
-
-To make the experience more real, the virtual machine will be automatically configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/) created by PHP Bridge project. This example will show you how you can configure the virtualization tools to automatically produce the best environment for your applications.
-
-The manual will also show you how to reflect the same environment on a public server.
-
-## Requirements
-
-These are the requirements for your workstation
-
-* 64 bit hardware
-* A Linux Debian based operating system
-* 10GB of free space
-* 4GB of RAM
-
-If you have a different architecture or a different operating system you can still use this manual in most of the chances but be ready to adjust the commands to your environment.
+I know that someone will not be happy with these choices but I encourage to adjust the source of this manual for different perspectives and to re-publish it as a free manual.
 
 ## Perspective
 
@@ -38,11 +20,26 @@ This is the virtualization software that will be used:
 * Ansible as automation tool
 * Digital Ocean as provider for the production environment
 
-While virtualization has many application fields, this manual will stress on virtualization for the development of PHP based web applications.
+While virtualization has many application fields, this manual addresses the topic of virtualization from the point of view of a web developer writing PHP based web applications.
 
-## Audience
+## Target
 
-This manual is for those who have never worked with virtualization and for those who are willing to improve their development work-flow.
+The main target is the creation of a Debian 64 bit virtual machine that you can reuse as development environment for your projects.
+
+To make the experience more real, the virtual machine will be automatically configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/) generously created by [PHP Women](http://phpwomen.org/). This example will show you how to your virtualization tools configuration files to automatically produce a good environment for your applications.
+
+Finally the virtual environment will be replicated and published on a public server.
+
+## Requirements
+
+These are the requirements for your workstation
+
+* 64 bit hardware
+* A Linux Debian based operating system
+* 10GB of free space
+* 2GB of RAM
+
+If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust the commands to your situation.
 
 ## Acknowledgements
 
