@@ -4,7 +4,8 @@ chapter1.txt
     virtualization.txt
 chapter2.txt
     how_vagrant_works.txt
-    create_vagrant_box.txt
+    create_vagrant_box_from_iso.txt
+    create_vagrant_box_from_cloud.txt
 chapter4.txt
     create_development_vm.txt
 chapter5.txt
