@@ -10,7 +10,7 @@ In this manual "_virtualization_" means "_hardware virtualization_"  which is th
 
 A common good practice during the development of a web application is to produce separated environments at least for the development and the production.
 
-The development environment is the environment used by the developers to create and test a web application while the production environment is the server on which the final web application is hosted and published.
+The development environment is the environment used by the developer to create and test a web application while the production environment is the server on which the final web application is hosted and published.
 
 In this case "environment" means pretty much everything:
 
@@ -25,18 +25,19 @@ Virtualization is the answer to the problem of inhomogeneous environments.
 Especially when working in a team, virtualization offers other great benefits:
 
 * all the team members can work in the same exact environment even when the team mates are in different locations
-* any change to an environment can be easily replicated in the team members virtual machines
-* to share different environments or environment updates among team mates is enough to provide a few configuration files
+* any change to the environment can be easily spread to the team members virtual machines
+* sharing different and multiple environments or environment updates among team mates is a matter of sharing a few configuration files
 
-Virtualization also grants **isolation**: each project can be run in isolation inside its own virtual machine and the developer's workstation is totally decoupled from the projects. To clarify consider this case: you have an application requiring with PHP 5.3 and another one requiring with PHP 5.6. You can set up two different virtual machines, one with PHP 5.3 and the other one with PHP 5.6.
+Virtualization also grants **isolation**: each project can be run in isolation inside its own virtual machine and the developer's workstation is totally decoupled from the projects. This helps to have a slim workstation and avoid conflicts in software versions.
+To clarify consider this case: you have the application A requiring PHP 5.3 and the application B requiring PHP 5.6. Installing PHP 5.3 and 5.6 at the same time on your workstation is not easy. With virtualization you can set up two different virtual machines each one with a different PHP version.
 
 ## Virtualization tools
 
 The most famous virtualization environments are [VirtualBox](http://www.virtualbox.org/), [VMware](http://www.vmware.com/) and [Docker](http://www.docker.com/) but this manual will focus only on Virtualbox.
 
-Virtualbox and other two applications called Vagrant and Packer provide what's necessary to create, clone, run, maintain and destroy your virtual machines (aka. boxes or vm/vms) in an easy and very predictable way.
+Virtualbox and two other applications called Vagrant and Packer provide what's necessary to create, clone, run and destroy your virtual machines (aka. boxes or vm/vms) in an easy and very predictable way.
 
-In the end you will have a Virtualbox virtual machine managed by Vagrant which will be used as *development environment* for your applications.
+In a while your workstation will have a Virtualbox virtual machine managed by Vagrant that you can use as *development environment* for your applications.
 
 Your applications code will be stored on your workstation filesystem and you will edit it locally using an editor installed on your workstation.
 
@@ -51,7 +52,7 @@ VirtualBox is also different from the so-called "paravirtualization" solutions (
 
 ### Virtualbox installation
 
-Download the latest package that suits at best your workstation from [here](https://www.virtualbox.org/wiki/Linux_Downloads).
+Download from [here](https://www.virtualbox.org/wiki/Linux_Downloads) the latest package that suits at best your workstation.
 
 Ex.:
 
@@ -61,13 +62,13 @@ Ex.:
 
 ## Vagrant
 
-[Vagrant][http://vagrantup.com/] helps you building your virtual boxes on top of Virtualbox (or VMWare). Vagrant is considered a wrapper for Virtualbox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
+[Vagrant][http://vagrantup.com/] helps you building your virtual boxes on top of Virtualbox (or VMWare etc.). Vagrant is considered as a wrapper for Virtualbox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
 
-Vagrant creates folders for sharing your code between your host and your virtual machine so that you can create and edit your files on your host machine and then run the code inside your virtual machine.
+Vagrant also creates a folder to share your code between your host and your virtual machine so that you can create and edit your files on your host machine and then run the code inside your virtual machine.
 
 ### Vagrant installation
 
-Download the latest package that suits at best your workstation from [here](http://www.vagrantup.com/downloads.html) then install it like this:
+Download from [here](http://www.vagrantup.com/downloads.html) the latest package that suits at best your workstation and then install it like this:
 
 Ex.:
 
@@ -81,9 +82,7 @@ Be sure that you are installing a Vagrant version > 1.5
 
 [Packer](http://packer.io) is a tool for creating identical machine images for multiple platforms from a single source configuration. Packer automates the creation of any type of machine image: out of the box Packer comes with support to build images for Amazon EC2, DigitalOcean, Google Compute Engine, QEMU, VirtualBox, VMware, and more.
 
-Out of the box Packer comes with support to build images for Amazon EC2, DigitalOcean, Google Compute Engine, QEMU, VirtualBox, VMware, and more.
-
-This means that with Packer you write a bunch of configuration files (json format) and then you can programmatically create the same virtual machine for different environments like Virtualbox, Vmware etc.
+This means that with Packer you write some configuration files (in json format) and then you can programmatically create the same virtual machine for different environments like Virtualbox, Vmware etc.
 
 In this manual Packer will be used to create a Debian based virtual machine for Virtualbox which will be then used by Vagrant as a "template" virtual machine for the creation of your environments. The customization of each environment (Vagrant virtual machine) will be done using an automation tool called Ansible (see later).
 
@@ -91,13 +90,30 @@ In this manual Packer will be used to create a Debian based virtual machine for 
 
 Differently from Vagrant and Virtualbox, Packer doesn't come with a debian installer so the easiest way to install it in the system is to run the `install_packer.sh` script  provided in the manual extra.
 
-T> Checkout the _extra_ at the _packer_installer_ tag
+Checkout the _installing_tools_ branch of the _extra_ repository
+
     cd $pve
     git checkout installing_tools
 
-Before running the script edit it and change the variables listed at the beginning of the file accordingly to your needs.
+Edit the script before running it and change the variables listed at the top accordingly to your needs.
+
+    # environment variables: set here your preferences
+    tmp_dir='/tmp' # default '/tmp"
+    system='linux' # default 'linux'
+    architecture='amd64' # either 'amd64' or '386'
+    parent_dir='/home/damko/applications' # whatever you like
+    packer_dir='packer' # default 'packer'
+    packer_version='0.7.2' # default '0.5.2' @2014-04-20
+    bashrc_file='/home/damko/.bashrc_custom' # default $HOME'/.bashrc'
+
+The _parent_dir_ and the _bashrc_file_ parameters and _packer_version_ are the parameters you should take care of the most.
+_parent_dir_ sets where you want to have it installed. I prefer to install it in my home directory. You can put any valid path
+_bashrc_file_ sets which is the bash file in which the PATH variable should be altered so that your bash can find the Packer executable when you open a terminal
+_packer_version_ this should be the latest packer version. You need to check in on the [Packer website](https://packer.io/downloads.html).
+
+Run the installation:
 
     cd $pve
     ./bin/install_packer.sh
 
-T> It's very important that you always have the latest version of all the software listed above otherwise it's quite common to run into misbehaviors and for this reason I don't suggest to use distribution based packages but to download the code directly from the official websites.
+T> It's very important that you always have the latest version of all the software listed above otherwise you can experience misbehaviors. For this reason I don't suggest to use distribution based packages but to download the code directly from the official websites.
