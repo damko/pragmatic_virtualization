@@ -102,10 +102,4 @@ Output:
 
 > 442M    /home/damko/.vagrant.d/boxes/debian_wheezy_770_64bit
 
-### Recap
-
-A little recap of what done till now:
-
-* Packager created a virtual machine starting from the debian iso cd.
-* Vagrant imported the Packager box into its list of available virtual machine templates
 
