@@ -161,7 +161,7 @@ Everything is ready to launch the creation of the vm (which will take a couple o
 
 See what's happening:
 
-1. Vagrant clones the template box into a Virtualbox vm which will be saved in the Virtualbox default directory (in my case ~/vms/virtualbox/)
+1. Vagrant clones the template box into a Virtualbox vm
 1. Vagrant arranges some changes to the vm, like the number of cores, the amount of ram, the network card MAC address, the hostname etc. accordingly to what set in the Vagrantfile
 1. Vagrant starts the vm
 
