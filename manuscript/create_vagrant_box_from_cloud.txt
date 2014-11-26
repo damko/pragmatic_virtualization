@@ -1,9 +1,15 @@
 ## Create a Vagrant Template box from Vagrant Cloud
 
+Checkout the _create_vagrant_box_from_cloud_ branch of the _extra_ repository
+
+    cd $pve
+    git checkout create_vagrant_box_from_cloud
+
 What has been made with Packer can be done with [Vagrant Cloud](http://vagrantcloud.com/). If you look for "Debian Wheezy" in the "Discover Boxes" section you'll get many results: the first one that I've found claiming to produce a clean Debian Wheezy without any additional package installed is [xezpeleta/wheezy64](https://vagrantcloud.com/xezpeleta/boxes/wheezy64)
 
 To use this box run:
 
+    cd $pve/ariadne/orchestration/vagrant
     vagrant init xezpeleta/wheezy64
 
 Output:
@@ -13,7 +19,7 @@ Output:
     the comments in the Vagrantfile as well as documentation on
     `vagrantup.com` for more information on using Vagrant
 
-This command creates just a Vagrantfile which, without comments, looks like this:
+This command creates a Vagrantfile which, Ignoring comments, looks like this:
 
     VAGRANTFILE_API_VERSION = "2"
 
@@ -23,8 +29,9 @@ This command creates just a Vagrantfile which, without comments, looks like this
 
     end
 
-The only extra step that you need to have to do is:
+The only extra step that you need to do is:
 
+    cd $pve/ariadne/orchestration/vagrant
     vagrant up
 
 Output:

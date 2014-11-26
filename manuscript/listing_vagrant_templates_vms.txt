@@ -1,4 +1,4 @@
-## Listing Vagrant Templates and Vms
+## Listing Vagrant templates and vms
 
 You can list the Vagrant boxes (or "templates") with this:
 
@@ -26,7 +26,7 @@ Output:
     "vagrant destroy 1a2b3c4d"
 
 
-## Where are boxes physically located?
+## Where are templates and vms physically located?
 
 The Vagrant template boxes are located on your workstation disk
 

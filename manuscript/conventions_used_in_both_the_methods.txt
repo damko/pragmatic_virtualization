@@ -1,0 +1,17 @@
+## Conventions used in both the methods
+
+Before starting, some conventions used by the manual in both the methods.
+
+_Ariadne_ will be the arbitrary _root name_ used to label the Vagrant virtual machines generated starting from the Vagrant template: i.e. the development machine will be named _dev.ariadne.vm_ and the production one _prod.ariadne.vm_.
+
+In the both the _extra_ branches there is a directory called _ariadne_ having this structure:
+
+    ├── orchestration
+    │   └── vagrant
+    └── projects
+
+This is an arbitrary skeleton and has this meaning:
+* the _orchestration_ directory contains what's needed for the management of the vms
+* the _projects_ directory contains the source code shared with the virtual machine.
+
+You can change this schema as you like as far as you provide somewhere a valid Vagrantfile and a directory to host the code.

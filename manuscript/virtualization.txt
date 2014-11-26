@@ -64,7 +64,7 @@ Ex.:
 
 [Vagrant][http://vagrantup.com/] helps you building your virtual boxes on top of Virtualbox (or VMWare etc.). Vagrant is considered as a wrapper for Virtualbox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
 
-Vagrant also creates a folder to share your code between your host and your virtual machine so that you can create and edit your files on your host machine and then run the code inside your virtual machine.
+Vagrant also creates a directory to share your code between your host and your virtual machine so that you can create and edit your files on your host machine and then run the code inside your virtual machine.
 
 ### Vagrant installation
 

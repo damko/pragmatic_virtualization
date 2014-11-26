@@ -73,6 +73,7 @@ To fix the issue go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
 
 Now that the debian-770-wheezy.box file is ready, the next step is to tell Vagrant to import the Packer box and to make it available in the system as a template. This command will do the trick:
 
+    cd $pve/packer_templates
     vagrant box add debian_wheezy_770_64bit ./debian-770-wheezy.box
 
 _debian_wheezy_770_64bit_ will be the name of the Vagrant template and must be unique in the system. Imagine this Vagrant box as a "template" for a fresh Debian Wheezy 64bit based virtual machine that can be used to create as many Vagrant boxes as you want.
@@ -82,26 +83,11 @@ If you want, now you can delete the _debian-770-wheezy.box_ file.
 
 ### Creation, setup and configuration of a Vagrant vm - 3rd step
 
-_Ariadne_ will be the arbitrary _root_ word used to name the Vagrant virtual machines generated from the Vagrant template for the Suggestotron application: i.e. the development machine will be named _dev.ariadne.vm_ and the production one _prod.ariadne.vm_ .
+Finally it's time to create the development environment vm called _dev.ariadne.vm_.
 
-In this step you'll finally create your development environment vm called _dev.ariadne.vm_.
+    cd $pve/ariadne/orchestration/vagrant/
 
-Have a look at the content of the _ariadne_ directory:
-
-    $ tree $pve/ariadne
-    .
-    ├── orchestration
-    │   └── vagrant
-    │       └── Vagrantfile
-    └── projects
-
-This skeleton is arbitrary and has this meaning:
-* the _orchestration_ directory contains what's needed for the management of the vms
-* the _projects_ directory contains the source code shared with the virtual machine.
-
-You can change this schema as you like as far as you provide a valid Vagrantfile and a directory to host the code.
-
-The _Vagrantfile_ is already configured and, for now, it looks like this:
+The _Vagrantfile_ contained in this directory is already configured and, for now, it looks like this:
 
     VAGRANTFILE_API_VERSION = "2"
 
