@@ -191,7 +191,7 @@ Output:
         dev.ariadne.vm: /vagrant => /home/damko/projects/pragmatic_virtualization_extra/ariadne/orchestration/vagrant
 
 
-That's it. The virtual machine is ready and runnig.
+That's it. The virtual machine is ready and running.
 
 You can now login via ssh with:
 

@@ -50,7 +50,7 @@ Output:
 
 The `vagrant up` command downloads the box, stores it in your hard drive, makes it available for Virtualbox and then, finally, orders to Virtualbox to create a virtual machine by cloning the downloaded box and you end up with the working virtual machine. Brilliant!
 
-That's it. The virtual machine is ready and runnig.
+That's it. The virtual machine is ready and running.
 
 You can now login in the Virtualbox vm with
 
