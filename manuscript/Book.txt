@@ -6,7 +6,10 @@ chapter2.txt
     how_vagrant_works.txt
     create_vagrant_box_from_iso.txt
     create_vagrant_box_from_cloud.txt
-chapter4.txt
+    final_consideration.txt
+    listing_vagrant_templates_vms.txt
+chapter3.txt
+    vagrant_fine_tuning.txt
     create_development_vm.txt
-chapter5.txt
+chapter4.txt
     destroy_boxes.txt

@@ -1,0 +1,3 @@
+## Final consideration
+
+As you can see, doesn't matter which one of the ways to build the Vagrant vm you picked (Packer or Vagrant Cloud) you end up with the same result.

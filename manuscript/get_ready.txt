@@ -19,7 +19,7 @@ Download the _extra_ repository with:
 
 This will create the "pragmatic_virtualization_extra" subdirectory
 
-In the manual I'll refer to this folder's path as `$pve` so it's convenient to save this variable in your bash environment by doing:
+In the manual I'll refer to this directory's path as `$pve` so it's convenient to save this variable in your bash environment by doing:
 
     cd pragmatic_virtualization_extra
     pve=$(pwd)

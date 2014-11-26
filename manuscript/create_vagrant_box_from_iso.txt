@@ -10,6 +10,7 @@ You'll be following these steps:
 
 1. creation of a box using Packer starting from a Debian iso installer
 1. import of the Packer box in Vagrant as template box
+1. creation, setup and configuration of a Vagrant virtual machine
 
 ### Creation of a box using Packer - 1st step
 
@@ -76,30 +77,123 @@ Now that the debian-770-wheezy.box file is ready, the next step is to tell Vagra
 
 _debian_wheezy_770_64bit_ will be the name of the Vagrant template and must be unique in the system. Imagine this Vagrant box as a "template" for a fresh Debian Wheezy 64bit based virtual machine that can be used to create as many Vagrant boxes as you want.
 
-You can verify that Vagrant is now "aware" of the existence of this template asking Vagrant to list the Vagrant boxes (or "templates"):
+If you want, now you can delete the _debian-770-wheezy.box_ file.
 
-    vagrant box list
+
+### Creation, setup and configuration of a Vagrant vm - 3rd step
+
+_Ariadne_ will be the arbitrary _root_ word used to name the Vagrant virtual machines generated from the Vagrant template for the Suggestotron application: i.e. the development machine will be named _dev.ariadne.vm_ and the production one _prod.ariadne.vm_ .
+
+In this step you'll finally create your development environment vm called _dev.ariadne.vm_.
+
+Have a look at the content of the _ariadne_ directory:
+
+    $ tree $pve/ariadne
+    .
+    ├── orchestration
+    │   └── vagrant
+    │       └── Vagrantfile
+    └── projects
+
+This skeleton is arbitrary and has this meaning:
+* the _orchestration_ directory contains what's needed for the management of the vms
+* the _projects_ directory contains the source code shared with the virtual machine.
+
+You can change this schema as you like as far as you provide a valid Vagrantfile and a directory to host the code.
+
+The _Vagrantfile_ is already configured and, for now, it looks like this:
+
+    VAGRANTFILE_API_VERSION = "2"
+
+
+
+    ############################################################
+    # VARIABLES
+
+    # Vagrant template box name
+    VG_BOX_NAME = "debian_wheezy_770_64bit"
+
+    # Local virtual machine for development
+    VB_DEV_VM_NAME = "dev.ariadne.vm"
+
+    ############################################################
+
+
+
+    Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+        # Vagrant settings for the development vm
+        config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
+
+            # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant vm will be generated
+            devel.vm.box = VG_BOX_NAME
+
+            # Hostname for the generated Vagrant vm
+            devel.vm.hostname = VB_DEV_VM_NAME
+
+            # Folder sharing is now disabled
+            devel.vm.synced_folder  ".", "/projects", disabled: true
+
+            # Virtualbox settings
+            devel.vm.provider "virtualbox" do |vb|
+                vb.name = VB_DEV_VM_NAME
+
+                ## If true it does not boot in headless mode => shows virtualbox UI. Uncomment only for troubleshooting.
+                #vb.gui = true
+
+                # Uses VBoxManage to customize the VM
+                vb.customize ["modifyvm", :id, "--memory", "512"]
+                vb.customize ["modifyvm", :id, "--cpus", "1"]
+                vb.customize ["modifyvm", :id, "--ioapic", "on"]
+            end
+        end
+
+    end
+
+
+ It contains all the needed instructions for Vagrant to build the new vm and soon it will be used to describe also the production virtual machine, all in the same file.
+
+
+Everything is ready to launch the creation of the vm (which will take a couple of minutes) with the command:
+
+    cd $pve/ariadne/orchestration/vagrant
+    vagrant up
+
+See what's happening:
+
+1. Vagrant clones the template box into a Virtualbox vm which will be saved in the Virtualbox default directory (in my case ~/vms/virtualbox/)
+1. Vagrant arranges some changes to the vm, like the number of cores, the amount of ram, the network card MAC address, the hostname etc. accordingly to what set in the Vagrantfile
+1. Vagrant starts the vm
 
 Output:
 
-> debian_wheezy_770_64bit (virtualbox, 0)
+    Bringing machine 'dev.ariadne.vm' up with 'virtualbox' provider...
+    ==> dev.ariadne.vm: Importing base box 'debian_wheezy_770_64bit'...
+    ==> dev.ariadne.vm: Matching MAC address for NAT networking...
+    ==> dev.ariadne.vm: Setting the name of the VM: dev.ariadne.vm
+    ==> dev.ariadne.vm: Clearing any previously set network interfaces...
+    ==> dev.ariadne.vm: Preparing network interfaces based on configuration...
+        dev.ariadne.vm: Adapter 1: nat
+    ==> dev.ariadne.vm: Forwarding ports...
+        dev.ariadne.vm: 22 => 2222 (adapter 1)
+    ==> dev.ariadne.vm: Running 'pre-boot' VM customizations...
+    ==> dev.ariadne.vm: Booting VM...
+    ==> dev.ariadne.vm: Waiting for machine to boot. This may take a few minutes...
+        dev.ariadne.vm: SSH address: 127.0.0.1:2222
+        dev.ariadne.vm: SSH username: vagrant
+        dev.ariadne.vm: SSH auth method: private key
+        dev.ariadne.vm: Warning: Connection timeout. Retrying...
+    ==> dev.ariadne.vm: Machine booted and ready!
+    GuestAdditions 4.3.16 running --- OK.
+    ==> dev.ariadne.vm: Checking for guest additions in VM...
+    ==> dev.ariadne.vm: Setting hostname...
+    ==> dev.ariadne.vm: Mounting shared folders...
+        dev.ariadne.vm: /vagrant => /home/damko/projects/pragmatic_virtualization_extra/ariadne/orchestration/vagrant
 
-Now that the original Packer box has been added to the Vagrant boxes the file debian-770-wheezy.box can be deleted.
 
-### Where are templates located?
+That's it. The virtual machine is ready and runnig.
 
-Where is the "vagrant template vm" located on the workstation disk?
+You can now login via ssh with:
 
-    ls -lh ~/.vagrant.d/boxes
-
-Output:
-
-> drwxr-xr-x 3 damko damko 4.0K 2014-11-17 20:27:33 debian_wheezy_770_64bit
-
-    du -sh ~/.vagrant.d/boxes/*
-
-Output:
-
-> 442M    /home/damko/.vagrant.d/boxes/debian_wheezy_770_64bit
-
-
+    cd $pve/ariadne/orchestration/vagrant
+    vagrant ssh

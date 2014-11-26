@@ -1,1 +1,58 @@
 ## Create a Vagrant Template box from Vagrant Cloud
+
+What has been made with Packer can be done with [Vagrant Cloud](http://vagrantcloud.com/). If you look for "Debian Wheezy" in the "Discover Boxes" section you'll get many results: the first one that I've found claiming to produce a clean Debian Wheezy without any additional package installed is [xezpeleta/wheezy64](https://vagrantcloud.com/xezpeleta/boxes/wheezy64)
+
+To use this box run:
+
+    vagrant init xezpeleta/wheezy64
+
+Output:
+
+    A `Vagrantfile` has been placed in this directory. You are now
+    ready to `vagrant up` your first virtual environment! Please read
+    the comments in the Vagrantfile as well as documentation on
+    `vagrantup.com` for more information on using Vagrant
+
+This command creates just a Vagrantfile which, without comments, looks like this:
+
+    VAGRANTFILE_API_VERSION = "2"
+
+    Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+      config.vm.box = "xezpeleta/wheezy64"
+
+    end
+
+The only extra step that you need to have to do is:
+
+    vagrant up
+
+Output:
+
+    Bringing machine 'default' up with 'virtualbox' provider...
+    ==> default: Box 'xezpeleta/wheezy64' could not be found. Attempting to find and install...
+        default: Box Provider: virtualbox
+        default: Box Version: >= 0
+    ==> default: Loading metadata for box 'xezpeleta/wheezy64'
+        default: URL: https://vagrantcloud.com/xezpeleta/wheezy64
+    ==> default: Adding box 'xezpeleta/wheezy64' (v1.0.0) for provider: virtualbox
+        default: Downloading: https://vagrantcloud.com/xezpeleta/boxes/wheezy64/versions/1/providers/virtualbox.box
+        default: Progress: 1% (Rate: 495k/s, Estimated time remaining: 0:16:08)
+
+    [...]
+
+    ==> default: Successfully added box 'xezpeleta/wheezy64' (v1.0.0) for 'virtualbox'!
+    ==> default: Importing base box 'xezpeleta/wheezy64'...
+
+    [...]
+
+    ==> default: Machine booted and ready!
+
+The `vagrant up` command downloads the box, stores it in your hard drive, makes it available for Virtualbox and then, finally, orders to Virtualbox to create a virtual machine by cloning the downloaded box and you end up with the working virtual machine. Brilliant!
+
+That's it. The virtual machine is ready and runnig.
+
+You can now login in the Virtualbox vm with
+
+    cd $pve/ariadne/orchestration/vagrant
+    vagrant ssh

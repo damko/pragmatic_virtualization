@@ -13,13 +13,12 @@ You might think that this solution just moves the problem from Virtualbox to Vag
 
 How are Vagrant "boxes" created? In two ways:
 
-1. they can be downloaded from the [Vagrant Cloud website](http://vagrantcloud.com)
 1. they can be created by Packer starting from an iso file
+1. they can be downloaded from the [Vagrant Cloud website](http://vagrantcloud.com)
 
 Vagrant Cloud is a great solution. It's simple, quick and saves you a lot of time.
 
-Basically Vagrant Cloud lists boxes created by other people who have decided to share them publicly. You go on the website, look for the operating system that you need, run some commands on the terminal and Vagrant takes care of everything (see later).
-Vagrant downloads the box, stores it in your hard drive, makes it available for Virtualbox and then, finally, orders to Virtualbox to create a virtual machine by cloning the provided box and you end up with the working virtual machine.
+Basically Vagrant Cloud lists boxes created by other people who have decided to share them publicly. You go on the website, look for the operating system that you need, run few commands on the terminal and Vagrant takes care of everything (see later).
 
 Perfect, isn't it? Well, it depends.
 
@@ -28,4 +27,4 @@ What if need a Linux distro not listed in Vagrant Cloud?
 
 In these cases you have no other choice than creating your own box.
 
-The next paragraph will show how to create a Vagrant box using Packer starting from an iso file but if you prefer to use Vagrant Cloud you can skip it and go to the next one.
+The next paragraph will show how to create a Vagrant box using Packer starting from an iso file but if you prefer to use Vagrant Cloud you can skip it and move to the next one.

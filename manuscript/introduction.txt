@@ -36,7 +36,7 @@ These are the requirements for your workstation
 
 * 64 bit hardware
 * A Linux Debian based operating system
-* 10GB of free space
+* 5GB of free space
 * 2GB of RAM
 
 If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust the commands to your situation.
