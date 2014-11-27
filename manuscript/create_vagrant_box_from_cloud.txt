@@ -29,6 +29,8 @@ This command creates a Vagrantfile which, Ignoring comments, looks like this:
 
     end
 
+TODO now I should ask to replace this Vagrantfile with the one provided in the extra so that the 2 vm will look identical
+
 The only extra step that you need to do is:
 
     cd $pve/ariadne/orchestration/vagrant

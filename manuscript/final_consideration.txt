@@ -1,9 +1,0 @@
-## Final considerations
-
-As you can see, doesn't matter which one of the ways to build the Vagrant vm you picked (Packer or Vagrant Cloud) you end up with the same result.
-
-I want also stress on something that you probably have already noticed: all the Vagrant commands are anticipated by a:
-
-    cd $pve/ariadne/orchestration/vagrant
-
-This is because Vagrant expects to find the Vagrantfile in the directory from which you are running the commands.

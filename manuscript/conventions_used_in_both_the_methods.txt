@@ -2,7 +2,7 @@
 
 Before starting, some conventions used by the manual in both the methods.
 
-_Ariadne_ will be the arbitrary _root name_ used to label the Vagrant virtual machines generated starting from the Vagrant template: i.e. the development machine will be named _dev.ariadne.vm_ and the production one _prod.ariadne.vm_.
+_Ariadne_ will be the arbitrary _root name_ used to label the Vagrant virtual machines generated starting from the Vagrant template: i.e. the development machine will be named _ariadne-dev_ and the production one _ariadne-prod_.
 
 In the both the _extra_ branches there is a directory called _ariadne_ having this structure:
 

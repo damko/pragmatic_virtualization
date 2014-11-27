@@ -1,0 +1,30 @@
+## Some considerations
+
+### Same result
+
+As you can see, doesn't matter which one of the ways to build the Vagrant vm you picked (Packer or Vagrant Cloud) you end up with the same result.
+
+### Vagrantfile position
+
+I want also stress on something that you probably have already noticed: all the Vagrant commands are anticipated by a:
+
+    cd $pve/ariadne/orchestration/vagrant
+
+This is because Vagrant expects to find the Vagrantfile in the directory from which you are running the commands.
+
+### .vagrant directory
+
+Now that the Vagrant vm has been created you'll notice a new hidden directory `$pve/ariadne/orchestration/vagrant/.vagrant`
+
+    tree $pve/ariadne/orchestration/vagrant/.vagrant
+    .
+    └── machines
+        └── ariadne-dev
+            └── virtualbox
+                ├── action_provision
+                ├── action_set_name
+                ├── id
+                ├── index_uuid
+                └── synced_folders
+
+In this directory Vagrant saves important information about the newly created vm. **Don't delete it**.

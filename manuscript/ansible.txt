@@ -1,0 +1,214 @@
+### Create your development virtual machine
+
+As already said, the code will be on the workstation filesystem but it will be run on the VM. This means that:
+
+1. the VM needs access to the workstation filesystem
+1. the VM needs to be configured with services like Apache to run the code
+
+Both the step will be accomplished by Vagrant with the help of Ansible.
+
+Specifically, Vagrant will take care of:
+
+* cloning the Vagrant template vm
+* configuring the network environment for the new vm
+* making available the local code directory to the new vm
+* launch Ansible
+
+Ansible, instead, will take care to install on the vanilla vm all the services and software required for the development environment (Apache, Mysql, Xdebug, etc).
+
+
+
+
+
+
+The _ansible_ directory contains all the scripts and the instructions for Ansible. Ansible will be executed each time the vm is started so the scripts take care of installing the missing software and updating the software over the time.
+
+
+
+
+
+
+
+**NFS**
+
+The NFS service is the only service that really needs to be installed on the workstation. It will share a specific directory with the development vm.
+
+From: http://docs.vagrantup.com/v2/synced-folders/
+> Synced folders enable Vagrant to sync a directory on the host machine to the guest machine, allowing you to continue working on your project's files on your host machine, but use the resources in the guest machine to compile or run your project.
+
+This line in the Vagrantfile
+
+    devel.vm.synced_folder "../../projects", "/vagrant", type: "nfs"
+
+tells Vagrant which is the directory that should be shared with the vm right each time the vm is booted. Vagrant will automatically take care of the configuration of the NFS shares (which are set in the /etc/exports file).
+
+
+#### ansible-galaxy
+
+TODO explain https://galaxy.ansible.com/list#/roles/1119
+
+    ansible-galaxy install kosssi.composer
+
+#### vagrant up
+
+
+1. Vagrant mounts the directory `projects` on the vm mount point `/vagrant` (as specified in the Vagrantfile)
+1. Being the first `vagrant up`, once the vm is started, Vagrant runs Ansible
+1. Ansible installs the additional software and configurations files
+
+Step 1 & 2
+
+    Bringing machine 'ariadne-dev' up with 'virtualbox' provider
+
+    ==> ariadne-dev: Importing base box 'debian_wheezy_770_64bit'...
+    ==> ariadne-dev: Matching MAC address for NAT networking...
+    ==> ariadne-dev: Setting the name of the VM: ariadne-dev
+    ==> ariadne-dev: Clearing any previously set network interfaces...
+    ==> ariadne-dev: Preparing network interfaces based on configuration...
+        ariadne-dev: Adapter 1: nat
+        ariadne-dev: Adapter 2: hostonly
+    ==> ariadne-dev: Forwarding ports...
+        ariadne-dev: 22 => 2222 (adapter 1)
+    ==> ariadne-dev: Running 'pre-boot' VM customizations...
+
+Step 3 & 4
+
+    ==> ariadne-dev: Booting VM...
+    ==> ariadne-dev: Waiting for machine to boot. This may take a few minutes...
+        ariadne-dev: SSH address: 127.0.0.1:2222
+        ariadne-dev: SSH username: vagrant
+        ariadne-dev: SSH auth method: private key
+        ariadne-dev: Warning: Connection timeout. Retrying...
+    ==> ariadne-dev: Machine booted and ready!
+    GuestAdditions 4.3.10 running --- OK.
+    ==> ariadne-dev: Checking for guest additions in VM...
+    ==> ariadne-dev: Setting hostname...
+    ==> ariadne-dev: Configuring and enabling network interfaces...
+    ==> ariadne-dev: Exporting NFS shared folders...
+    ==> ariadne-dev: Preparing to edit /etc/exports. Administrator privileges will be required...
+
+Here the execution will stop: insert your Linux user's password
+
+    nfsd running
+    ==> ariadne-dev: Mounting NFS shared folders...
+
+Step 5 & 6
+
+    ==> ariadne-dev: Running provisioner: ansible...
+
+    PLAY [all] ********************************************************************
+
+    GATHERING FACTS ***************************************************************
+    ok: [ariadne-dev]
+
+    TASK: [playbook.yml | Run apt-get update if it was run last time more than 12 hours ago] ***
+    ok: [ariadne-dev]
+
+    TASK: [init.yml | Install Sys Packages] ***************************************
+    changed: [ariadne-dev] => (item=curl,vim,python-pycurl,python-apt,aptitude,multitail)
+
+    TASK: [init.yml | run Security Upgrade] ***************************************
+    changed: [ariadne-dev]
+
+    TASK: [init.yml | Ensure NTP is installed] ************************************
+    ok: [ariadne-dev]
+
+    TASK: [init.yml | Ensure NTP is running] **************************************
+    changed: [ariadne-dev]
+
+    TASK: [apache2.yml | Install Apache Packages] *********************************
+    changed: [ariadne-dev] => (item=apache2,libapache2-mod-php5,libapache2-mod-macro)
+
+    TASK: [apache2.yml | Enable Apache rewrite module] ****************************
+    ok: [ariadne-dev]
+
+    TASK: [apache2.yml | Copy Apache Macro file] **********************************
+    changed: [ariadne-dev]
+
+    TASK: [apache2.yml | Enable Apache macro module] ******************************
+    ok: [ariadne-dev]
+
+    TASK: [php5.yml | Check if php5-fpm is already installed] *********************
+    failed: [ariadne-dev] => {"changed": true, "cmd": ["dpkg", "-s", "php5-fpm"], "delta": "0:00:00.010250", "end": "2014-04-28 22:11:57.861917", "failed": true, "failed_when_result": true, "item": "", "rc": 1, "start": "2014-04-28 22:11:57.851667", "stdout_lines": []}
+    stderr: dpkg-query: package 'php5-fpm' is not installed and no information is available
+    Use dpkg --info (= dpkg-deb --info) to examine archive files,
+    and dpkg --contents (= dpkg-deb --contents) to list their contents.
+    ...ignoring
+
+    TASK: [php5.yml | Add php5 repository] ****************************************
+    changed: [ariadne-dev]
+
+    TASK: [php5.yml | Add php5 repository key] ************************************
+    changed: [ariadne-dev]
+
+    TASK: [php5.yml | Update apt] *************************************************
+    ok: [ariadne-dev]
+
+    TASK: [php5.yml | Install PHP Packages] ***************************************
+    changed: [ariadne-dev] => (item=php5-fpm,php5-curl,php5-cli)
+
+    TASK: [xdebug.yml | Install xdebug] *******************************************
+    changed: [ariadne-dev] => (item=php5-xdebug)
+
+    TASK: [hello_world.yml | Create symlink /var/www/"helloworld.dev" pointing to /vagrant/"helloworld"/] ***
+    changed: [ariadne-dev]
+
+    TASK: [hello_world.yml | Disable Apache default virtualhost file."] ***********
+    changed: [ariadne-dev]
+
+    TASK: [hello_world.yml | Remove Apache default virtualhost file."] ************
+    changed: [ariadne-dev]
+
+    TASK: [hello_world.yml | Remove Apache default ssl virtualhost file."] ********
+    changed: [ariadne-dev]
+
+    TASK: [hello_world.yml | Copy Apache vhost for "helloworld.dev"] **************
+    changed: [ariadne-dev]
+
+    TASK: [hello_world.yml | Enable Apache vhost "helloworld.dev"] ****************
+    changed: [ariadne-dev]
+
+    TASK: [hello_world.yml | Add host to /etc/hosts] ******************************
+    changed: [ariadne-dev]
+
+    NOTIFIED: [restart apache2] ***************************************************
+    changed: [ariadne-dev]
+
+    PLAY RECAP ********************************************************************
+    ariadne-dev          : ok=24   changed=18   unreachable=0    failed=0
+
+
+The process, all together, will take about 15 minutes to finish.
+
+#### vagrant ssh
+
+When finished you'll be able to log into the new virtual machine via ssh using the command:
+
+    vagrant ssh
+
+You can also log in with:
+
+    ssh vagrant@ariadne-dev
+
+because ariadne-dev has been already added to the /etc/hosts file. At the prompt for password type "vagrant".
+
+
+#### vagrant halt or reload
+
+If you want to stop or reboot the development vm from your workstation console, be sure to be in the vagrant directory and then run either:
+
+    vagrant halt
+
+or
+
+    vagrant reload
+
+To start the development vm after you stop it:
+
+    vagrant up
+
+#### vagrant provision
+
+Vagrant launches Ansible automatically only at the first `vagrant up`. After that if you change any Ansible file or you want to update the system packages you need to run:
+
+    vagrant provision

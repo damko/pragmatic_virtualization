@@ -1,6 +1,6 @@
 ## Listing Vagrant templates and vms
 
-You can list the Vagrant boxes (or "templates") with this:
+You can list the Vagrant template (or "boxes") with this:
 
     vagrant box list
 
@@ -8,7 +8,7 @@ Output:
 
 > debian_wheezy_770_64bit (virtualbox, 0)
 
-You can list the Vagrant vms managed by Vagrant with:
+You can also list the Vagrant vms managed by Vagrant with:
 
     vagrant global-status
 
@@ -16,7 +16,7 @@ Output:
 
     id       name           provider      state    directory
     -------------------------------------------------------------------------------------------------------------------------------------------------------------
-    4c47439  dev.ariadne.vm virtualbox    running  /home/damko/projects/pragmatic_virtualization_extra/ariadne/orchestration/vagrant
+    4c47439  ariadne-dev virtualbox    running  /home/damko/projects/pragmatic_virtualization_extra/ariadne/orchestration/vagrant
 
     The above shows information about all known Vagrant environments
     on this machine. This data is cached and may not be completely
@@ -25,6 +25,19 @@ Output:
     with Vagrant commands from any directory. For example:
     "vagrant destroy 1a2b3c4d"
 
+You can also ask Virtualbox to list the virtual machines present in its registry.
+
+    vboxmanage list vms
+
+Output:
+
+> "ariadne-dev" {472a10a0-6958-4e62-9219-54d50bee4928}
+
+*Note:* just in our case the output of the last two commands is equal (ariadne-dev for both) but this is obviously not a rule. There is no equivalence between the two commands.
+
+Of course, you can also use the Virtualbox GUI to list the register vms
+
+    virtualbox
 
 ## Where are templates and vms physically located?
 
@@ -50,7 +63,7 @@ The Vagrant vms will be saved in the Virtualbox default directory (in my case ~/
 
 Output:
 
-    drwx------ 3 damko damko 4.0K 2014-11-26 16:56:12 dev.ariadne.vm
+    drwx------ 3 damko damko 4.0K 2014-11-26 16:56:12 ariadne-dev
 
 Occupied space:
 
@@ -58,4 +71,4 @@ Occupied space:
 
 Output:
 
-    1.2G    /home/damko/vms/vbox/dev.ariadne.vm
+    1.2G    /home/damko/vms/vbox/ariadne-dev
