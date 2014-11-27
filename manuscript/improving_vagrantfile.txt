@@ -116,7 +116,7 @@ and configuration line:
 
 This means that the vm hostname will be "ariadne-dev" and it will take the IP "192.168.51.10".
 
-T> [avoid "dots" in the hostname](http://serverfault.com/questions/229331/can-i-have-dots-in-a-hostname)
+T> [Avoid "dots" in the hostname](http://serverfault.com/questions/229331/can-i-have-dots-in-a-hostname)
 
 It's convenient to add this information to the workstation hosts file:
 
@@ -125,12 +125,9 @@ It's convenient to add this information to the workstation hosts file:
 
 ### Directory sharing
 
-As already said, the code will be on the workstation filesystem but it will be run on the VM. This means that the VM needs connect to the workstation filesystem through a directory sharing service and the most comfortable one in Linux is NFS.
+As already said, the code will be on the workstation filesystem but it will be run on the VM. This means that the VM needs to connect to the workstation filesystem through a directory sharing service and the most comfortable one in Linux is NFS.
 
-From: http://docs.vagrantup.com/v2/synced-folders/
-> Synced folders enable Vagrant to sync a directory on the host machine to the guest machine, allowing you to continue working on your project's files on your host machine, but use the resources in the guest machine to compile or run your project.
-
-The NFS service is the only service that really needs to be installed on the workstation. To install NFS:
+The NFS service is the only service that you really need to install on the workstation. To install NFS:
 
     sudo apt-get install nfs-kernel-server
 
@@ -183,7 +180,7 @@ Vagrant will immediately apply the changes made to the Vagrant file. NFS require
     ==> ariadne-dev: Machine already provisioned. Run `vagrant provision` or use the `--provision`
     ==> ariadne-dev: to force provisioning. Provisioners marked to run always will still run.
 
-Log into the vm
+Login to the vm with
 
     vagrant ssh
 
@@ -194,14 +191,14 @@ or
 
 and see if the changes have been applied correctly.
 
-**NFS**
+#### NFS
 
     vagrant@ariadne-dev:~$ cat /vagrant/testfile
     I'm a test file
 
 This looks good. The _projects_ directory contains _testfile_ and it's also visible inside the vm.
 
-**hostname**
+#### Hostname
 
     vagrant@ariadne-dev:~$ cat /etc/hostname
 
@@ -209,7 +206,7 @@ This looks good. The _projects_ directory contains _testfile_ and it's also visi
 
 This looks good.
 
-**ethernet**
+#### Ethernet
 
     vagrant@ariadne-dev:~$ sudo ifconfig
 

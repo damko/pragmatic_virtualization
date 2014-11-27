@@ -24,11 +24,11 @@ While virtualization has many application fields, this manual addresses the topi
 
 ## Target
 
-The main target is the creation of a Debian 64 bit virtual machine that you can reuse as development environment for your projects.
+The main target is to programmatically create of a Debian 64 bit virtual machine that can be reused as development environment for your projects.
 
-To make the experience more real, the virtual machine will be automatically configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/) generously created by [PHP Women](http://phpwomen.org/). This example will show you how to your virtualization tools configuration files to automatically produce a good environment for your applications.
+To make the experience more real, the virtual machine will be automatically configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/) generously created by [PHP Women](http://phpwomen.org/). This example will show you how to configure your virtualization tools to automatically produce a good environment for your applications.
 
-Finally the virtual environment will be replicated and published on a public server.
+Finally, the virtual environment will be replicated and published on a public server.
 
 ## Requirements
 
