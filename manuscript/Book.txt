@@ -12,3 +12,6 @@ chapter3.txt
     listing_vagrant_templates_vms.txt
     improving_vagrantfile.txt
     destroy_boxes.txt
+    rebuild_boxes.txt
+chapter4.txt
+    automation_tools.txt

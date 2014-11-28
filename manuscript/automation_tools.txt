@@ -1,0 +1,13 @@
+## Automation tools
+
+Besides Virtualbox, Vagrant and Packer there are additional tools that can help setting up the virtual environment.
+
+After a fresh virtual machine has been setup the additional system configuration can be done manually or with an automation tool.
+
+The most famous automation tools (also called provisioning software) currently available are [Puppet](http://www.puppetlabs.com), [Chef](http://www.opscode.com) and [Ansible](http://www.ansible.com).
+
+These tools make systems and applications simple to deploy and are specifically designed to install any kind of software package, service, script and configuration file. They can be used on virtual machine or regular computers.
+
+Provisioning virtual machines grants that any other virtual machine created using the same configuration files will be identical to any other and it's the only way to programmatically create virtual machines with the same quality. This is useful when you work in a team in which each developer has his/her own development vm but also when you try to have a development environment homogeneous with the production one.
+
+A well configured provisioning tool also gives you the freedom to destroy and rebuild your boxes in minutes or to switch your hosting provider quickly and easily.
