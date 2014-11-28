@@ -74,7 +74,7 @@ You can see the differences with the previous branch using your favorite diff to
     git difftool -g -d create_vagrant_box_from_iso..improve_vagrantfile
 
 
-# Conventions for the Vagrantfile
+### Conventions for the Vagrantfile
 
 At the beginning of the _Vagrantfile_ there are some variable declarations that can be freely declared and that are used later on in the Vagrantfile. You might need to change some of the values accordingly to your situation.
 
