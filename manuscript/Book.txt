@@ -15,3 +15,5 @@ chapter3.txt
     rebuild_boxes.txt
 chapter4.txt
     automation_tools.txt
+    ansible.txt
+    ansible_configuration.txt

@@ -11,3 +11,9 @@ These tools make systems and applications simple to deploy and are specifically 
 Provisioning virtual machines grants that any other virtual machine created using the same configuration files will be identical to any other and it's the only way to programmatically create virtual machines with the same quality. This is useful when you work in a team in which each developer has his/her own development vm but also when you try to have a development environment homogeneous with the production one.
 
 A well configured provisioning tool also gives you the freedom to destroy and rebuild your boxes in minutes or to switch your hosting provider quickly and easily.
+
+### Automation tools and Suggestotron
+
+The Suggestotron web application, as shown in the [requirements](http://phpbridge.org/intro-to-php/) needs PHP, a webserver and a mysql database to run.
+
+This manual uses on Ansible to automatically install and configure the software required by the Suggestotron application, both in the development and the production environment.
