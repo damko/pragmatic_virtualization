@@ -12,20 +12,28 @@ Ansible must be installed on the workstation and this time it can be done using 
     sudo apt-get update
     sudo apt-get install ansible
 
-
 Once Ansible is installed, it will not add a database, and there will be no daemons to start or keep running. You only need to install it on the workstation and it can manage an entire fleet of remote machines from that central point.
 
+This command is not mandatory but will remove the funny "cow"
 
+     ------------
+            \   ^__^
+             \  (oo)\_______
+                (__)\       )\/\
+                    ||----w |
+                    ||     ||
 
-As already said, the code will be run on the VM. The chosen application is written in PHP and this means that the vm needs to be configured with services like Apache to run the code
+from the Ansible output
+
+    sudo sed 's/#nocows/nocows/g' -i /etc/ansible/ansible.cfg
 
 
 ### Ansible and Vagrant
 
-Checkout the _ansible_ branch of the _extra_ repository
+Checkout the _ansible_apache_mysql_php_ branch of the _extra_ repository
 
     cd $pve
-    git checkout ansible
+    git checkout ansible_apache_mysql_php
 
 Vagrant can be configured to be a wrapper also for Ansible. To do so the Vagrantfile has to contain these instructions:
 
