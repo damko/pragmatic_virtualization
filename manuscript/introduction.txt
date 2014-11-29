@@ -1,14 +1,16 @@
 # Introduction
 
-This manual is a synthesis of my personal experiences with virtualization and doesn't pretend to be considered the "bible" of virtualization.
+Any developer must know many things to get the job done and virtualization is one of those. Unfortunately (or fortunately?) not everybody works in a well structured company with a team dedicated to every single aspect of software development and because none is a "miracle man" sometimes is necessary to take some shortcuts or to know just what's necessary to do the job.
 
-It's a straight forward and down to earth manual written with pragmatism in mind to provide what's necessary to create, clone, run, maintain and destroy virtual machines, locally and remotely.
+This manual is a synthesis of my personal experiences with virtualization and will not cover in detail the theory behind virtualization and will not make you an expert in [devops](http://en.wikipedia.org/wiki/DevOps).
+
+It's a modest and straight forward manual written with pragmatism in mind to provide what's necessary to create, clone, run, maintain and destroy virtual machines, locally and remotely.
 
 Virtualization is a big elephant that can be eaten only in small bites, therefore it's impossible to write a manual that covers all the operating systems and the software combinations.
 
-This is why I tackled the topic from a specific perspective which has some requirements and cuts off several virtualization technologies currently available but, at least, brings quick and effective results to the reader.
+This is why I tackled the topic from a specific perspective which has some requirements and cuts off several technologies currently available but, at least, brings quick and effective results to the reader.
 
-I know that someone will not be happy with these choices but I encourage to adjust the source of this manual for different perspectives and to re-publish it as a free manual.
+I know that someone will not be happy with these choices but I encourage to adjust this manual for different perspectives and to re-publish it as a free manual.
 
 ## Perspective
 
