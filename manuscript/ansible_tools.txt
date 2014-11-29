@@ -1,0 +1,144 @@
+## Ansible tools
+
+Configuring Ansible can be hard mostly because configuring a system in a proper way is hard job but there are very useful tools available for free.
+
+### Ansible-galaxy
+
+[Ansible Galaxy](https://galaxy.ansible.com) is an hub for finding, reusing, and sharing the best Ansible content. Basically it's a public repository for Ansible roles.
+
+An Ansible Role is a way to organize tasks, variables and templates in a specific way with the aim to reuse it in many playbooks.
+
+You are going to install Mysql using [Benno Joy's Mysql role](https://galaxy.ansible.com/list#/roles/1). The role page provides a lot of information about how to use the role but the basics behind any Ansible Galaxy role is simple:
+
+1. install the role locally
+1. add it to your playbook
+
+To install the role on your workstation
+
+    sudo ansible-galaxy install bennojoy.mysql
+
+The role will be copied in /etc/ansible/roles/ (where you can even store your own roles)
+
+Checkout the _ansible_apache_php_mysql_ branch of the _extra_ repository
+
+    cd $pve
+    git checkout ansible_apache_php_mysql
+
+The _ariadne-dev-playbook.yml_ now contains these additional lines
+
+    roles:
+        # installs Mysql using Benno Joy's role
+        - {
+            role: bennojoy.mysql,
+
+                # mysql root password
+                mysql_root_db_pass: root,
+
+                # mysql port open only for IP 127.0.0.1
+                mysql_bind_address: 127.0.0.1,
+
+                # do not create any db
+                mysql_db: [],
+
+                # no additional mysql user
+                mysql_users: []
+        }
+
+which are telling Ansible to install Mysql using the variables listed below the "role: bennojoy.mysql," line.
+
+Now run:
+
+    $pve/ariadne/orchestration/vagrant/
+    vagrant provision
+
+Output:
+
+==> ariadne-dev: Running provisioner: ansible...
+
+    PLAY [all] ********************************************************************
+
+    [.cut.]
+
+    TASK: [bennojoy.mysql | Add the OS specific variables] ************************
+    ok: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Install the mysql packages in Redhat derivatives] *****
+    skipping: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Install the mysql packages in Debian derivatives] *****
+    changed: [ariadne-dev] => (item=python-selinux,mysql-server,python-mysqldb)
+
+    TASK: [bennojoy.mysql | Copy the my.cnf file] *********************************
+    changed: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Create the directory /etc/mysql/conf.d] ***************
+    ok: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Start the mysql services Redhat] **********************
+    ok: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | update mysql root password for all root accounts] *****
+    changed: [ariadne-dev] => (item=ariadne-dev)
+    changed: [ariadne-dev] => (item=127.0.0.1)
+    changed: [ariadne-dev] => (item=::1)
+    changed: [ariadne-dev] => (item=localhost)
+
+    TASK: [bennojoy.mysql | update mysql root password for all root accounts] *****
+    skipping: [ariadne-dev] => (item=127.0.0.1)
+    skipping: [ariadne-dev] => (item=::1)
+    skipping: [ariadne-dev] => (item=localhost)
+
+    TASK: [bennojoy.mysql | copy .my.cnf file with root password credentials] *****
+    changed: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | ensure anonymous users are not in the database] *******
+    ok: [ariadne-dev] => (item=localhost)
+    ok: [ariadne-dev] => (item=ariadne-dev)
+
+    TASK: [bennojoy.mysql | remove the test database] *****************************
+    ok: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Create the database's] ********************************
+    skipping: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Create the database users] ****************************
+    skipping: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Create the replication users] *************************
+    changed: [ariadne-dev] => (item={'name': 'repl', 'pass': 'foobar'})
+
+    TASK: [bennojoy.mysql | Check if slave is already configured for replication] ***
+    skipping: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Ensure the hostname entry for master is available for the client.] ***
+    skipping: [ariadne-dev]
+
+    TASK: [bennojoy.mysql | Get the current master servers replication status] ****
+    skipping: [ariadne-dev -> {{ mysql_repl_master }}]
+
+    TASK: [bennojoy.mysql | Change the master in slave to start the replication] ***
+    skipping: [ariadne-dev]
+
+    [.cut.]
+
+    PLAY RECAP ********************************************************************
+    ariadne-dev                : ok=27   changed=10   unreachable=0    failed=0
+
+
+**Note** Ansible roles are prioritized and run before any other task even if the role configuration lines are written after the tasks.
+
+If now you go and check the services installed on "ariadne-dev" you'll see the mysql service listed there.
+
+    cd $pve/ariadne/orchestration/vagrant
+    vagrant ssh
+
+    vagrant@ariadne-dev:~$ sudo service --status-all
+
+
+### Phansible
+
+[Phansible][http://phansible.com/] comes in help providing a simple interface that generates Ansible Playbooks for PHP based projects.
+A few clicks on the services you like to run on the vm and you get a zip file with all the Ansible configuration files.
+Phansible is great but I suggest to check if the given configuration matches your needs: very likely there will be something that you have to add or modify.
+
+

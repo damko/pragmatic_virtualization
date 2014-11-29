@@ -28,3 +28,17 @@ Now that the Vagrant vm has been created you'll notice a new hidden directory `$
                 └── synced_folders
 
 In this directory Vagrant saves important information about the newly created vm. **Don't delete it**.
+
+#### vagrant halt or reload
+
+If you want to stop or reboot the development vm from your workstation terminal, be sure to be in the vagrant directory and then run:
+
+    vagrant halt
+
+or
+
+    vagrant reload
+
+To start the development vm after you stop it:
+
+    vagrant up

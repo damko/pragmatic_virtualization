@@ -1,6 +1,6 @@
 # Introduction
 
-Any developer must know many things to get the job done and virtualization is one of those. Unfortunately (or fortunately?) not everybody works in a well structured company with a team dedicated to every single aspect of software development and because none is a "miracle man" sometimes is necessary to take some shortcuts or to know just what's necessary to do the job.
+Any developer must know many things and virtualization is one of those. Unfortunately (or fortunately?) not everybody works in a well structured company with a team dedicated to every single aspect of software development and, because none is a "miracle man", sometimes is necessary to take some shortcuts or to know just what's necessary to get the job done.
 
 This manual is a synthesis of my personal experiences with virtualization and will not cover in detail the theory behind virtualization and will not make you an expert in [devops](http://en.wikipedia.org/wiki/DevOps).
 
@@ -22,7 +22,9 @@ This is the virtualization software that will be used:
 * Ansible as automation tool
 * Digital Ocean as provider for the production environment
 
-While virtualization has many application fields, this manual addresses the topic of virtualization from the point of view of a web developer writing PHP based web applications.
+While virtualization has many application fields, this manual addresses the topic of virtualization from the point of view of a full stack self-employed PHP developer.
+
+TODO add something here about the continuity with PHPBridge
 
 ## Target
 
@@ -45,10 +47,12 @@ If you have a different hardware architecture or a different operating system yo
 
 ## Audience
 
-Anyone who wants to take the advantages of virtualization to improve the development work-flow and those who wants to know what happens under the hood. Beginners included.
+Anyone who wants to take the advantages of virtualization to improve his/her development work-flow and those who wants to know what happens under the hood. Beginners included.
 
 ## Acknowledgements
 
-Many thanks to [phptherightway](http://www.phptherightway.com/) from which I took inspiration and ... some chunks of text :-)
+Many thanks to:
+* [PHP Women](http://phpwomen.org/) for the great job done with the [PHPBridge project](http://phpbridge.org/)
+* [phptherightway](http://www.phptherightway.com/) from which I took inspiration and ... some chunks of text :-)
 
 Many thanks to Phil Sturgeon, Lorna Mitchell, Ben Edmunds, Kayla Daniels, Davey Shafik and Erika Heidi. Their constant efforts in the PHP community and their books have been of great help.

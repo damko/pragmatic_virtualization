@@ -1,0 +1,18 @@
+## Suggestotron
+
+"Ariadne-dev" is now ready to host the Suggestotron application. You just miss
+
+* the application code
+* to create the database
+* to populate the database
+* to add a virtualhost for Apache
+
+### Get the code
+
+The Suggestroton repository uses tags in the same way this manual uses branches so it's convenient to clone the git repository in your _projects_ folder so that you can browse among tags and follow the step by step [Suggestotron guide](http://phpbridge.org/intro-to-php).
+
+    cd $pve/ariadne-dev/projects
+    git clone git@github.com:dshafik/suggestotron.git
+
+### Create and populate the database
+
