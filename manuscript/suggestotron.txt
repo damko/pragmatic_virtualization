@@ -2,17 +2,192 @@
 
 "Ariadne-dev" is now ready to host the Suggestotron application. You just miss
 
-* the application code
 * to create the database
 * to populate the database
+* the application code
 * to add a virtualhost for Apache
+
+### Create the database
+
+In the Suggestroton guide, [chapter 5](http://phpbridge.org/intro-to-php/creating_a_database), there are detailed instructions about how to create by hand the Mysql database necessary to store Suggestotron data.
+But with Ansible and there is no need for manual configuration.
+
+Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
+
+    cd $pve
+    git checkout suggestotron_database_creation
+
+You can see that the playbook is now telling Mysql to create the _suggestotron_ database
+
+      roles:
+        # installs Mysql using Benno Joy's role
+        - {
+            role: bennojoy.mysql,
+
+                # mysql root password
+                mysql_root_db_pass: root,
+
+                # mysql port open only for IP 127.0.0.1
+                mysql_bind_address: 127.0.0.1,
+
+                # do not create any db
+                mysql_db: [
+                  name: suggestotron
+                ],
+
+                # no additional mysql user
+                mysql_users: [],
+        }
+
+
+If you run:
+
+    vagrant provision
+
+you'll see in the output:
+
+    [.cut.]
+    TASK: [bennojoy.mysql | Create the database's] ********************************
+    changed: [ariadne-dev] => (item={'name': 'suggestotron'})
+    [.cut.]
+
+Ansible claims that the database has been created. To check it:
+
+    ssh vagrant@ariadne-dev 'echo "show databases" | mysql -uroot -proot'
+
+Output:
+
+    information_schema
+    mysql
+    performance_schema
+    suggestotron
+
+
+### Populate the database
+
+Ansible, of course, can also to populate the database. One thing to keep in mind is that the database will be populated only if it's empty i.e. right after its creation.
+
+Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
+
+    cd $pve
+    git checkout suggestotron_database_creation
+
+Now you see some more files
+
+    tree $pve/ariadne/orchestration/ansible
+
+    /
+    ├── ariadne-dev-playbook.yml
+    ├── sql
+    │   └── suggestotron_init.sql
+    ├── tasks
+    │   ├── apache2.yml
+    │   ├── composer.yml
+    │   ├── init.yml
+    │   ├── php5.yml
+    │   ├── populate_suggestotron_db.yml
+    │   ├── psysh.yml
+    │   └── xdebug.yml
+    └── vars.yml
+
+and the playbook has this additional line
+
+    # populates the suggestotron db right after its creation
+    - include: tasks/populate_suggestotron_db.yml
+
+This the content of the populate_suggestotron_db.yml file:
+
+    ---
+    # This populates the suggestotron database
+
+    - name: populating suggestotron database
+      shell: echo "show tables" | mysql -uroot -proot suggestotron | grep "topics"
+      ignore_errors: yes
+      register: populated
+      failed_when: "'topics' not in populated.stdout"
+
+    #- debug:  var=populated
+
+    # Copies the sql file containing the database data to /tmp
+    - copy: src=sql/suggestotron_init.sql dest=/tmp
+      when: populated|failed
+
+    # Imports the data in the database
+    - mysql_db: name=suggestotron state=import target=/tmp/suggestotron_init.sql
+      when: populated|failed
+
+When the populate_suggestotron_db task is run, Ansible uses the command
+
+    echo "show tables" | mysql -uroot -proot suggestotron | grep "topics"
+
+to check if the _suggestotron_ database is populated.
+
+The [mysql_db Ansible command](http://docs.ansible.com/mysql_db_module.html) is one of the many [Ansible modules](http://docs.ansible.com/list_of_all_modules.html) available to interact with software like Mysql, Apache etc.
+
+Run
+
+    vagrant provision
+
+Output:
+
+    [.cut.]
+
+    TASK: [populating suggestotron database] **************************************
+    failed: [ariadne-dev] => {"changed": true, "cmd": "echo \"show tables\" | mysql -uroot -proot suggestotron | grep \"topics\"", "delta": "0:00:00.007963", "end": "2014-12-01 17:51:01.546503", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-12-01 17:51:01.538540", "stdout_lines": []}
+    ...ignoring
+
+    TASK: [copy src=sql/suggestotron_init.sql dest=/tmp] **************************
+    ok: [ariadne-dev]
+
+    TASK: [mysql_db name=suggestotron state=import target=/tmp/suggestotron_init.sql] ***
+    changed: [ariadne-dev]
+
+Ansible claims that the database has been populated (see the "changed" status in last task). Check it with this command:
+
+    ssh vagrant@ariadne-dev 'echo "select * from topics" | mysql -uroot -proot' suggestotron
+
+Output:
+
+    id  title   description
+    1   Make Rainbow ElePHPants Create an elePHPant with rainbow fur
+    2   Make Giant Kittens  Like kittens, but larger
+    3   Complete PHPBridge  Because I am awesome
+
 
 ### Get the code
 
-The Suggestroton repository uses tags in the same way this manual uses branches so it's convenient to clone the git repository in your _projects_ folder so that you can browse among tags and follow the step by step [Suggestotron guide](http://phpbridge.org/intro-to-php).
+The [Suggestroton github repository](https://github.com/dshafik/suggestotron) containing the source for the Suggestotron application uses tags in the same way this manual uses branches for the _extra_ repository.
+It's convenient to clone the git repository in your _projects_ folder so that you can browse among tags and follow the step by step [Suggestotron guide](http://phpbridge.org/intro-to-php).
 
     cd $pve/ariadne-dev/projects
     git clone git@github.com:dshafik/suggestotron.git
 
-### Create and populate the database
+What has been done till now is the equivalent of the first 6 chapters of the Suggestron manual so you should checkout the Suggestotron code at chapter 7 level.
 
+    cd suggestotron
+    git checkout Chapter_07_Adding_Topics
+
+### Add virtual host for Apache
+
+Checkout the _suggestotron_apache_vhost_ branch from the _extra_ repository
+
+    cd $pve
+    git checkout suggestotron_apache_vhost
+
+Now you should really see the differences between this branch and the previous one to have a clear idea of what happened:
+
+    git difftool -g -d suggestotron_populate_db..suggestotron_apache_vhost
+
+TODO describe
+
+Now add this line to the /etc/hosts file in your workstation
+
+    192.168.51.10    suggestotron.dev www.suggestotron.dev
+
+ and open this link
+
+    http://suggestotron.ariadne-dev
+
+You should see this:
+
+![Index page](images/suggestotron_index_0.png)

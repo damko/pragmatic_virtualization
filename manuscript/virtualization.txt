@@ -90,7 +90,7 @@ In this manual Packer will be used to create a Debian based virtual machine for 
 
 Differently from Vagrant and Virtualbox, Packer doesn't come with a debian installer so the easiest way to install it in the system is to run the `install_packer.sh` script  provided in the manual extra.
 
-Checkout the _installing_tools_ branch of the _extra_ repository
+Checkout the _installing_tools_ branch from the _extra_ repository
 
     cd $pve
     git checkout installing_tools

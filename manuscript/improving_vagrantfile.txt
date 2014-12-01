@@ -4,7 +4,7 @@ Save your .vagrant directory:
 
     cp -fR $pve/ariadne/orchestration/vagrant/.vagrant /tmp/
 
-checkout the _create_vagrant_box_from_iso_ branch of the _extra_ repository
+checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository
 
     cd $pve
     git checkout improving_vagrantfile

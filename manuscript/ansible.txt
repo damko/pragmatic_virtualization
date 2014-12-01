@@ -30,7 +30,7 @@ from the Ansible output
 
 ### Ansible and Vagrant
 
-Checkout the _ansible_apache_php_ branch of the _extra_ repository
+Checkout the _ansible_apache_php_ branch from the _extra_ repository
 
     cd $pve
     git checkout ansible_apache_php

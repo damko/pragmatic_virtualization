@@ -1,6 +1,6 @@
 ## Create a Vagrant Template box from Vagrant Cloud
 
-Checkout the _create_vagrant_box_from_cloud_ branch of the _extra_ repository
+Checkout the _create_vagrant_box_from_cloud_ branch from the _extra_ repository
 
     cd $pve
     git checkout create_vagrant_box_from_cloud

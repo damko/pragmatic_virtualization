@@ -19,7 +19,7 @@ To install the role on your workstation
 
 The role will be copied in /etc/ansible/roles/ (where you can even store your own roles)
 
-Checkout the _ansible_apache_php_mysql_ branch of the _extra_ repository
+Checkout the _ansible_apache_php_mysql_ branch from the _extra_ repository
 
     cd $pve
     git checkout ansible_apache_php_mysql

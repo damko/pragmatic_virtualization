@@ -1,6 +1,6 @@
 ## Create a Vagrant Template box from iso file
 
-Checkout the _create_vagrant_box_from_iso_ branch of the _extra_ repository
+Checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository
 
     cd $pve
     git checkout create_vagrant_box_from_iso
