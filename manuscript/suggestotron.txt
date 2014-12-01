@@ -184,9 +184,7 @@ Now add this line to the /etc/hosts file in your workstation
 
     192.168.51.10    suggestotron.dev www.suggestotron.dev
 
- and open this link
-
-    http://suggestotron.ariadne-dev
+ and open this link [http://suggestotron.ariadne-dev]()
 
 You should see this:
 
