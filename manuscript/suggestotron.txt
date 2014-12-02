@@ -156,13 +156,12 @@ Output:
 
 ### Get the code
 
-The [Suggestroton github repository](https://github.com/dshafik/suggestotron) containing the source for the Suggestotron application uses tags in the same way this manual uses branches for the _extra_ repository.
-It's convenient to clone the git repository in your _projects_ folder so that you can browse among tags and follow the step by step [Suggestotron guide](http://phpbridge.org/intro-to-php).
+The [Suggestroton application repository](https://github.com/dshafik/suggestotron) uses tags in the same way this manual uses branches so it's convenient to clone the git repository in the _projects_ folder and then switch between tags to follow the step by step [guide](http://phpbridge.org/intro-to-php).
 
     cd $pve/ariadne-dev/projects
     git clone git@github.com:dshafik/suggestotron.git
 
-What has been done till now is the equivalent of the first 6 chapters of the Suggestron manual so you should checkout the Suggestotron code at chapter 7 level.
+What has been done till now is the equivalent of the first 6 chapters of the Suggestron guide so you should checkout the Suggestotron code at chapter 7 level.
 
     cd suggestotron
     git checkout Chapter_07_Adding_Topics
@@ -174,18 +173,51 @@ Checkout the _suggestotron_apache_vhost_ branch from the _extra_ repository
     cd $pve
     git checkout suggestotron_apache_vhost
 
-Now you should really see the differences between this branch and the previous one to have a clear idea of what happened:
+Have a look at the differences between the current branch and the previous one to have a clear idea of what happened:
 
     git difftool -g -d suggestotron_populate_db..suggestotron_apache_vhost
 
-TODO describe
+![Differences between branches](images/diff_suggestotron_populate_db-suggestotron_apache_vhost.png)
 
-Now add this line to the /etc/hosts file in your workstation
+The playbook now includes this additional task file
+
+    # creates the Apache2 vhost for http://suggestotron
+    - {
+        include: tasks/suggestotron.yml,
+        application_name: "suggestotron",
+        domain: "{{ application_name }}.dev"
+      }
+
+which describes these tasks:
+
+    ---
+    # This task takes care of the settings required to run the Hello World example
+
+    - name: suggestotron.yml | Create symlink /var/www/"{{ domain }}" pointing to /vagrant/"{{ application_name }}"/
+      file: src=/vagrant/"{{ application_name }}"/ dest=/var/www/"{{ domain }}" owner=www-data group=www-data state="link"
+
+    - name: suggestotron.yml | Add host to /etc/hosts
+      lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ domain }} www.{{ domain }}' owner=root group=root mode=0644
+
+    - name: suggestotron.yml | Copy Apache vhost for "{{ domain }}"
+      template: src="{{ application_name }}.vhost" dest=/etc/apache2/sites-available/ owner=root group=root mode=0644
+
+    - name: suggestotron.yml | Enable Apache vhost "{{ domain }}"
+      file: src=/etc/apache2/sites-available/"{{ application_name }}.vhost" dest=/etc/apache2/sites-enabled/"{{ application_name }}.vhost" owner=root group=root state="link"
+      notify: restart apache2
+
+As you can see you Ansible accepts variables: they can be defined in the vars.yml file or set in the playbook file like it happened for the Mysql role and they can be output using the notation with the double curly brackets.
+
+Run
+
+    vagrant provision
+
+to apply the changes and you'll be almost ready to run the Suggestotron application for the first time.
+
+Just add this line to the /etc/hosts file in your workstation
 
     192.168.51.10    suggestotron.dev www.suggestotron.dev
 
- and open this link [http://suggestotron.ariadne-dev]()
-
-You should see this:
+ open this link [http://suggestotron.ariadne-dev]() and you should see this:
 
 ![Index page](images/suggestotron_index_0.png)
