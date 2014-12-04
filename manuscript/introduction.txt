@@ -47,7 +47,11 @@ If you have a different hardware architecture or a different operating system yo
 
 ## Audience
 
-Anyone who wants to take the advantages of virtualization to improve his/her development work-flow and those who wants to know what happens under the hood. Beginners included.
+This manual is for beginners and intermediate PHP developers.
+
+If you are a beginner and you have been studying (or you mean to study) the [PHPBridge guide](http://phpbridge.org/intro-to-php/) you will find this manual particularly useful. The way this manual is written fits perfectly in the learning pattern chosen by the PHPBridge project.
+
+If you are an intermediate developer but you are not used to virtualization this manual will be a kickstart. If you already use virtualization this manual might help you to improve your development work-flow and clarify a bit what happens under the hood.
 
 ## Acknowledgements
 
