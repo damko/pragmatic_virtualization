@@ -65,7 +65,7 @@ Output:
 
 ### Populate the database
 
-Ansible, of course, can also to populate the database. One thing to keep in mind is that the database will be populated only if it's empty i.e. right after its creation.
+Ansible, of course, can also to populate the database. One thing to keep in mind is that the database will be populated only if it's empty i.e. right after its creation otherwise every time `vagrant provision` is run the database will be populated with duplicated records.
 
 Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
 
@@ -95,7 +95,7 @@ and the playbook has this additional line
     # populates the suggestotron db right after its creation
     - include: tasks/populate_suggestotron_db.yml
 
-This the content of the populate_suggestotron_db.yml file:
+This is the content of the populate_suggestotron_db.yml file:
 
     ---
     # This populates the suggestotron database
@@ -122,7 +122,7 @@ When the populate_suggestotron_db task is run, Ansible uses the command
 
 to check if the _suggestotron_ database is populated.
 
-The [mysql_db Ansible command](http://docs.ansible.com/mysql_db_module.html) is one of the many [Ansible modules](http://docs.ansible.com/list_of_all_modules.html) available to interact with software like Mysql, Apache etc.
+The [mysql_db Ansible command](http://docs.ansible.com/mysql_db_module.html) is one of the many [Ansible modules](http://docs.ansible.com/list_of_all_modules.html) created to interact with software like Mysql, Apache etc. As you can see the mysql_db module can be used to create, drop, dump and import a database.
 
 Run
 
@@ -142,7 +142,7 @@ Output:
     TASK: [mysql_db name=suggestotron state=import target=/tmp/suggestotron_init.sql] ***
     changed: [ariadne-dev]
 
-Ansible claims that the database has been populated (see the "changed" status in last task). Check it with this command:
+Ansible says that the database has been populated (see the "changed" status in last task). Check it with this command:
 
     ssh vagrant@ariadne-dev 'echo "select * from topics" | mysql -uroot -proot' suggestotron
 
@@ -156,7 +156,7 @@ Output:
 
 ### Get the code
 
-The [Suggestroton application repository](https://github.com/dshafik/suggestotron) uses tags in the same way this manual uses branches so it's convenient to clone the git repository in the _projects_ folder and then switch between tags to follow the step by step [guide](http://phpbridge.org/intro-to-php).
+The [Suggestroton application repository](https://github.com/dshafik/suggestotron) uses tags in the same way this manual uses branches so it's convenient to clone the git repository in the _projects_ folder so that you can switch between tags to follow the step by step Suggestotron guide.
 
     cd $pve/ariadne-dev/projects
     git clone git@github.com:dshafik/suggestotron.git
@@ -206,18 +206,18 @@ which describes these tasks:
       file: src=/etc/apache2/sites-available/"{{ application_name }}.vhost" dest=/etc/apache2/sites-enabled/"{{ application_name }}.vhost" owner=root group=root state="link"
       notify: restart apache2
 
-As you can see you Ansible accepts variables: they can be defined in the vars.yml file or set in the playbook file like it happened for the Mysql role and they can be output using the notation with the double curly brackets.
+As you can see, Ansible accepts variables: they can be defined in the vars.yml file or set in the playbook file (as it happened already for the Mysql role, remember?) and they can be output using the double curly brackets notation "{{ }}".
 
-Run
+To apply the changes made in this branch run
 
     vagrant provision
 
-to apply the changes and you'll be almost ready to run the Suggestotron application for the first time.
+ and you'll be ready to run the Suggestotron application for the first time.
 
 Just add this line to the /etc/hosts file in your workstation
 
     192.168.51.10    suggestotron.dev www.suggestotron.dev
 
- open this link [http://suggestotron.ariadne-dev]() and you should see this:
+Now open this link [http://suggestotron.ariadne-dev]() and you should see this:
 
 ![Index page](images/suggestotron_index_0.png)
