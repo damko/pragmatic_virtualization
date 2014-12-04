@@ -1,4 +1,4 @@
-## Suggestotron
+## The Suggestotron application
 
 "Ariadne-dev" is now ready to host the Suggestotron application. You just miss
 
@@ -185,7 +185,7 @@ The playbook now includes this additional task file
     - {
         include: tasks/suggestotron.yml,
         application_name: "suggestotron",
-        domain: "{{ application_name }}.dev"
+        domain: "{{ application_name }}.ariadne-dev"
       }
 
 which describes these tasks:
@@ -206,7 +206,7 @@ which describes these tasks:
       file: src=/etc/apache2/sites-available/"{{ application_name }}.vhost" dest=/etc/apache2/sites-enabled/"{{ application_name }}.vhost" owner=root group=root state="link"
       notify: restart apache2
 
-As you can see, Ansible accepts variables: they can be defined in the vars.yml file or set in the playbook file (as it happened already for the Mysql role, remember?) and they can be output using the double curly brackets notation "{{ }}".
+As you can see, Ansible accepts variables: they can be defined in the vars.yml file (included at the beginning of the playbook) or set in the playbook file at the _include_ level (as it happened already for the Mysql role, remember?) and they can be output using the double curly brackets notation "{{ }}".
 
 To apply the changes made in this branch run
 
@@ -218,6 +218,52 @@ Just add this line to the /etc/hosts file in your workstation
 
     192.168.51.10    suggestotron.dev www.suggestotron.dev
 
-Now open this link [http://suggestotron.ariadne-dev]() and you should see this:
+Now open this link [http://suggestotron.ariadne-dev](http://suggestotron.ariadne-dev) and you should see this:
 
 ![Index page](images/suggestotron_index_0.png)
+
+
+### Play with the application
+
+If you are a beginner in PHP development you can now learn how the Suggestotron application works by reading the Suggestotron guide and checking out the right tag every time you move to a new chapter. The only difference with the Suggestotron guide will be the URLs: just replace localhost:8080 with suggestotron.ariadne-dev.
+
+For instance you can roll back to chapter 2 and play a little with _psysh_, like this:
+
+    cd $pve/ariadne/orchestration/vagrant/
+    vagrant ssh
+
+Now run
+
+    psysh
+
+and copy and paste, line by line, in the terminal:
+
+    $my_variable = 5; # This assigns the value 5 to the name $my_variable.
+
+    $my_variable + 2;
+
+    $my_variable * 3;
+
+    echo $my_variable; # This shows the value of the variable
+
+    echo "Programming is easy!"; # This shows "Programming is easy"
+
+    echo "13 * 8";
+
+    echo 13 * 8;
+
+    echo "My variable is: $my_variable";
+
+You can quit psysh by pressing _q_ and _enter_
+
+
+Or you can move to chapter 8:
+
+    cd $pve/ariadne/projects/suggestotron/
+    git checkout Chapter_08_Editing_Topics
+
+Now refresh your browser at the page http://suggestotron.ariadne-dev/ and click the first Edit link.
+
+You should see something like this:
+
+![Suggestotron chapter 8](images/suggestotron_index_1.png)

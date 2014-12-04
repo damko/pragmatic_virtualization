@@ -7,7 +7,7 @@ chapter2.txt
     conventions_used_in_both_the_methods.txt
     create_vagrant_box_from_iso.txt
     create_vagrant_box_from_cloud.txt
-    some_considerations.txt
+    considerations_about_vagrant.txt
 chapter3.txt
     listing_vagrant_templates_vms.txt
     improving_vagrantfile.txt
@@ -20,3 +20,6 @@ chapter4.txt
     ansible_tools.txt
 chapter5.txt
     suggestotron.txt
+chapter6.txt
+    vagrant_digital_ocean.txt
+    know_more_about_virtualization.txt

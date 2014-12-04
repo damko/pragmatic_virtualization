@@ -1,0 +1,29 @@
+## Production Environment
+
+> If you are a beginner you can probably skip this chapter because I think you've already enough on your plate. Come back to this chapter when you feel ready to publish your application.
+
+Virtualization is cool because it creates as many isolated environments as you like and they can be programmatically configured. There is a specific environment which is usually out of the control of the developer: **production**.
+
+The _production environment_ is the space hosting the public version of your web application. Many production environments run in shared hosting or in dedicated virtual machines created by the provider.
+In these cases the developer can not be sure that the production environment is compatible with the development one until the code is published. Very unlikely the development and the production environment aren't equal and very likely what's compatible today might become all of the sudden incompatible because some differences in software versions. Troubles can be one `apt-get upgrade` far away.
+
+Fortunately there are some cool [providers](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins#providers) offering virtualized systems that can be handled exactly like the development one and I'm going to show how to use Digital Ocean as the production environment for the Suggestotron application.
+
+## Vagrant and Digital Ocean
+
+Vagrant uses plugins to extend its own functionalities and [here](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins) you can find the official list. There are plenty of plugins but you are going to install the _vagrant-digitalocean_ which allows your Vagrant to talk to Digital Ocean API.
+
+    vagrant plugin install vagrant-digitalocean
+
+Output:
+
+    Installing the 'vagrant-digitalocean' plugin. This can take a few minutes...
+    Installed the plugin 'vagrant-digitalocean (0.7.1)'!
+
+Checkout the _* production_environment_ branch from the _extra_ repository
+
+    cd $pve
+    git checkout production_environment
+
+and have a look at the Vagrantfile
+

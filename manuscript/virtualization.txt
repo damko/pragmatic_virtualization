@@ -62,7 +62,7 @@ Ex.:
 
 ## Vagrant
 
-[Vagrant][http://vagrantup.com/] helps you building your virtual boxes on top of Virtualbox (or VMWare etc.). Vagrant is considered as a wrapper for Virtualbox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
+[Vagrant][http://vagrantup.com/], created by [Mitchell Hashimoto](http://mitchellh.com/), helps you building your virtual boxes on top of Virtualbox (or VMWare etc.). Vagrant is considered as a wrapper for Virtualbox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
 
 Vagrant also creates a directory to share your code between your host and your virtual machine so that you can create and edit your files on your host machine and then run the code inside your virtual machine.
 
@@ -80,7 +80,7 @@ Be sure that you are installing a Vagrant version > 1.5
 
 ## Packer
 
-[Packer](http://packer.io) is a tool for creating identical machine images for multiple platforms from a single source configuration. Packer automates the creation of any type of machine image: out of the box Packer comes with support to build images for Amazon EC2, DigitalOcean, Google Compute Engine, QEMU, VirtualBox, VMware, and more.
+[Packer](http://packer.io), created by [Mitchell Hashimoto](http://mitchellh.com/), is a tool for creating identical machine images for multiple platforms from a single source configuration. Packer automates the creation of any type of machine image: out of the box Packer comes with support to build images for Amazon EC2, DigitalOcean, Google Compute Engine, QEMU, VirtualBox, VMware, and more.
 
 This means that with Packer you write some configuration files (in json format) and then you can programmatically create the same virtual machine for different environments like Virtualbox, Vmware etc.
 

@@ -124,7 +124,10 @@ and it's Ansible main file, also known as "playbook". It looks like this:
 Ansible will be executed with the command `vagrant provision` and it will start executing the tasks listed below "tasks:" in a sequential order. In order to keep things clean, each Ansible task is kept in a separated file stored in the "tasks" sub-folder and included in the playbook.
 
 The YAML syntax used by Ansible files is human readable and I tried to add as many comments as I could to show what happens.
-Unfortunately deepening Ansible is beyond the purpose of this manual but if you want to know more I suggest to read the awesome [Ansible documentation](http://docs.ansible.com/) and to purchase the excellent book [Ansible for DevOps](https://leanpub.com/ansible-for-devops) written by [Jeff Geerling](https://twitter.com/geerlingguy) (even if it's not yet finished).
+
+Deepening Ansible, though, is beyond the purpose of this manual but if you want to know more I suggest to read the awesome [Ansible documentation](http://docs.ansible.com/) and to purchase the excellent book [Ansible for DevOps](https://leanpub.com/ansible-for-devops) written by [Jeff Geerling](https://twitter.com/geerlingguy) (even if it's not yet finished).
+
+![Ansible for devops](images/ansible_for_devops.jpg)
 
 Run:
 
@@ -263,4 +266,4 @@ Output:
     [ - ]  vboxadd-x11
 
 
-You've probably noticed that Mysql is missing because the playbook doesn't have any instruction about Mysql.
+You've probably noticed that Mysql is missing because the playbook doesn't have any instruction about that.
