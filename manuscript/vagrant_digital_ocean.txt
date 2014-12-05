@@ -1,18 +1,38 @@
-## Production Environment
+## The production environment
 
-> If you are a beginner you can probably skip this chapter because I think you've already enough on your plate. Come back to this chapter when you feel ready to publish your application.
+> If you are a beginner you can probably postpone this chapter because I think you've already enough on your plate. Come back when you feel ready to publish your application.
 
 Virtualization is cool because it creates as many isolated environments as you like and they can be programmatically configured. There is a specific environment which is usually out of the control of the developer: **production**.
 
-The _production environment_ is the space hosting the public version of your web application. Many production environments run in shared hosting or in dedicated virtual machines created by the provider.
-In these cases the developer can not be sure that the production environment is compatible with the development one until the code is published. Very unlikely the development and the production environment aren't equal and very likely what's compatible today might become all of the sudden incompatible because some differences in software versions. Troubles can be one `apt-get upgrade` far away.
+The _production environment_ is the space hosting the public version of your web application. Many applications run in shared hosting or in dedicated virtual machines created by the provider and then configured by hand.
+In these cases the developer can not be sure that the production environment is compatible with the development one until the code is published. Very likely the development and the production environment aren't equal and what's compatible today might become all of the sudden incompatible because of some differences in software versions. Troubles can be one `apt-get upgrade` far away.
 
-Fortunately there are some cool [providers](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins#providers) offering virtualized systems that can be handled exactly like the development one and I'm going to show how to use Digital Ocean as the production environment for the Suggestotron application.
+Fortunately there are several cool [providers](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins#providers) offering virtualized systems that can be handled exactly like the development one via Vagrant and you are going to see how to use [Digital Ocean](https://www.digitalocean.com/) as the production environment for the Suggestotron application.
+
+I didn't pick Digital Ocean for any particular reason if not the fact that it's the only one I know and use.
+
+Digital Ocean is inexpensive but definitely not for free so, if you want to try it, get ready to pay their [fees](https://www.digitalocean.com/pricing/). I suggest to look around (or ask [them](https://twitter.com/digitalocean)) for a _Promo Code_.
 
 ## Vagrant and Digital Ocean
 
-Vagrant uses plugins to extend its own functionalities and [here](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins) you can find the official list. There are plenty of plugins but you are going to install the _vagrant-digitalocean_ which allows your Vagrant to talk to Digital Ocean API.
+Vagrant has several [official plugins](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins) to extend its own functionalities.
+The [vagrant-digitalocean](https://github.com/smdahlen/vagrant-digitalocean) plugin  is a _provider plugin_ that supports the management of Digital Ocean droplets (virtual machines). It means that allows your Vagrant to talk to the Digital Ocean API.
 
+Brief summary of what's going to happen:
+
+1. installation of the Digital Ocean plugin
+1. registration of the Digital Ocean droplet in Vagrant templates
+1. you sign up at Digital Ocean
+1. you generate a Digital Ocean token
+1. the Vagrantfile is updated with some additional instructions
+1. Vagrant creates the Digital Ocean virtual machine
+
+
+### Install the digital-ocean plugin
+
+This command installs the digital-ocean plugin globally in your system so it's a one time operation. You can install any other plugin in the same way.
+
+    cd $pve
     vagrant plugin install vagrant-digitalocean
 
 Output:
@@ -20,10 +40,363 @@ Output:
     Installing the 'vagrant-digitalocean' plugin. This can take a few minutes...
     Installed the plugin 'vagrant-digitalocean (0.7.1)'!
 
+The plugin can:
+
+* create and destroy droplets
+* power on and off droplets
+* rebuild a droplet
+* provision a droplet with the shell or Chef provisioners
+* setup a SSH public key for authentication
+* create a new user account during droplet creation
+
+### Digital Ocean droplets
+
+Digital Ocean refers to a virtual machine as a "droplet" and offers many different linux distributions such as Ubuntu, Debian, CoreOS, Fedora and CentOs.
+
+Each droplet runs a fresh operating system with no additional packages and configurations installed than the ones present right after the installation from a distro iso.
+Also, thanks to the vagrant plugin, a droplet acts as a Vagrant template box not very differently from the one previously created in this manual with Packer.
+
+It would be nice to use a customized Packer box instead of a pre-built droplet but, as far as I know, this is not possible.
+
+Exactly as it happened after the creation of the Packer box you need to add the Digital Ocean droplet to your Vagrant boxes. This is done with this command:
+
+    vagrant box add digital_ocean https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box
+
+It's a one time command and it doesn't do what you might expect: it doesn't clone a box in your system (it would have no sense) but it created a simple json file in the Vagrant boxes directory:
+
+    tree ~/.vagrant.d/boxes/digital_ocean
+    /home/damko/.vagrant.d/boxes/digital_ocean
+    └── 0
+        └── digital_ocean
+            └── metadata.json
+
+The content of the _metadata.json_ file is just
+
+    {
+      "provider": "digital_ocean"
+    }
+
+This _provider_ key will be used in the Vagrantfile to refer to this Vagrant box (see later).
+
+### Generate the Digital Ocean token
+
+You can create and administrate your droplets from the administration panel but this won't be necessary for you because you are going to use Vagrant instead. The only thing you are required to do through the administration panel is the creation of a _token_. A token is a very long text string which acts as an authorization key for Vagrant (see later).
+
+First of all you have to [sign in](https://cloud.digitalocean.com/registrations/new). Once you are logged in just follow the screenshots:
+
+![DO administration panel](images/digital_ocean_token_0.png)
+
+![Token creation](images/digital_ocean_token_1.png)
+
+![Copy the token](images/digital_ocean_token_2.png)
+
+Don't forget to copy and paste the token somewhere before closing the browser otherwise you have to recreate it again. Also, keep the token private.
+
+
+### Adjust the Vagrantfile
+
 Checkout the _* production_environment_ branch from the _extra_ repository
 
     cd $pve
     git checkout production_environment
 
-and have a look at the Vagrantfile
+and have a look at the Vagrantfile.
+
+There are new variables declared at the top of the file, one of which is DO_TOKEN: **you need to update it with the token you just copied**.
+
+    # Digital Ocean virtual machine for production
+    DO_VM_NAME = "ariadne-prod"
+    DO_TOKEN = "647675865bb75263e484b50d4cff17fca9ae3a9ae1df380f1d8cfc473fff5077"
+
+The _DO_VM_NAME_ variable sets _ariadne-prod_ as the name for the Digital Ocean droplet.
+
+In the bottom part of the Vagrantfile there are these additional lines:
+
+    #DIGITAL OCEAN
+    config.vm.define DO_VM_NAME do |production|
+
+      # this is the provider
+      production.vm.box = "digital_ocean"
+      production.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+
+      # this disables the NFS support
+      production.vm.synced_folder ".", "/vagrant", disabled: true
+
+      # your public ssh key path
+      production.ssh.private_key_path = "/home/damko/.ssh/id_rsa"
+
+       production.vm.provider :digital_ocean do |provider|
+
+          # your token
+          provider.token = DO_TOKEN
+
+           # Droplet type.
+           # To get the list of the available droplets you can use this command
+           # curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer <your_token>' "https://api.digitalocean.com/v2/droplets"
+           provider.image = "Debian 7.0 x64"
+
+           # Droplet location
+           # To get the list of the available regions you can use this command
+           # curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer <your_token>' "https://api.digitalocean.com/v2/regions"
+           provider.region = "ams2"
+
+           # How much ram for the droplet. Careful here! The monthly cost of the droplet dipends on these parameters
+           # Check the costs here https://cloud.digitalocean.com/droplets/new before changing them
+           provider.size = "512MB"
+           provider.backups_enabled = false
+
+           # A string representing the name to use when creating a DigitalOcean SSH key for VPS authentication. It defaults to Vagrant.
+           provider.ssh_key_name = "damko@nitro"
+       end
+
+       production.vm.provision "ansible" do |ansible|
+
+           ansible.playbook = "../ansible/ariadne-dev-playbook.yml"
+
+       end
+    end
+
+The first that you should notice in this Vagrantile is this line:
+
+    production.vm.synced_folder ".", "/vagrant", disabled: true
+
+NFS is obviously disabled for the production machine.
+
+Read the comments and be sure to **carefully update these variables** accordingly to your needs and situation:
+
+* production.ssh.private_key_path
+* provider.region
+* provider.size
+* provider.backups_enabled
+
+The _production.ssh.private_key_path_ is absolutely mandatory and you have to set there the path to your SSH public key which usually lays in your workstation in this file:
+
+    ~/.ssh/id_rsa.pub
+
+If you don't have the id_rsa.pub you can generate one by running:
+
+    ssh-keygen
+
+just hit enter when asked for a password.
+
+This will generate both a private and a public key. They will be stored in ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub.
+
+Notice that the _ansible.playbook_ is now _ariadne-prod-playbook.yml_.
+Usually each specific environment has its own playbook which differs a little from all the others just because you need something in one environment but not in the other one.
+
+In this case I removed Xdebug and Psysh from _ariadne-prod-playbook.yml_ because they are important only for development.
+
+Also the Apache vhost configuration has to be changed:
+
+    # creates the Apache2 vhost for http://suggestotron
+    - {
+        include: tasks/suggestotron.yml,
+        application_name: "suggestotron",
+        domain: "{{ application_name }}.adriadne.prod"
+      }
+
+And _adriadne.prod_ should be changed with your public domain.
+
+At the top of the playbook there is now this line:
+
+    gather_facts: yes
+
+which forces Ansible to retrieve information about the running virtual machine that will be used in Ansible tasks.
+If you edit the _suggestotron.yml_ you'll see that it now has this additional line: _when: ansible_hostname == "ariadne-dev"_
+
+    - name: suggestotron.yml | Create symlink /var/www/"{{ domain }}" pointing to /vagrant/"{{ application_name }}"/
+      file: src=/vagrant/"{{ application_name }}"/ dest=/var/www/"{{ domain }}" owner=www-data group=www-data state="link"
+      when: ansible_hostname == "ariadne-dev"
+
+The _ansible_hostname_ variable get populated by Ansible because of the "gather facts command" and it can be used as a parameter. In this case Ansible tries to create a symlink of the /vagrant/suggentotron directory to /var/www/ only if the running virtual machine is the _ariadne-dev_ because it uses the NFS shared folder while _ariadne-prod_ doesn't.
+
+
+### Create the production vm
+
+It's all set and you can create your droplet with this command:
+
+    vagrant up --provider=digital_ocean ariadne-prod
+
+The _--provider=digital_ocean_ parameter is required only when you are creating the droplet.
+
+Notice that the _vagrant up_ command is now followed by the vm name. This is because the Vagrantfile now contains two virtual machines: _ariadne-dev_ and _ariadne-prod_.
+
+Look at this line in the Vagrantfile:
+
+    config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
+
+The _primary: true_ part means that _ariadne-dev_ is the default vm and if you run any _vagrant command_ without specifying the vm name then Vagrant will use _ariadne-dev_.
+
+Output:
+
+    Bringing machine 'ariadne-prod' up with 'digital_ocean' provider...
+    ==> ariadne-prod: Using existing SSH key: damko@nitro
+    ==> ariadne-prod: Creating a new droplet...
+    ==> ariadne-prod: Assigned IP address: 178.62.173.1xx
+    ==> ariadne-prod: Running provisioner: ansible...
+
+    PLAY [all] ********************************************************************
+
+    GATHERING FACTS ***************************************************************
+    ok: [ariadne-prod]
+
+    TASK: [playbook.yml | Run apt-get update if it was run last time more than 12 hours ago] ***
+    ok: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Add the OS specific variables] ************************
+    ok: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Install the mysql packages in Redhat derivatives] *****
+    skipping: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Install the mysql packages in Debian derivatives] *****
+    changed: [ariadne-prod] => (item=python-selinux,mysql-server,python-mysqldb)
+
+    TASK: [bennojoy.mysql | Copy the my.cnf file] *********************************
+    changed: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Create the directory /etc/mysql/conf.d] ***************
+    ok: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Start the mysql services Redhat] **********************
+    ok: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | update mysql root password for all root accounts] *****
+    changed: [ariadne-prod] => (item=ariadne-prod)
+    changed: [ariadne-prod] => (item=127.0.0.1)
+    changed: [ariadne-prod] => (item=::1)
+    changed: [ariadne-prod] => (item=localhost)
+
+    TASK: [bennojoy.mysql | update mysql root password for all root accounts] *****
+    skipping: [ariadne-prod] => (item=127.0.0.1)
+    skipping: [ariadne-prod] => (item=::1)
+    skipping: [ariadne-prod] => (item=localhost)
+
+    TASK: [bennojoy.mysql | copy .my.cnf file with root password credentials] *****
+    changed: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | ensure anonymous users are not in the database] *******
+    ok: [ariadne-prod] => (item=localhost)
+    ok: [ariadne-prod] => (item=ariadne-prod)
+
+    TASK: [bennojoy.mysql | remove the test database] *****************************
+    ok: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Create the database's] ********************************
+    changed: [ariadne-prod] => (item={'name': 'suggestotron'})
+
+    TASK: [bennojoy.mysql | Create the database users] ****************************
+    skipping: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Create the replication users] *************************
+    changed: [ariadne-prod] => (item={'name': 'repl', 'pass': 'foobar'})
+
+    TASK: [bennojoy.mysql | Check if slave is already configured for replication] ***
+    skipping: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Ensure the hostname entry for master is available for the client.] ***
+    skipping: [ariadne-prod]
+
+    TASK: [bennojoy.mysql | Get the current master servers replication status] ****
+    skipping: [ariadne-prod -> {{ mysql_repl_master }}]
+
+    TASK: [bennojoy.mysql | Change the master in slave to start the replication] ***
+    skipping: [ariadne-prod]
+
+    TASK: [init.yml | Install Sys Packages] ***************************************
+    changed: [ariadne-prod] => (item=curl,vim,python-pycurl,python-apt,aptitude,multitail,tree)
+
+    TASK: [init.yml | run Security Upgrade] ***************************************
+    changed: [ariadne-prod]
+
+    TASK: [init.yml | Ensure NTP is installed] ************************************
+    changed: [ariadne-prod]
+
+    TASK: [init.yml | Ensure NTP is running] **************************************
+    changed: [ariadne-prod]
+
+    TASK: [apache2.yml | Install Apache Packages] *********************************
+    changed: [ariadne-prod] => (item=apache2,libapache2-mod-php5)
+
+    TASK: [apache2.yml | Enable Apache rewrite module] ****************************
+    changed: [ariadne-prod]
+
+    TASK: [php5.yml | Check if php5-fpm is already installed] *********************
+    failed: [ariadne-prod] => {"changed": true, "cmd": ["dpkg", "-s", "php5-fpm"], "delta": "0:00:00.013664", "end": "2014-12-05 17:15:28.401623", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-12-05 17:15:28.387959", "stdout_lines": []}
+    stderr: dpkg-query: package 'php5-fpm' is not installed and no information is available
+    Use dpkg --info (= dpkg-deb --info) to examine archive files,
+    and dpkg --contents (= dpkg-deb --contents) to list their contents.
+    ...ignoring
+
+    TASK: [php5.yml | Install PHP Packages] ***************************************
+    changed: [ariadne-prod] => (item=php5-fpm,php5-curl,php5-cli,php5-mysql)
+
+    TASK: [php5.yml | enable Apache2 PHP module] **********************************
+    changed: [ariadne-prod]
+
+    TASK: [Ensure curl is installed (Debian).] ************************************
+    ok: [ariadne-prod]
+
+    TASK: [Install Composer into the current directory.] **************************
+    changed: [ariadne-prod]
+
+    TASK: [Move Composer into globally-accessible location.] **********************
+    changed: [ariadne-prod]
+
+    TASK: [Update Composer to latest version (if configured).] ********************
+    ok: [ariadne-prod]
+
+    TASK: [populating suggestotron database] **************************************
+    failed: [ariadne-prod] => {"changed": true, "cmd": "echo \"show tables\" | mysql -uroot -proot suggestotron | grep \"topics\"", "delta": "0:00:00.026047", "end": "2014-12-05 17:16:01.495320", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-12-05 17:16:01.469273", "stdout_lines": []}
+    ...ignoring
+
+    TASK: [copy src=sql/suggestotron_init.sql dest=/tmp] **************************
+    changed: [ariadne-prod]
+
+    TASK: [mysql_db name=suggestotron state=import target=/tmp/suggestotron_init.sql] ***
+    changed: [ariadne-prod]
+
+    TASK: [suggestotron.yml | Create symlink /var/www/"suggestotron.adriadne.prod" pointing to /vagrant/"suggestotron"/] ***
+    skipping: [ariadne-prod]
+
+    TASK: [suggestotron.yml | Add host to /etc/hosts] *****************************
+    changed: [ariadne-prod]
+
+    TASK: [suggestotron.yml | Copy Apache vhost for "suggestotron.adriadne.prod"] ***
+    changed: [ariadne-prod]
+
+    TASK: [suggestotron.yml | Enable Apache vhost "suggestotron.adriadne.prod"] *****
+    changed: [ariadne-prod]
+
+    TASK: [suggestotron.yml | force Apache2 restart] ******************************
+    changed: [ariadne-prod]
+
+    NOTIFIED: [bennojoy.mysql | restart mysql] ************************************
+    changed: [ariadne-prod]
+
+    NOTIFIED: [restart apache2] ***************************************************
+    changed: [ariadne-prod]
+
+    PLAY RECAP ********************************************************************
+    ariadne-prod               : ok=36   changed=26   unreachable=0    failed=0
+
+Done! Your production environment is ready and in your Digital Ocean administration interface you now see the _ariadne-prod_ droplet its ip address.
+
+![Droplet list](images/digital_ocean_droplet_list.png)
+
+You've probably noticed that _ariadne-prod_ is now missing the suggestotron code, right?
+
+You can copy it in the Apache vhost root folder via ssh:
+
+    cd $pve/ariadne/projects
+    scp -r suggestotron root@<droplet_ip_address>:/var/www/
+    ssh root@<droplet_ip_address> 'chown www-data:www-data -fR /var/www/suggestotron.ariadne.prod'
+
+Now you can configure your hosts file
+
+    sudo echo "<droplet_ip_address>    suggestotron.ariadne.prod" >> /etc/hosts
+
+and you can see it at [http://suggestotron.ariadne.prod](http://suggestotron.ariadne.prod).
+
+![Suggestotron application](images/suggestotron_production.png)
 
