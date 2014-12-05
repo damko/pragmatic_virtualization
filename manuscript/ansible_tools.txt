@@ -137,7 +137,7 @@ If now you go and check the services installed on "ariadne-dev" you'll see the m
 
 ### Phansible
 
-[Phansible][http://phansible.com/] comes in help providing a simple interface that generates Ansible Playbooks for PHP based projects.
+[Phansible](http://phansible.com/) comes in help providing a simple interface that generates Ansible Playbooks for PHP based projects.
 A few clicks on the services you like to run on the vm and you get a zip file with all the Ansible configuration files.
 Phansible is great but I suggest to check if the given configuration matches your needs: very likely there will be something that you have to add or modify.
 

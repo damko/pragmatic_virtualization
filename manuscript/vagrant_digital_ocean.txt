@@ -84,7 +84,7 @@ You can create and administrate your droplets from the administration panel but 
 
 First of all you have to [sign in](https://cloud.digitalocean.com/registrations/new). Once you are logged in just follow the screenshots:
 
-![DO administration panel](images/digital_ocean_token_0.png)
+![Administration panel](images/digital_ocean_token_0.png)
 
 ![Token creation](images/digital_ocean_token_1.png)
 
