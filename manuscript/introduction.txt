@@ -24,8 +24,6 @@ This is the virtualization software that will be used:
 
 While virtualization has many application fields, this manual addresses the topic of virtualization from the point of view of a full stack self-employed PHP developer.
 
-TODO add something here about the continuity with PHPBridge
-
 ## Target
 
 The main target is to programmatically create of a Debian 64 bit virtual machine that can be reused as development environment for your projects.
