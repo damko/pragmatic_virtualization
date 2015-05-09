@@ -57,11 +57,11 @@ Output:
 
     ==> default: Machine booted and ready!
 
-The `vagrant up` command downloads the box, stores it in your hard drive, makes it available for Virtualbox and then, finally, orders to Virtualbox to create a virtual machine by cloning the downloaded box and you end up with the working virtual machine. Brilliant!
+The `vagrant up` command downloads the box, stores it in your hard drive, makes it available for VirtualBox and then, finally, orders to VirtualBox to create a virtual machine by cloning the downloaded box and you end up with the working virtual machine. Brilliant!
 
 That's it. The virtual machine is ready and running.
 
-You can now login in the Virtualbox vm with
+You can now login in the VirtualBox vm with
 
     cd $pve/ariadne/orchestration/vagrant
     vagrant ssh

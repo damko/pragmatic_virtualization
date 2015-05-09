@@ -1,6 +1,6 @@
 ## The production environment
 
-> If you are a beginner you can probably postpone this chapter because I think you've already enough on your plate. Come back when you feel ready to publish your application.
+> If you are a beginner you can probably postpone this chapter because I think you already have enough on your plate. Come back when you feel ready to publish your application.
 
 Virtualization is cool because it creates as many isolated environments as you like and they can be programmatically configured. There is a specific environment which is usually out of the control of the developer: **production**.
 

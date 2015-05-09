@@ -14,7 +14,7 @@ You'll be following these steps:
 
 ### Creation of a box using Packer - 1st step
 
-Packer will download a net-install iso from the Debian servers and will use that iso to launch the installation process and create a virtual machine image compatible with Virtualbox and Vagrant.
+Packer will download a net-install iso from the Debian servers and will use that iso to launch the installation process and create a virtual machine image compatible with VirtualBox and Vagrant.
 
 Basically Packer will do what you do when you install Debian from a net-install cd and will adjust it for the virtualization environment.
 
@@ -69,7 +69,7 @@ To fix the issue go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
 1. If you are curious to see what happens during the non-attended installation of the operating system you can edit the ta-debian-7-wheezy-virtualbox.json file and change `"headless": true,` to `"headless": false,` and re-run the build process.
 
 
-### Import of the Packer box into Vagrant and Virtualbox - 2nd step
+### Import of the Packer box into Vagrant and VirtualBox - 2nd step
 
 Now that the debian-770-wheezy.box file is ready, the next step is to tell Vagrant to import the Packer box and to make it available in the system as a template. This command will do the trick:
 
@@ -120,7 +120,7 @@ The _Vagrantfile_ contained in this directory is already configured and, for now
             # Folder sharing is now disabled
             devel.vm.synced_folder  ".", "/projects", disabled: true
 
-            # Virtualbox settings
+            # VirtualBox settings
             devel.vm.provider "virtualbox" do |vb|
                 vb.name = VB_DEV_VM_NAME
 
@@ -147,7 +147,7 @@ Everything is ready to launch the creation of the vm (which will take a couple o
 
 See what's happening:
 
-1. Vagrant clones the template box into a Virtualbox vm
+1. Vagrant clones the template box into a VirtualBox vm
 1. Vagrant arranges some changes to the vm, like the number of cores, the amount of ram, the network card MAC address, the hostname etc. accordingly to what set in the Vagrantfile
 1. Vagrant starts the vm
 

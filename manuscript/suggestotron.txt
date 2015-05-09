@@ -1,15 +1,15 @@
 ## The Suggestotron application
 
-"Ariadne-dev" is now ready to host the Suggestotron application. You just miss
+"Ariadne-dev" is now ready to host the Suggestotron application. You just need to
 
-* to create the database
-* to populate the database
-* the application code
-* to add a virtualhost for Apache
+* create the database
+* populate the database
+* provide the application code
+* add a virtualhost for Apache
 
 ### Create the database
 
-In the Suggestroton guide, [chapter 5](http://phpbridge.org/intro-to-php/creating_a_database), there are detailed instructions about how to create by hand the Mysql database necessary to store Suggestotron data.
+In the Suggestotron guide, [chapter 5](http://phpbridge.org/intro-to-php/creating_a_database), there are detailed instructions about how to create by hand the Mysql database necessary to store Suggestotron data.
 But with Ansible and there is no need for manual configuration.
 
 Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
@@ -54,6 +54,7 @@ you'll see in the output:
 Ansible claims that the database has been created. To check it:
 
     ssh vagrant@ariadne-dev 'echo "show databases" | mysql -uroot -proot'
+    #provide "vagrant" as password
 
 Output:
 
@@ -65,7 +66,7 @@ Output:
 
 ### Populate the database
 
-Ansible, of course, can also to populate the database. One thing to keep in mind is that the database will be populated only if it's empty i.e. right after its creation otherwise every time `vagrant provision` is run the database will be populated with duplicated records.
+Ansible, of course, can also populate the database. One thing to keep in mind is that the database will be populated only if it's empty, i.e. right after its creation, otherwise every time `vagrant provision` is run the database will be populated with duplicated records.
 
 Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
 
@@ -145,6 +146,7 @@ Output:
 Ansible says that the database has been populated (see the "changed" status in last task). Check it with this command:
 
     ssh vagrant@ariadne-dev 'echo "select * from topics" | mysql -uroot -proot' suggestotron
+    #provide "vagrant" as password
 
 Output:
 

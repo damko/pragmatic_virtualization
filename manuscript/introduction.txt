@@ -17,7 +17,7 @@ I know that someone will not be happy with these choices but I encourage to adju
 This is the virtualization software that will be used:
 
 * Packer to create virtual machine from an iso
-* Virtualbox as virtualization environment
+* VirtualBox as virtualization environment
 * Vagrant as virtualization manager
 * Ansible as automation tool
 * Digital Ocean as provider for the production environment

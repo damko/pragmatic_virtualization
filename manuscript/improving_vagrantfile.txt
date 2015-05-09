@@ -52,7 +52,7 @@ In this branch the Vagrantfile contains some improvements and it looks like this
             # NFS settings
             devel.vm.synced_folder "../../projects", "/vagrant", type: "nfs"
 
-            # Virtualbox settings
+            # VirtualBox settings
             devel.vm.provider "virtualbox" do |vb|
                 vb.name = VB_DEV_VM_NAME
 
@@ -83,8 +83,8 @@ Variables declaration is not mandatory, you can hardcode the values, but I think
 I also used some conventions that you can definitely abandon if you don't like them:
 
 * variables starting with VG = Vagrant
-* variables starting with VB = Virtualbox
-* vm hostname and Virtualbox vm name match
+* variables starting with VB = VirtualBox
+* vm hostname and VirtualBox vm name match
 * the vm name is also use to define each section of the Vagrantfile like this (this will be explained better later on)
 
 > config.vm.define VB_DEV_VM_NAME, primary: true do |devel|

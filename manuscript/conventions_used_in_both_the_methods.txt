@@ -1,4 +1,4 @@
-## Conventions used in both the methods
+## Conventions used in both methods
 
 Before starting, some conventions used by the manual in both the methods.
 
