@@ -19,6 +19,12 @@ To install the role on your workstation
 
 The role will be copied in /etc/ansible/roles/ (where you can even store your own roles)
 
+TODO add something about:
+
+* ansible-galaxy install [role],[version] --force
+* ansible-galaxy list
+/TODO
+
 Checkout the _ansible_apache_php_mysql_ branch from the _extra_ repository
 
     cd $pve
