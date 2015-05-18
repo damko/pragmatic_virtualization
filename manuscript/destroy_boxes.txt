@@ -4,7 +4,7 @@
 
 Before destroying a box it's important to know the box identification name so that you specify which the one to delete.
 
-Currently we have the Vagrant/Virtualbox "development" vm and the Vagrant "template" box.
+Currently we have the Vagrant/VirtualBox "development" vm and the Vagrant "template" box.
 
 The Vagrant template vm and the Vagrant vm have different names and they are written in the Vagrantfile:
 

@@ -33,24 +33,24 @@ To clarify consider this case: you have the application A requiring PHP 5.3 and 
 
 ## Virtualization tools
 
-The most famous virtualization environments are [VirtualBox](http://www.virtualbox.org/), [VMware](http://www.vmware.com/) and [Docker](http://www.docker.com/) but this manual will focus only on Virtualbox.
+The most famous virtualization environments are [VirtualBox](http://www.virtualbox.org/), [VMware](http://www.vmware.com/) and [Docker](http://www.docker.com/) but this manual will focus only on VirtualBox.
 
-Virtualbox and two other applications called Vagrant and Packer provide what's necessary to create, clone, run and destroy your virtual machines (aka. boxes or vm/vms) in an easy and very predictable way.
+VirtualBox and two other applications called Vagrant and Packer provide what's necessary to create, clone, run and destroy your virtual machines (aka. boxes or vm/vms) in an easy and very predictable way.
 
-In a while your workstation will have a Virtualbox virtual machine managed by Vagrant that you can use as *development environment* for your applications.
+In a while your workstation will have a VirtualBox virtual machine managed by Vagrant that you can use as *development environment* for your applications.
 
 Your applications code will be stored on your workstation filesystem and you will edit it locally using an editor installed on your workstation.
 
 The applications code will be run by the virtual machine and this explains why you don't need to install services like Apache or Mysql on your workstation: they will run on the virtual machine.
 
-## Virtualbox
+## VirtualBox
 
-Virtualbox offers "full virtualization" which is a particular kind of virtualization that allows an unmodified operating system with all of its installed software to run in a special environment, on top of your existing operating system. Your existing operating system is called _host_ while the virtual machines are called _guests_.
+VirtualBox offers "full virtualization" which is a particular kind of virtualization that allows an unmodified operating system with all of its installed software to run in a special environment, on top of your existing operating system. Your existing operating system is called _host_ while the virtual machines are called _guests_.
 This approach, often called "native virtualization", is different from mere emulation which is typically quite slow.
 
 VirtualBox is also different from the so-called "paravirtualization" solutions (such as Xen) which require the guest operating system to be modified.
 
-### Virtualbox installation
+### VirtualBox installation
 
 Download from [here](https://www.virtualbox.org/wiki/Linux_Downloads) the latest package that suits at best your workstation.
 
@@ -62,7 +62,7 @@ Ex.:
 
 ## Vagrant
 
-[Vagrant][http://vagrantup.com/], created by [Mitchell Hashimoto](http://mitchellh.com/), helps you building your virtual boxes on top of Virtualbox (or VMWare etc.). Vagrant is considered as a wrapper for Virtualbox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
+[Vagrant][http://vagrantup.com/], created by [Mitchell Hashimoto](http://mitchellh.com/), helps you building your virtual boxes on top of VirtualBox (or VMWare etc.). Vagrant is considered as a wrapper for VirtualBox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
 
 Vagrant also creates a directory to share your code between your host and your virtual machine so that you can create and edit your files on your host machine and then run the code inside your virtual machine.
 
@@ -82,13 +82,13 @@ Be sure that you are installing a Vagrant version > 1.5
 
 [Packer](http://packer.io), created by [Mitchell Hashimoto](http://mitchellh.com/), is a tool for creating identical machine images for multiple platforms from a single source configuration. Packer automates the creation of any type of machine image: out of the box Packer comes with support to build images for Amazon EC2, DigitalOcean, Google Compute Engine, QEMU, VirtualBox, VMware, and more.
 
-This means that with Packer you write some configuration files (in json format) and then you can programmatically create the same virtual machine for different environments like Virtualbox, Vmware etc.
+This means that with Packer you write some configuration files (in json format) and then you can programmatically create the same virtual machine for different environments like VirtualBox, Vmware etc.
 
-In this manual Packer will be used to create a Debian based virtual machine for Virtualbox which will be then used by Vagrant as a "template" virtual machine for the creation of your environments. The customization of each environment (Vagrant virtual machine) will be done using an automation tool called Ansible (see later).
+In this manual Packer will be used to create a Debian based virtual machine for VirtualBox which will be then used by Vagrant as a "template" virtual machine for the creation of your environments. The customization of each environment (Vagrant virtual machine) will be done using an automation tool called Ansible (see later).
 
 ### Packer installation
 
-Differently from Vagrant and Virtualbox, Packer doesn't come with a debian installer so the easiest way to install it in the system is to run the `install_packer.sh` script  provided in the manual extra.
+Differently from Vagrant and VirtualBox, Packer doesn't come with a debian installer so the easiest way to install it in the system is to run the `install_packer.sh` script  provided in the manual extra.
 
 Checkout the _installing_tools_ branch from the _extra_ repository
 

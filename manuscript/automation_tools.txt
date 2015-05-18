@@ -1,6 +1,6 @@
 ## Automation tools
 
-Besides Virtualbox, Vagrant and Packer there are additional tools that can help setting up the virtual environment.
+Besides VirtualBox, Vagrant and Packer there are additional tools that can help setting up the virtual environment.
 
 After a fresh virtual machine has been setup the additional system configuration can be done manually or with an automation tool.
 
