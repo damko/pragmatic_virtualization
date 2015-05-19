@@ -1,11 +1,13 @@
 ## Get ready
 
-This manual is hosted by 2 github repositories:
+This manual is split in two parts each one hosted in a github repositories:
 
 * [the source](https://github.com/damko/pragmatic_virtualization)
 * [the extra](https://github.com/damko/pragmatic_virtualization_extra)
 
-The _extra_ repository is very important because it contains all you need to follow each chapter of this manual. Forget copy and paste, it won't be necessary most of the time.
+The _extra_ repository is very important because it contains all you need to follow each chapter of this manual.
+
+Forget copy and paste, it will not be necessary in most of the chances. The _extra_ repository branches are bound to the manual content and, chapter by chapter, the manual will provide the branch name to use.
 
 To download and use the _extra_ repository you need to have [Git](http://git-scm.com/) installed in your system and a [Github](http://github.com) account.
 
@@ -13,19 +15,21 @@ If Git is not yet installed in your system install it with:
 
     sudo apt-get install git git-core
 
-Download the _extra_ repository with:
+Then download the _extra_ repository with:
 
     git clone git@github.com:damko/pragmatic_virtualization_extra.git
 
-This will create the "pragmatic_virtualization_extra" subdirectory
+This will create the "pragmatic_virtualization_extra" subdirectory inside your current directory.
 
-In the manual I'll refer to this directory's path as `$pve` so it's convenient to save this variable in your bash environment by doing:
+Along the manual I'll refer to this directory path as `$pve` so it's convenient to save this variable in your bash environment by doing:
 
     cd pragmatic_virtualization_extra
     pve=$(pwd)
 
-The _extra_ repository has branches bind to the manual content and, chapter by chapter, the manual will provide the branch name to use.
+You should run this last command any time you open a new terminal or after a reboot.
 
-You can synchronize your local content with this command:
+You can change the current branch in use with this command:
 
     git checkout <branch_name>
+
+where _branch_name_ is given chapter by chapter.
