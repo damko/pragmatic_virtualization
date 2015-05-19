@@ -1,55 +1,87 @@
+<!-- This manual is written using Markua, a markdown dialect http://markua.com/. Check this free book for specs https://leanpub.com/markua -->
+
 # Introduction
 
-Any developer must know many things and virtualization is one of those. Unfortunately (or fortunately?) not everybody works in a well structured company with a team dedicated to every single aspect of software development and, because none is a "miracle man", sometimes is necessary to take some shortcuts or to know just what's necessary to get the job done.
+This is a short, modest and straightforward manual written with pragmatism in mind which sums up my experiences with virtualization <!-- TODO link to virtualization.txt? -->.
 
-This manual is a synthesis of my personal experiences with virtualization and will not cover in detail the theory behind virtualization and will not make you an expert in [devops](http://en.wikipedia.org/wiki/DevOps).
+If you don't know what's the meaning of _virtualization_, I will describe it better later on but, for now, consider it as _a set of theories and technologies that allows you to run virtual computers inside your own computer_. Yes, like a matryoshka.
 
-It's a modest and straight forward manual written with pragmatism in mind to provide what's necessary to create, clone, run, maintain and destroy virtual machines, locally and remotely.
+## What to expect from this manual
 
-Virtualization is a big elephant that can be eaten only in small bites, therefore it's impossible to write a manual that covers all the operating systems and the software combinations.
+The aim of this manual is to help you to hit the ground running with virtualization and, therefore, it's written for beginners.
 
-This is why I tackled the topic from a specific perspective which has some requirements and cuts off several technologies currently available but, at least, brings quick and effective results to the reader.
+Be aware that I will not cover in detail the theory behind virtualization and that this guide will **not** make you an expert [devop](http://en.wikipedia.org/wiki/DevOps). Becoming an expert devop requires a lot of practice and studying.
 
-I know that someone will not be happy with these choices but I encourage to adjust this manual for different perspectives and to re-publish it as a free manual.
+Anyway this manual will provide what's necessary to:
 
-## Perspective
+* create, clone, run, maintain and destroy virtual machines, locally (on your workstation) and remotely
+* programmatically install, update and configure the software installed inside the virtual machine
+* create different isolated environments for different development purposes
+* publish your virtual machine on a public server
 
-This is the virtualization software that will be used:
+### The PHPBridge Project
 
-* Packer to create virtual machine from an iso
-* VirtualBox as virtualization environment
-* Vagrant as virtualization manager
-* Ansible as automation tool
-* Digital Ocean as provider for the production environment
+While I was writing the manual, though, I felt the need to make it more useful and real so I wrote it to fit in smoothly in the awesome [PHPBridge Project](http://phpbridge.org).
 
-While virtualization has many application fields, this manual addresses the topic of virtualization from the point of view of a full stack self-employed PHP developer.
+The PHPBridge Project, generously created by the [PHP Women group](http://phpwomen.org/), helps beginners to learn PHP and it's split in sections:
 
-## Target
+* the [**Installfest**](http://phpbridge.org/installfest/linux) provides some instructions for installing PHP on your computer
+* the [**Intro to PHP**](http://phpbridge.org/intro-to-php) starts from scratch and takes you step-by-step through making a PHP application (called Suggestotron), one line at a time
 
-The main target is to programmatically create of a Debian 64 bit virtual machine that can be reused as development environment for your projects.
+Unfortunately, as written in the Installfest documentation, the virtual machine is not yet available for download.
 
-To make the experience more real, the virtual machine will be automatically configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/) generously created by [PHP Women](http://phpwomen.org/). This example will show you how to configure your virtualization tools to automatically produce a good environment for your applications.
+> You will be provided with a copy of the virtual machine ("the box") on a USB thumb drive
 
-Finally, the virtual environment will be replicated and published on a public server.
+This is not exactly a big deal because there are several ways to overcome the obstacle but it's definitely not ideal for a remote beginner.
 
-## Requirements
+Anyway I thought that it would be nice to offer to the PHPBridge students a closer sight to some virtualization aspects and an easy way to produce their own virtual machines.
 
-These are the requirements for your workstation
+So, after reading this manual, you will end up with a Debian 64 bit virtual machine configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/). Optionally you can also decide to published it on a Digital Ocean public server. Of course the virtual machine can be reused as many times as you want and it can become the default development environment for your projects.
+
+<!-- TODO double check this "learning routing" -->
+{class: information}
+B> If you are in the process of learning PHP you can start with reading this manual and then you can go ahead with the PHP Bridge project.
+You will be capable to skip entirely the Installfest section and to continue with the [PHP Language](http://phpbridge.org/intro-to-php/php_language) chapter and, finally, to land to the [Creating a Data Class](http://phpbridge.org/intro-to-php/creating_a_data_class) chapter.
+
+{class: warning}
+B> If you are not trying to learn PHP or you are not a PHP developer, don't worry you will not have any problem.
+
+### Perspective
+
+Virtualization is a huge topic and you can tackle it from many angles. It's really hard to write a book that covers all the operating systems and all the virtualization softwares so it's absolutely mandatory to choose a specific perspective that, on one hand, will have some strict requirements and, on the other, will cut off some virtualization technologies. So don't be surprised by the following requirements and by my software selection.
+
+### Limits and requirements
+
+These are the minimum requirements for your workstation:
 
 * 64 bit hardware
 * A Linux Debian based operating system
 * 5GB of free space
 * 2GB of RAM
 
-If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust the commands to your situation.
+{class: information}
+B> If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust some commands.
 
-## Audience
+These are the virtualization softwares that will be used:
 
-This manual is for beginners and intermediate PHP developers.
+* **Packer** to create a virtual machine starting from an iso image
+* **VirtualBox** as the virtualization environment for the virtual machine
+* **Vagrant** as virtualization manager
+* **Ansible** as automation tool for installing and configure software inside the virtual machine
+* **Digital Ocean** as hosting provider for the production environment
 
-If you are a beginner and you have been studying (or you mean to study) the [PHPBridge guide](http://phpbridge.org/intro-to-php/) you will find this manual particularly useful. The way this manual is written fits perfectly in the learning pattern chosen by the PHPBridge project.
+These are the list of services running in the virtual machine:
 
-If you are an intermediate developer but you are not used to virtualization this manual will be a kickstart. If you already use virtualization this manual might help you to improve your development work-flow and clarify a bit what happens under the hood.
+<!-- TODO double check the services installed in the vm -->
+* **Nginx** as webserver
+* **Mysql** as database
+* **PHP**
+
+Of course somebody will not be happy with my choices but, at least, it brings some quick and effective results for some others.
+
+{class: information}
+B> I encourage you to adjust this manual for any different perspective and to re-publish it as a free manual :-)
+
 
 ## Acknowledgements
 
@@ -57,4 +89,4 @@ Many thanks to:
 * [PHP Women](http://phpwomen.org/) for the great job done with the [PHPBridge project](http://phpbridge.org/)
 * [phptherightway](http://www.phptherightway.com/) from which I took inspiration and ... some chunks of text :-)
 
-Many thanks to Phil Sturgeon, Lorna Mitchell, Ben Edmunds, Kayla Daniels, Davey Shafik and Erika Heidi. Their constant efforts in the PHP community and their books have been of great help.
+Also many thanks to [Michelle Sanver](https://twitter.com/michellesanver), [Davey Shafik](https://twitter.com/dshafik), [Erika Heidi](https://twitter.com/erikaheidi), [Phil Sturgeon](https://twitter.com/philsturgeon), [Kayla Daniels](https://twitter.com/kayladnls), [Lorna Mitchell](https://twitter.com/lornajane) and [Ben Edmunds](https://twitter.com/benedmunds) for their motivating efforts in the PHP community.
