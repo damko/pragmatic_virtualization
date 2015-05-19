@@ -40,11 +40,11 @@ So, after reading this manual, you will end up with a Debian 64 bit virtual mach
 
 <!-- TODO double check this "learning routing" -->
 
-T> If you are in the process of learning PHP you can start with reading this manual and then you can go ahead with the PHP Bridge project.
+I> If you are in the process of learning PHP you can start with reading this manual and then you can go ahead with the PHP Bridge project.
 You will be capable to skip entirely the Installfest section and to continue with the [PHP Language](http://phpbridge.org/intro-to-php/php_language) chapter and, finally, to land to the [Creating a Data Class](http://phpbridge.org/intro-to-php/creating_a_data_class) chapter.
 
 
-T> If you are not trying to learn PHP or you are not a PHP developer, don't worry you will not have any problem.
+I> If you are not trying to learn PHP or you are not a PHP developer, don't worry you will not have any problem.
 
 ### Perspective
 
@@ -59,8 +59,7 @@ These are the minimum requirements for your workstation:
 * 5GB of free space
 * 2GB of RAM
 
-{class: information}
-B> If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust some commands.
+I> If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust some commands.
 
 These are the virtualization softwares that will be used:
 
@@ -79,8 +78,7 @@ These are the list of services running in the virtual machine:
 
 Of course somebody will not be happy with my choices but, at least, it brings some quick and effective results for some others.
 
-{class: information}
-B> I encourage you to adjust this manual for any different perspective and to re-publish it as a free manual :-)
+I> I encourage you to adjust this manual for any different perspective and to re-publish it as a free manual :-)
 
 ## Acknowledgements
 
