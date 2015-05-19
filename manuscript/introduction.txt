@@ -82,7 +82,6 @@ Of course somebody will not be happy with my choices but, at least, it brings so
 {class: information}
 B> I encourage you to adjust this manual for any different perspective and to re-publish it as a free manual :-)
 
-
 ## Acknowledgements
 
 Many thanks to:
