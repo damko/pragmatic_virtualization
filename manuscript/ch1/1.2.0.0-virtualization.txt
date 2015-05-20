@@ -1,3 +1,5 @@
+{pagebreak}
+
 ## What's virtualization {#virtualization_paragraph}
 
 The term _virtualization_ refers to the act of creating a virtual version of something, including but not limited to a virtual computer hardware platform, operating system, storage device, or computer network resources. [Wikipedia](https://en.wikipedia.org/wiki/Virtualization)
@@ -43,6 +45,7 @@ Virtualization helps working teams to work faster and better:
 * all the team members can develop in the same exact environment even when the team mates work remotely from different locations
 * any change/update to the environment (like a new configuration or a new software) can be easily shared with the team members. It's just a matter of sharing a few configuration files
 
+{pagebreak}
 
 ## Virtualization tools
 

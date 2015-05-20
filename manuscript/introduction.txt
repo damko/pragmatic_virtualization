@@ -21,6 +21,8 @@ Anyway this manual will provide what's necessary to:
 * create different isolated environments for different development purposes
 * publish your virtual machine on a public server
 
+{pagebreak}
+
 ### The PHPBridge Project
 
 While I was writing the manual I felt the need to make it more useful and real so I wrote it in such a way that it can fit in smoothly in the awesome [PHPBridge Project](http://phpbridge.org).
@@ -84,6 +86,8 @@ These are the list of services and softwares installed and running inside the vi
 Somebody will not be happy with my choices (sorry) but, at least, it brings some quick and effective results for some others.
 
 I> I encourage you to adjust this manual for any different perspective and to re-publish it for free
+
+{pagebreak}
 
 ## Copyleft
 
