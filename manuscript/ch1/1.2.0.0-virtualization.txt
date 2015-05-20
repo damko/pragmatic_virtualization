@@ -8,7 +8,7 @@ Basically with virtualization you can run virtual computers inside your own comp
 
 In this manual _virtualization_ means _hardware virtualization_ which is the creation of a virtual machine that acts like a real computer with its own operating system. The software executed in the virtual machines is separated from the underlying hardware resources and the whole virtual machine is stored in a few files located on the host system hard-drive.
 
-## Why to use the virtualization
+## Why to use virtualization
 
 While developing an application it's a good practice to have at least a development environment and a production one.
 
@@ -41,10 +41,10 @@ Virtualization can solve the problem of inhomogeneous environments:
 
 Virtualization helps working teams to work faster and better:
 
-: in fact:
+: for at least these reasons:
 
-* all the team members can develop in the same exact environment even when the team mates work remotely from different locations
-* any change/update to the environment (like a new configuration or a new software) can be easily shared with the team members. It's just a matter of sharing a few configuration files
+    * all the team members can develop in the same exact environment even when the team mates work remotely from different locations
+    * any change/update to the environment (like a new configuration or a new software) can be easily shared with the team members. It's just a matter of sharing a few configuration files
 
 {pagebreak}
 

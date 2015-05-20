@@ -13,7 +13,7 @@ The _extra_ repository [branches](https://github.com/damko/pragmatic_virtualizat
 
 To download and use the _extra_ repository you need to have [Git](http://git-scm.com/) installed in your system and a [Github](http://github.com) account.
 
-If Git is not yet installed in your system, open a terminal and install it type this command:
+If Git is not yet installed in your system, open a terminal and install it with this command:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -50,3 +50,14 @@ Now that you have your _extra_ on the hard drive you can switch to the specific 
 ~~~~~~~
 
 where `branch-name` is given chapter by chapter.
+
+## Almost ready
+
+In this manual there a few application that I use that might not installed in your workstation. Please install with
+
+{linenos=off, lang=bash}
+~~~~~~~
+    sudo apt-get install tree
+~~~~~~~
+
+<!-- TODO if it's just "tree", rephrase -->

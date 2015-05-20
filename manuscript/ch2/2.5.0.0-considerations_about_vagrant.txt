@@ -1,3 +1,5 @@
+{pagebreak}
+
 ## Some considerations about Vagrant
 
 ### Same result
@@ -29,7 +31,7 @@ Now that the Vagrant vm has been created you'll notice a new hidden directory `$
 
 In this directory Vagrant saves important information about the newly created vm. **Don't delete it**.
 
-#### vagrant halt or reload
+### start and stop a vm
 
 If you want to stop or reboot the development vm from your workstation terminal, be sure to be in the vagrant directory and then run:
 

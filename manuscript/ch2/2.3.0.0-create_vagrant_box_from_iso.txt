@@ -10,13 +10,13 @@ Checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository
 
 You'll be following these steps:
 
-1. creation of a box using Packer starting from a Debian iso installer
-1. import of the Packer box in Vagrant as template box
-1. creation, setup and configuration of a Vagrant virtual machine
+1. creation of a box using Packer and starting from a Debian iso installer
+2. import of the Packer box in Vagrant as template box
+3. creation, setup and configuration of a Vagrant virtual machine
 
 ### Creation of a box using Packer - 1st step
 
-Packer will download a net-install iso from the Debian servers and will use that iso to launch the installation process and create a virtual machine image compatible with VirtualBox and Vagrant.
+Packer will download a net-install iso from the Debian servers and will use it to launch the installation process and create a virtual machine image compatible with VirtualBox and Vagrant.
 
 Basically Packer will do what you do when you install Debian from a net-install cd and will adjust it for the virtualization environment.
 
