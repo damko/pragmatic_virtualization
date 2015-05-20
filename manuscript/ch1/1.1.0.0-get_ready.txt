@@ -15,13 +15,13 @@ To download and use the _extra_ repository you need to have [Git](http://git-scm
 
 If Git is not yet installed in your system, open a terminal and install it type this command:
 
-{linenos=off}{lang="text"}
+{linenos=off, lang="text"}
+
     sudo apt-get install git git-core
 
 Once Git is installed you are ready to download the _extra_ repository:
 
-{lang="bash"}
-{linenos=off}
+{linenos=off, lang="bash"}
     cd `your-favorite-directory`
     git clone git@github.com:damko/pragmatic_virtualization_extra.git
 

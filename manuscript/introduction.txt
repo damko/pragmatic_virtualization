@@ -8,7 +8,7 @@ If you don't know what's the meaning of _virtualization_, I will describe it bet
 
 The aim of this manual is to help you to hit the ground running with virtualization.
 
-Nowadays virtualization is considered a common practice in many activities, especially in development, and brings great advantages (see the virtualization paragraph](#virtualization_paragraph)).
+Nowadays virtualization is considered a common practice in many activities, especially in development, and brings great advantages (see the [virtualization paragraph](#virtualization_paragraph)).
 
 I tried to keep things simple and to limit assumptions so that the reading will be easy also for total beginners in virtualization and in applications development.
 
