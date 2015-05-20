@@ -4,6 +4,8 @@
 
 Checkout the _create_vagrant_box_from_cloud_ branch from the _extra_ repository
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve
     git checkout create_vagrant_box_from_cloud
 
@@ -11,53 +13,68 @@ What has been made with Packer can be done with [Vagrant Cloud](http://vagrantcl
 
 To use this box run:
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant init xezpeleta/wheezy64
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+vagrant init xezpeleta/wheezy64
+~~~~~~~
 
 Output:
 
-    A `Vagrantfile` has been placed in this directory. You are now
-    ready to `vagrant up` your first virtual environment! Please read
-    the comments in the Vagrantfile as well as documentation on
-    `vagrantup.com` for more information on using Vagrant
+{linenos=off, lang=bash}
+~~~~~~~
+A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant
+~~~~~~~
 
 This command creates a Vagrantfile which, Ignoring comments, looks like this:
 
-    VAGRANTFILE_API_VERSION = "2"
+{linenos=off, lang=bash}
+~~~~~~~
+VAGRANTFILE_API_VERSION = "2"
 
-    Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-      config.vm.box = "xezpeleta/wheezy64"
+  config.vm.box = "xezpeleta/wheezy64"
 
-    end
+end
+~~~~~~~
 
-TODO now I should ask to replace this Vagrantfile with the one provided in the extra so that the 2 vm will look identical
+<!-- TODO now I should ask to replace this Vagrantfile with the one provided in the extra so that the 2 vm will look identical -->
 
 The only extra step that you need to do is:
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant up
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+vagrant up
+~~~~~~~
 
 Output:
 
-    Bringing machine 'default' up with 'virtualbox' provider...
-    ==> default: Box 'xezpeleta/wheezy64' could not be found. Attempting to find and install...
-        default: Box Provider: virtualbox
-        default: Box Version: >= 0
-    ==> default: Loading metadata for box 'xezpeleta/wheezy64'
-        default: URL: https://vagrantcloud.com/xezpeleta/wheezy64
-    ==> default: Adding box 'xezpeleta/wheezy64' (v1.0.0) for provider: virtualbox
-        default: Downloading: https://vagrantcloud.com/xezpeleta/boxes/wheezy64/versions/1/providers/virtualbox.box
-        default: Progress: 1% (Rate: 495k/s, Estimated time remaining: 0:16:08)
+{linenos=off, lang=bash}
+~~~~~~~
+Bringing machine 'default' up with 'virtualbox' provider...
+==> default: Box 'xezpeleta/wheezy64' could not be found. Attempting to find and install...
+    default: Box Provider: virtualbox
+    default: Box Version: >= 0
+==> default: Loading metadata for box 'xezpeleta/wheezy64'
+    default: URL: https://vagrantcloud.com/xezpeleta/wheezy64
+==> default: Adding box 'xezpeleta/wheezy64' (v1.0.0) for provider: virtualbox
+    default: Downloading: https://vagrantcloud.com/xezpeleta/boxes/wheezy64/versions/1/providers/virtualbox.box
+    default: Progress: 1% (Rate: 495k/s, Estimated time remaining: 0:16:08)
 
-    [...]
+[...]
 
-    ==> default: Successfully added box 'xezpeleta/wheezy64' (v1.0.0) for 'virtualbox'!
-    ==> default: Importing base box 'xezpeleta/wheezy64'...
+==> default: Successfully added box 'xezpeleta/wheezy64' (v1.0.0) for 'virtualbox'!
+==> default: Importing base box 'xezpeleta/wheezy64'...
 
-    [...]
+[...]
 
-    ==> default: Machine booted and ready!
+==> default: Machine booted and ready!
+~~~~~~~
 
 The `vagrant up` command downloads the box, stores it in your hard drive, makes it available for VirtualBox and then, finally, orders to VirtualBox to create a virtual machine by cloning the downloaded box and you end up with the working virtual machine. Brilliant!
 
@@ -65,5 +82,8 @@ That's it. The virtual machine is ready and running.
 
 You can now login in the VirtualBox vm with
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant ssh
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+vagrant ssh
+~~~~~~~

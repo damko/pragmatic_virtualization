@@ -10,7 +10,10 @@ As you can see, doesn't matter which one of the ways to build the Vagrant vm you
 
 I want also stress on something that you probably have already noticed: all the Vagrant commands are anticipated by a:
 
-    cd $pve/ariadne/orchestration/vagrant
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+~~~~~~~
 
 This is because Vagrant expects to find the Vagrantfile in the directory from which you are running the commands.
 
@@ -18,16 +21,19 @@ This is because Vagrant expects to find the Vagrantfile in the directory from wh
 
 Now that the Vagrant vm has been created you'll notice a new hidden directory `$pve/ariadne/orchestration/vagrant/.vagrant`
 
-    tree $pve/ariadne/orchestration/vagrant/.vagrant
-    .
-    └── machines
-        └── ariadne-dev
-            └── virtualbox
-                ├── action_provision
-                ├── action_set_name
-                ├── id
-                ├── index_uuid
-                └── synced_folders
+{linenos=off, lang=bash}
+~~~~~~~
+tree $pve/ariadne/orchestration/vagrant/.vagrant
+.
+└── machines
+    └── ariadne-dev
+        └── virtualbox
+            ├── action_provision
+            ├── action_set_name
+            ├── id
+            ├── index_uuid
+            └── synced_folders
+~~~~~~~
 
 In this directory Vagrant saves important information about the newly created vm. **Don't delete it**.
 
@@ -35,12 +41,21 @@ In this directory Vagrant saves important information about the newly created vm
 
 If you want to stop or reboot the development vm from your workstation terminal, be sure to be in the vagrant directory and then run:
 
-    vagrant halt
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant halt
+~~~~~~~
 
 or
 
-    vagrant reload
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant reload
+~~~~~~~
 
 To start the development vm after you stop it:
 
-    vagrant up
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant up
+~~~~~~~

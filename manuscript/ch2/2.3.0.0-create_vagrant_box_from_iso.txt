@@ -60,18 +60,21 @@ cd $pve/packer-templates
 packer build ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-The command will take a while because of the download and the non-attended installation of the operating system but in the end it will show this message:
+This last command will launch a VirtualBox window and you will be able to see the unattended installation of the operating system.
+
+You are not supposed to interact with the installation window unless you see the process stuck on a dialog window and asking for user input.
+
+When the installation process ends (it will take a while) you will see this message in the terminal:
 
 {linenos=off, lang=text}
 ~~~~~~~
-    ==> Builds finished. The artifacts of successful builds are:
-    --> virtualbox-iso: 'virtualbox' provider box: debian-800-jessie.box
+==> Builds finished. The artifacts of successful builds are:
+--> virtualbox-iso: 'virtualbox' provider box: debian-800-jessie.box
 ~~~~~~~
 
-_debian-800-jessie.box_ is a file about 450MB big which lives inside the packer-templates directory and contains the fresh virtual machine.
+_debian-800-jessie.box_ is a file about 829MB big which lives inside the packer-templates directory and contains the fresh virtual machine.
 
-
-#### The Debian version issue and some tips
+#### The Debian version issue
 
 The debian iso file name contains the version number and, as soon as a new release will be out, the 800 will be removed from the debian servers and the debian-800-jessie.json file will be outdated. And you will get the _ISO download failed_ error right after running the build command.
 
@@ -88,10 +91,6 @@ Then update these variables on the top of the file:
     * "iso_md5": insert the new MD5 checksum
     * "vm_name": update the version and the name
 
-T> During the build process, it is possible that the output will pause for quite a long time ( 5 minutes or so ) at the line _Waiting for SSH to become available..._. Don't quit the process and be patient.
-
-T> If you are curious to see what happens during the non-attended installation of the operating system or you have troubles _Waiting for SSH to become available..._ message `ta-debian-8-jessie-virtualbox.json` with the you can edit the file and change `"headless": true,` to `"headless": false,` and re-run the build process.
-
 {pagebreak}
 
 ### Step 2: Import the Packer box in Vagrant
@@ -100,22 +99,32 @@ Now that the debian-800-jessie.box file is ready, the next step is to tell Vagra
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    cd $pve/packer-templates
-    vagrant box add debian_jessie_800_64bit ./debian-800-jessie.box
+cd $pve/packer-templates
+vagrant box add debian_jessie_800_64bit ./debian-800-jessie.box
+~~~~~~~
+
+which will output something like:
+
+{linenos=off, lang=bash}
+~~~~~~~
+==> box: Adding box 'debian_jessie_800_64bit' (v0) for provider: 
+    box: Downloading: file:///[...]/packer-templates/debian-800-jessie.box
+==> box: Successfully added box 'debian_jessie_800_64bit' (v0) for 'virtualbox'!
 ~~~~~~~
 
 _debian_jessie_800_64bit_ will be the name of the Vagrant template and it must be unique in the system. Imagine this Vagrant box as a _template_ for a fresh Debian Jessie 64bit based virtual machine that can be used to create as many Vagrant boxes as you want.
 
-T> If you like you can now delete the _debian-800-jessie.box_ file.
+From this moment you will need to use Packer again only if you want to create a template virtual machine based on a distribution different from Debian Jessie 8.0 64 bit.
 
+T> If you like you can now delete the _debian-800-jessie.box_ file.
 
 ### Step 3: Creation and configuration of a Vagrant vm
 
-Finally it's time to create the development environment vm called _ariadne-dev_.
+Finally it's time to create the development environment virtual machine called _ariadne-dev_.
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    cd $pve/ariadne/orchestration/vagrant/
+cd $pve/ariadne/orchestration/vagrant/
 ~~~~~~~
 
 The _Vagrantfile_ contained in this directory is already configured and, for now, it looks like this:
@@ -141,7 +150,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
 
         # Vagrant box name. This the Vagrant template (created by Packer)
-        # from which the vagrant vm will be generated
+        # from which the vagrant virtual machine will be generated
         devel.vm.box = VG_BOX_NAME
 
         # Hostname for the generated Vagrant vm
@@ -170,7 +179,7 @@ end
 
 The Vagrantfile contains all the needed instructions that Vagrant needs to build the new vm. Soon it will be also used to describe also the production virtual machine.
 
-Everything is ready to launch the creation of the vm (which will take a couple of minutes) with the command:
+Everything is ready to launch the creation of the virtual machine (which will take a couple of minutes) with the command:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -180,18 +189,16 @@ vagrant up
 
 See what's happening:
 
-1. Vagrant clones the template box into a VirtualBox vm
-2. Vagrant arranges some changes to the vm accordingly to what set in the Vagrantfile (like the number of cores, the amount of ram, the network card MAC address, the hostname etc.)
-3. Vagrant starts the vm
+1. Vagrant clones the VirtualBox template box into a VirtualBox virtual machine
+2. Vagrant arranges some changes to the virtual machine accordingly to what set in the Vagrantfile (like the number of cores, the amount of ram, the network card MAC address, the hostname etc.)
+3. Vagrant starts the virtual machine
 
 Output:
 
 {linenos=off, lang=text}
 ~~~~~~~
 Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
-==> ariadne-dev: Importing base box 'debian_jessie_800_64bit'...
-==> ariadne-dev: Matching MAC address for NAT networking...
-==> ariadne-dev: Setting the name of the VM: ariadne-dev
+==> ariadne-dev: Clearing any previously set forwarded ports...
 ==> ariadne-dev: Clearing any previously set network interfaces...
 ==> ariadne-dev: Preparing network interfaces based on configuration...
     ariadne-dev: Adapter 1: nat
@@ -204,15 +211,19 @@ Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
     ariadne-dev: SSH username: vagrant
     ariadne-dev: SSH auth method: private key
     ariadne-dev: Warning: Connection timeout. Retrying...
+    ariadne-dev: 
+    ariadne-dev: Vagrant insecure key detected. Vagrant will automatically replace
+    ariadne-dev: this with a newly generated keypair for better security.
+    ariadne-dev: 
+    ariadne-dev: Inserting generated public key within guest...
+    ariadne-dev: Removing insecure key from the guest if its present...
+    ariadne-dev: Key inserted! Disconnecting and reconnecting using new SSH key...
 ==> ariadne-dev: Machine booted and ready!
-GuestAdditions 4.3.16 running --- OK.
-==> ariadne-dev: Checking for guest additions in VM...
-==> ariadne-dev: Setting hostname...
-==> ariadne-dev: Mounting shared folders...
-    ariadne-dev: /vagrant => /home/damko/projects/pragmatic_virtualization_extra/ariadne/orchestration/vagrant
 ~~~~~~~
 
-That's it. The virtual machine is ready and running.
+After this you will eventually see some downloads starting and VirtualBox Guest Additions being updated but it will completely automatic.
+
+Anyway the virtual machine is ready and running.
 
 You can now login via ssh with:
 
