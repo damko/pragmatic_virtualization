@@ -71,7 +71,7 @@ The command will take a while because of the download and the non-attended insta
 _debian-800-jessie.box_ is a file about 450MB big which lives inside the packer-templates directory and contains the fresh virtual machine.
 
 
-#### Troubleshooting and notes
+#### The Debian version issue and some tips
 
 The debian iso file name contains the version number and, as soon as a new release will be out, the 800 will be removed from the debian servers and the debian-800-jessie.json file will be outdated. And you will get the _ISO download failed_ error right after running the build command.
 
@@ -88,13 +88,9 @@ Then update these variables on the top of the file:
     * "iso_md5": insert the new MD5 checksum
     * "vm_name": update the version and the name
 
-~~~~
+T> During the build process, it is possible that the output will pause for quite a long time ( 5 minutes or so ) at the line _Waiting for SSH to become available..._. Don't quit the process and be patient.
 
-During the build process, it is possible that the output will pause for quite a long time ( 5 minutes or so ) at the line _Waiting for SSH to become available..._. Don't quit the process and be patient.
-
-~~~~
-
-If you are curious to see what happens during the non-attended installation of the operating system you can edit the `ta-debian-8-jessie-virtualbox.json` file and change `"headless": true,` to `"headless": false,` and re-run the build process.
+T> If you are curious to see what happens during the non-attended installation of the operating system or you have troubles _Waiting for SSH to become available..._ message `ta-debian-8-jessie-virtualbox.json` with the you can edit the file and change `"headless": true,` to `"headless": false,` and re-run the build process.
 
 {pagebreak}
 
