@@ -76,8 +76,8 @@ Ex.:
 {linenos=off, lang=bash}
 ~~~~~~~
     cd /tmp
-    wget -c http://download.virtualbox.org/virtualbox/4.3.18/virtualbox-4.3_4.3.18-96516~Ubuntu~raring_amd64.deb
-    sudo dpkg -i virtualbox-4.3_4.3.18-96516~Ubuntu~raring_amd64.deb
+    wget -c http://download.virtualbox.org/virtualbox/4.3.28/virtualbox-4.3_4.3.28-100309~Ubuntu~raring_amd64.deb
+    sudo dpkg -i virtualbox-4.3_4.3.28-100309~Ubuntu~raring_amd64.deb
 ~~~~~~~
 
 ## Vagrant
@@ -91,12 +91,14 @@ Vagrant also takes care to create a directory shared between your host and the v
 Download from the [Vagrant official website](http://www.vagrantup.com/downloads.html) the latest package that suits at best your workstation operating system and install it:
 
 Ex.:
-
+{linenos=off, lang=bash}
+~~~~~~~
     cd /tmp
-    wget -c https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4_x86_64.deb
-    sudo dpkg -i vagrant_1.5.4_x86_64.deb
+    wget -c https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+    sudo dpkg -i vagrant_1.7.2_x86_64.deb
+~~~~~~~
 
-T> Be sure that you are installing a Vagrant version > 1.5
+W> Be sure that you are installing a Vagrant version > 1.5
 
 ## Packer
 
@@ -112,26 +114,47 @@ Differently from Vagrant and VirtualBox, Packer doesn't come with a debian insta
 
 Checkout the _installing_tools_ branch from the _extra_ repository
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve
     git checkout installing_tools
+~~~~~~~
 
-W> Edit the script before running it and change the variables listed at the top accordingly to your needs.
+If you run the `tree` command you will see this:
 
+{linenos=off, lang=bash}
+~~~~~~~
+    damko@nitro ~/projects/pragmatic_virtualization_extra
+    $ tree
+    .
+    └── bin
+        └── install_packer.sh
+~~~~~~~
+
+W> Edit the `./bin/install_packer.sh` script before running it and change the variables listed at the top accordingly to your needs.
+
+{linenos=off, lang=bash}
+~~~~~~~
     # environment variables: set here your preferences
     tmp_dir='/tmp' # default '/tmp"
     system='linux' # default 'linux'
     architecture='amd64' # either 'amd64' or '386'
     parent_dir='/home/damko/applications' # whatever you like
     packer_dir='packer' # default 'packer'
-    packer_version='0.7.2' # default '0.5.2' @2014-04-20
+    packer_version='0.7.5' # default '0.7.5' @2015-05-20
     bashrc_file='/home/damko/.bashrc_custom' # default $HOME'/.bashrc'
+~~~~~~~
 
 The _parent_dir_ and the _bashrc_file_ parameters and _packer_version_ are the parameters you should take care of the most.
-_parent_dir_ sets where you want to have it installed. I prefer to install it in my home directory. You can put any valid path
-_bashrc_file_ sets which is the bash file in which the PATH variable should be altered so that your bash can find the Packer executable when you open a terminal
-_packer_version_ this should be the latest packer version. You need to check in on the [Packer website](https://packer.io/downloads.html).
 
-Run the installation:
+* _parent_dir_ sets where you want to have it installed. I prefer to install it in my home directory. You can put any valid path
+* _bashrc_file_ sets which is the bash file in which the PATH variable should be altered so that your bash can find the Packer executable when you open a terminal
+* _packer_version_ this should be the latest packer version. You need to check it on the [Packer website](https://packer.io/downloads.html).
 
+Once you are done, run the installation:
+
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve
     ./bin/install_packer.sh
+~~~~~~~

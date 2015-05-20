@@ -85,11 +85,33 @@ Somebody will not be happy with my choices (sorry) but, at least, it brings some
 
 I> I encourage you to adjust this manual for any different perspective and to re-publish it for free
 
+## Copyleft
+
+You can copy, share, modify and reuse accordingly to the [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US).
+
+If you have got this manual from a friend I strongly suggest you to go and get a new fresh copy **for free** from the [Leanpub website](https://leanpub.com/pragmatic_virtualization).
+
+In this way you can be notified by Leanpub about any future update of this manual. The updates, of course, will be for free too.
+
+Also, while you are on Leanpub, you can consider donating to support the PHP Women cause.
+
+## The PHP Women cause
+
+This manual and its author support the PHP Women group.
+
+PHP Women is an inclusive and global network providing support within the PHP community.
+
+Any donation for this manual will be entirely forwarded to the PHP Women group that will use the money to send to conferences developers who can not afford it.
+
+Knowing the importance of conferences in building relationships with other developers and in encouring people to join the community, I think this is an awesome idea.
+
+**Please help to break the isolation barrier!** :-)
+
 ## Acknowledgements
 
 Many thanks to:
 
-* [PHP Women](http://phpwomen.org/) for the great job done with the [PHPBridge project](http://phpbridge.org/)
+* [PHP Women](http://phpwomen.org/), of course, for the great job done with the [PHPBridge project](http://phpbridge.org/)
 * [PHP The Right Way](http://www.phptherightway.com/) from which I took inspiration and some chunks of text :-)
 
 <!--
