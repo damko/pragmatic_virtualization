@@ -1,27 +1,33 @@
 frontmatter.txt
 introduction.txt
 mainmatter.txt
-chapter1.txt
+
+ch1/1.0.0.0-chapter1.txt
     ch1/1.1.0.0-get_ready.txt
     ch1/1.2.0.0-virtualization.txt
-chapter2.txt
+
+ch2/2.0.0.0-chapter2.txt
     ch2/2.1.0.0-how_vagrant_works.txt
-    ch2/2.2.0.0-conventions_used_in_both_the_methods.txt
+    ch2/2.2.0.0-conventions_used_in_both_methods.txt
     ch2/2.3.0.0-create_vagrant_box_from_iso.txt
     ch2/2.4.0.0-create_vagrant_box_from_cloud.txt
     ch2/2.5.0.0-considerations_about_vagrant.txt
-chapter3.txt
-    listing_vagrant_templates_vms.txt
-    improving_vagrantfile.txt
-    destroy_boxes.txt
-    rebuild_boxes.txt
-chapter4.txt
-    automation_tools.txt
-    ansible.txt
-    ansible_configuration.txt
-    ansible_tools.txt
-chapter5.txt
-    suggestotron.txt
-chapter6.txt
-    vagrant_digital_ocean.txt
-    know_more_about_virtualization.txt
+
+ch3/3.0.0.0-chapter3.txt
+    ch3/3.1.0.0-listing_vagrant_templates_vms.txt
+    ch3/3.2.0.0-improving_vagrantfile.txt
+    ch3/3.3.0.0-destroy_boxes.txt
+    ch3/3.4.0.0-rebuild_boxes.txt
+
+ch4/4.0.0.0-chapter4.txt
+    ch4/4.1.0.0-automation_tools.txt
+    ch4/4.2.0.0-ansible.txt
+    ch4/4.3.0.0-ansible_configuration.txt
+    ch4/4.4.0.0-ansible_tools.txt
+
+ch5/5.0.0.0-chapter5.txt
+    ch5/5.1.0.0-suggestotron.txt
+
+ch6/6.0.0.0-chapter6.txt
+    ch6/6.1.0.0-vagrant_digital_ocean.txt
+    ch6/6.2.0.0-dive_deeper_into_virtualization.txt
