@@ -1,5 +1,3 @@
-{frontmatter}
-
 # Introduction
 
 This is a short, modest and straightforward manual written with pragmatism in mind which sums up my experiences with virtualization <!-- TODO link to virtualization.txt? -->.

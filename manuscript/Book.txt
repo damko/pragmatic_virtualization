@@ -1,7 +1,9 @@
+frontmatter.txt
 introduction.txt
+mainmatter.txt
 chapter1.txt
-    get_ready.txt
-    virtualization.txt
+    ch1/get_ready.txt
+    ch1/virtualization.txt
 chapter2.txt
     how_vagrant_works.txt
     conventions_used_in_both_the_methods.txt
