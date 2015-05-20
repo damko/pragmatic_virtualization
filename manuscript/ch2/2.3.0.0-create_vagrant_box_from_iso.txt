@@ -27,6 +27,10 @@ Basically Packer will do what you do when you install Debian from a net-install 
 ~~~~~~~
 cd $pve/packer-templates
 tree
+~~~~~~~
+
+{linenos=off, lang=text}
+~~~~~~~
 .
 ├── http
 │   └── preseed.cfg
@@ -225,7 +229,7 @@ After this you will eventually see some downloads starting and VirtualBox Guest 
 
 Anyway the virtual machine is ready and running.
 
-You can now login via ssh with:
+You can now login in the virtual machine via ssh with:
 
 {linenos=off, lang=bash}
 ~~~~~~~

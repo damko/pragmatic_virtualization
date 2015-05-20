@@ -6,17 +6,18 @@ Checkout the _create_vagrant_box_from_cloud_ branch from the _extra_ repository
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    cd $pve
-    git checkout create_vagrant_box_from_cloud
+cd $pve
+git checkout create_vagrant_box_from_cloud
+~~~~~~~
 
-What has been made with Packer can be done with [Vagrant Cloud](http://vagrantcloud.com/). If you look for "Debian Wheezy" in the "Discover Boxes" section you'll get many results: the first one that I've found claiming to produce a clean Debian Wheezy without any additional package installed is [xezpeleta/wheezy64](https://vagrantcloud.com/xezpeleta/boxes/wheezy64)
+What has been made with Packer can be done with [Vagrant Cloud](http://vagrantcloud.com/). If you look for "Debian Jessie" in the "Discover Boxes" section you'll get many results: the first one that I have found claiming to produce a clean and minimal Debian Jessie 64 bit is the ARCO Research Group [deb/jessie-amd64](https://atlas.hashicorp.com/deb/boxes/jessie-amd64)
 
 To use this box run:
 
 {linenos=off, lang=bash}
 ~~~~~~~
 cd $pve/ariadne/orchestration/vagrant
-vagrant init xezpeleta/wheezy64
+vagrant init deb/jessie-amd64 --provider virtualbox
 ~~~~~~~
 
 Output:
@@ -29,9 +30,9 @@ the comments in the Vagrantfile as well as documentation on
 `vagrantup.com` for more information on using Vagrant
 ~~~~~~~
 
-This command creates a Vagrantfile which, Ignoring comments, looks like this:
+This command creates a Vagrantfile which, leaving out the comments, looks like this:
 
-{linenos=off, lang=bash}
+{linenos=on, lang=text}
 ~~~~~~~
 VAGRANTFILE_API_VERSION = "2"
 
@@ -42,7 +43,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end
 ~~~~~~~
 
-<!-- TODO now I should ask to replace this Vagrantfile with the one provided in the extra so that the 2 vm will look identical -->
+If you know want to have the same virtual machine as the previous chapter (same RAM, cores, name etc.) you should replace the Vagrantfile with the one provided in the extra and be sure that there is no other `ariadne-dev` VirtualBox machine.
+
+T> You can check your virtual machines list by running the command `virtualbox`
+
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+mv Vagrantfile_custom Vagrantfile
+~~~~~~~
 
 The only extra step that you need to do is:
 
@@ -80,7 +89,7 @@ The `vagrant up` command downloads the box, stores it in your hard drive, makes 
 
 That's it. The virtual machine is ready and running.
 
-You can now login in the VirtualBox vm with
+You can now login in the virtual machine via ssh with:
 
 {linenos=off, lang=bash}
 ~~~~~~~

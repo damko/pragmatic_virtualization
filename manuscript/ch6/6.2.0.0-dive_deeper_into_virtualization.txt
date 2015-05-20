@@ -6,6 +6,6 @@ This manual provides just the minimum knowledge required to a developer but it d
 
 If you want to learn more about virtualization there are many books available not only on Vagrant but also on other technologies like Docker.
 
-Personally I highly suggest the [Vagrant CookBook](https://leanpub.com/vagrantcookbook) written by [Erika Heidi](https://twitter.com/erikaheidi), one of the clearest book I've ever read. She efficiently explains what are the differences between Ansible, Puppet and Chef and provides some Vagrant tricks and many recipes for all the three provisioning systems.
+Personally I highly suggest the [Vagrant CookBook](https://leanpub.com/vagrantcookbook) written by [Erika Heidi](https://twitter.com/erikaheidi), one of the clearest book I have ever read. She efficiently explains what are the differences between Ansible, Puppet and Chef and provides some Vagrant tricks and many recipes for all the three provisioning systems.
 
 ![Vagrant Cookbook](images/vagrant_cookbook.png)

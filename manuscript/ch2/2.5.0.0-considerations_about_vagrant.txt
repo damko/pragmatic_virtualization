@@ -4,22 +4,22 @@
 
 ### Same result
 
-As you can see, doesn't matter which one of the ways to build the Vagrant vm you picked (Packer or Vagrant Cloud) you end up with the same result.
+As you can see, it doesn't matter which way you choose (Packer or Vagrant Cloud) you end up with the same result.
 
 ### Vagrantfile position
 
-I want also stress on something that you probably have already noticed: all the Vagrant commands are anticipated by a:
+I want also to stress on something that you probably have already noticed: all the Vagrant commands are anticipated by this command:
 
 {linenos=off, lang=bash}
 ~~~~~~~
 cd $pve/ariadne/orchestration/vagrant
 ~~~~~~~
 
-This is because Vagrant expects to find the Vagrantfile in the directory from which you are running the commands.
+This is because Vagrant expects to find the Vagrantfile in the directory from which you are typing the commands.
 
-### .vagrant directory
+### The .vagrant directory
 
-Now that the Vagrant vm has been created you'll notice a new hidden directory `$pve/ariadne/orchestration/vagrant/.vagrant`
+Now that the Vagrant virtual machine has been created you can see a new hidden directory `$pve/ariadne/orchestration/vagrant/.vagrant`
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -35,11 +35,13 @@ tree $pve/ariadne/orchestration/vagrant/.vagrant
             └── synced_folders
 ~~~~~~~
 
-In this directory Vagrant saves important information about the newly created vm. **Don't delete it**.
+In this directory Vagrant saves important information about the newly created vm. 
+
+T> Don't delete the .vagrant folder!
 
 ### start and stop a vm
 
-If you want to stop or reboot the development vm from your workstation terminal, be sure to be in the vagrant directory and then run:
+If you want to stop or reboot the development virtual machine from your workstation terminal, be sure to be in the `vagrant` directory and then run:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -53,7 +55,7 @@ or
 vagrant reload
 ~~~~~~~
 
-To start the development vm after you stop it:
+To start the development virtual machine after you stop it:
 
 {linenos=off, lang=bash}
 ~~~~~~~
