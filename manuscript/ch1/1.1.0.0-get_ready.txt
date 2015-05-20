@@ -20,7 +20,8 @@ If Git is not yet installed in your system, open a terminal and install it type 
 
 Once Git is installed you are ready to download the _extra_ repository:
 
-{linenos=off}{lang="bash"}
+{lang="bash"}
+{linenos=off}
     cd `your-favorite-directory`
     git clone git@github.com:damko/pragmatic_virtualization_extra.git
 
@@ -28,7 +29,8 @@ This will create the `pragmatic_virtualization_extra` subdirectory inside `your-
 
 From now on I will refer to this directory path as `$pve` so it's convenient for you to save the `$pve` variable in your bash environment by doing:
 
-{linenos=off}{lang="text"}
+{lang="text"}
+{linenos=off}
     cd pragmatic_virtualization_extra
     pve=$(pwd)
 
