@@ -14,20 +14,18 @@ cd packer-templates
 You'll be following these steps:
 
 1. creation of a box using Packer and starting from a Debian iso installer
-2. import of the Packer box in Vagrant as template box
+2. importation of the Packer box in Vagrant as template box
 3. creation, setup and configuration of a Vagrant virtual machine
 
-### Creation of a box using Packer - 1st step
+### Step 1: Creation of a box with Packer
 
 Packer will download a net-install iso from the Debian servers and will use it to launch the installation process and create a virtual machine image compatible with VirtualBox and Vagrant.
 
 Basically Packer will do what you do when you install Debian from a net-install cd and will adjust it for the virtualization environment.
 
-#### Get the Packer scripts
-
 {linenos=off, lang=bash}
 ~~~~~~~
-cd $pve/packer_templates
+cd $pve/packer-templates
 tree
 .
 ├── http
@@ -39,69 +37,83 @@ tree
 │   ├── cleanup.sh
 │   ├── vagrant.sh
 │   └── virtualbox.sh
-└── ta-debian-7-wheezy-virtualbox.json
+└── ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-If you have a look at the `ta-debian-7-wheezy-virtualbox.json` file you'll see that the Packer box is configured to have 1 core, 512MB ram and 10Gb hdd but it's easy to add a core or some ram later on.
+If you have a look at the `ta-debian-8-jessie-virtualbox.json` file you'll see that the Packer box is configured to have 1 core, 512MB ram and 10Gb hdd but it's easy to add a core or some ram later on.
 
 Before creating the vm, check if the json file is valid:
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    cd $pve/packer_templates
-    packer validate ta-debian-7-wheezy-virtualbox.json
+cd $pve/packer-templates
+packer validate ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-It should output "Template validated successfully."
+It should output _Template validated successfully_
 
 Finally this is the command to create the fresh vm:
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    cd $pve/packer_templates
-    packer build ta-debian-7-wheezy-virtualbox.json
+cd $pve/packer-templates
+packer build ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-The command will take a while (~ 30 minutes) because of the download and the non-attended installation of the operating system but in the end it will show this message:
+The command will take a while because of the download and the non-attended installation of the operating system but in the end it will show this message:
 
 {linenos=off, lang=text}
 ~~~~~~~
     ==> Builds finished. The artifacts of successful builds are:
-    --> virtualbox-iso: 'virtualbox' provider box: debian-770-wheezy.box
+    --> virtualbox-iso: 'virtualbox' provider box: debian-800-jessie.box
 ~~~~~~~
 
-_debian-770-wheezy.box_ is a file about 450MB big which lives inside the packer_template directory and contains the fresh virtual machine.
+_debian-800-jessie.box_ is a file about 450MB big which lives inside the packer-templates directory and contains the fresh virtual machine.
 
-*Notes*:
 
-1. The debian iso file name contains the version number and, as soon as new releases will be out and the 770 will be removed from the debian servers, the debian-770-wheezy.json file will be outdated and you'll get the "ISO download failed" error right after running the build command.
-To fix the issue go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/, check which is the latest net-inst version and copy its checksum from the MD5SUMS file. Then edit the .json file and update these variables at the top:
+#### Troubleshooting and notes
+
+The debian iso file name contains the version number and, as soon as a new release will be out, the 800 will be removed from the debian servers and the debian-800-jessie.json file will be outdated. And you will get the _ISO download failed_ error right after running the build command.
+
+To fix the issue:
+
+    * go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
+    * check which is the latest net-inst version
+    * copy its checksum from the MD5SUMS file
+    * edit the .json file
+
+Then update these variables on the top of the file:
 
     * "iso_url": update the link to the iso file
     * "iso_md5": insert the new MD5 checksum
-    * "vm_name": update the version
+    * "vm_name": update the version and the name
 
-1. During the build process it is possible that the output will pause for quite a long time ( 5 minutes or so ) at the line _Waiting for SSH to become available..._. Don't quit the process and be patient.
+~~~~
 
-1. If you are curious to see what happens during the non-attended installation of the operating system you can edit the ta-debian-7-wheezy-virtualbox.json file and change `"headless": true,` to `"headless": false,` and re-run the build process.
+During the build process, it is possible that the output will pause for quite a long time ( 5 minutes or so ) at the line _Waiting for SSH to become available..._. Don't quit the process and be patient.
 
+~~~~
 
-### Import of the Packer box into Vagrant and VirtualBox - 2nd step
+If you are curious to see what happens during the non-attended installation of the operating system you can edit the `ta-debian-8-jessie-virtualbox.json` file and change `"headless": true,` to `"headless": false,` and re-run the build process.
 
-Now that the debian-770-wheezy.box file is ready, the next step is to tell Vagrant to import the Packer box and to make it available in the system as a template. This command will do the trick:
+{pagebreak}
+
+### Step 2: Import the Packer box in Vagrant
+
+Now that the debian-800-jessie.box file is ready, the next step is to tell Vagrant to import the Packer box and to make it available in the system as a template:
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    cd $pve/packer_templates
-    vagrant box add debian_wheezy_770_64bit ./debian-770-wheezy.box
+    cd $pve/packer-templates
+    vagrant box add debian_jessie_800_64bit ./debian-800-jessie.box
 ~~~~~~~
 
-_debian_wheezy_770_64bit_ will be the name of the Vagrant template and must be unique in the system. Imagine this Vagrant box as a "template" for a fresh Debian Wheezy 64bit based virtual machine that can be used to create as many Vagrant boxes as you want.
+_debian_jessie_800_64bit_ will be the name of the Vagrant template and it must be unique in the system. Imagine this Vagrant box as a _template_ for a fresh Debian Jessie 64bit based virtual machine that can be used to create as many Vagrant boxes as you want.
 
-If you want, now you can delete the _debian-770-wheezy.box_ file.
+T> If you like you can now delete the _debian-800-jessie.box_ file.
 
 
-### Creation, setup and configuration of a Vagrant vm - 3rd step
+### Step 3: Creation and configuration of a Vagrant vm
 
 Finally it's time to create the development environment vm called _ariadne-dev_.
 
@@ -120,7 +132,7 @@ VAGRANTFILE_API_VERSION = "2"
 # VARIABLES
 
 # Vagrant template box name
-VG_BOX_NAME = "debian_wheezy_770_64bit"
+VG_BOX_NAME = "debian_jessie_800_64bit"
 
 # Local virtual machine for development
 VB_DEV_VM_NAME = "ariadne-dev"
@@ -132,7 +144,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Vagrant settings for the development vm
     config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
 
-        # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant vm will be generated
+        # Vagrant box name. This the Vagrant template (created by Packer)
+        # from which the vagrant vm will be generated
         devel.vm.box = VG_BOX_NAME
 
         # Hostname for the generated Vagrant vm
@@ -145,7 +158,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         devel.vm.provider "virtualbox" do |vb|
             vb.name = VB_DEV_VM_NAME
 
-            ## If true it does not boot in headless mode => shows virtualbox UI. Uncomment only for troubleshooting.
+            # If true it does not boot in headless mode => shows virtualbox UI.
+            # Uncomment only for troubleshooting.
             #vb.gui = true
 
             # Uses VBoxManage to customize the VM
@@ -158,8 +172,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 end
 ~~~~~~~
 
- It contains all the needed instructions for Vagrant to build the new vm and soon it will be used to describe also the production virtual machine, all in the same file.
-
+The Vagrantfile contains all the needed instructions that Vagrant needs to build the new vm. Soon it will be also used to describe also the production virtual machine.
 
 Everything is ready to launch the creation of the vm (which will take a couple of minutes) with the command:
 
@@ -172,15 +185,15 @@ vagrant up
 See what's happening:
 
 1. Vagrant clones the template box into a VirtualBox vm
-1. Vagrant arranges some changes to the vm, like the number of cores, the amount of ram, the network card MAC address, the hostname etc. accordingly to what set in the Vagrantfile
-1. Vagrant starts the vm
+2. Vagrant arranges some changes to the vm accordingly to what set in the Vagrantfile (like the number of cores, the amount of ram, the network card MAC address, the hostname etc.)
+3. Vagrant starts the vm
 
 Output:
 
 {linenos=off, lang=text}
 ~~~~~~~
 Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
-==> ariadne-dev: Importing base box 'debian_wheezy_770_64bit'...
+==> ariadne-dev: Importing base box 'debian_jessie_800_64bit'...
 ==> ariadne-dev: Matching MAC address for NAT networking...
 ==> ariadne-dev: Setting the name of the VM: ariadne-dev
 ==> ariadne-dev: Clearing any previously set network interfaces...

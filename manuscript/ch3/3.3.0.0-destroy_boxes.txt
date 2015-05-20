@@ -9,7 +9,7 @@ Currently we have the Vagrant/VirtualBox "development" vm and the Vagrant "templ
 The Vagrant template vm and the Vagrant vm have different names and they are written in the Vagrantfile:
 
     # Vagrant template box name
-    VG_BOX_NAME = "debian_wheezy_770_64bit"
+    VG_BOX_NAME = "debian_jessie_800_64bit"
 
     # Local virtual machine for development
     VB_DEV_VM_NAME = "ariadne-dev"
@@ -50,18 +50,18 @@ you get
 
 One day the Vagrant template box will become outdated and you might want to delete it. This is the command
 
-    vagrant box remove debian_wheezy_770_64bit
+    vagrant box remove debian_jessie_800_64bit
 
 and it can be executed from any directory because it doesn't need the Vagrantfile.
 
 Output:
 
-    Removing box 'debian_wheezy_770_64bit' (v0) with provider 'virtualbox'...
+    Removing box 'debian_jessie_800_64bit' (v0) with provider 'virtualbox'...
 
 Run again:
 
     vagrant box list
 
-Now you should not see debian_wheezy_770_64bit in the list.
+Now you should not see debian_jessie_800_64bit in the list.
 
 T> After deleting a Vagrant template box don't forget to go through every single Vagrantfile and update the _VG_BOX_NAME_ variable with the new template name.

@@ -6,7 +6,7 @@ You can list the Vagrant template (or "boxes") with this:
 
 Output:
 
-> debian_wheezy_770_64bit (virtualbox, 0)
+> debian_jessie_800_64bit (virtualbox, 0)
 
 You can also list the Vagrant vms managed by Vagrant with:
 
@@ -38,7 +38,7 @@ The Vagrant template boxes are located on your workstation disk
 
 Output:
 
-> drwxr-xr-x 3 damko damko 4.0K 2014-11-17 20:27:33 debian_wheezy_770_64bit
+> drwxr-xr-x 3 damko damko 4.0K 2014-11-17 20:27:33 debian_jessie_800_64bit
 
 You can check the occupied space with:
 
@@ -46,7 +46,7 @@ You can check the occupied space with:
 
 Output:
 
-> 442M    /home/damko/.vagrant.d/boxes/debian_wheezy_770_64bit
+> 442M    /home/damko/.vagrant.d/boxes/debian_jessie_800_64bit
 
 The Vagrant vms will be saved in the VirtualBox default directory (in my case ~/vms/vbox/)
 
