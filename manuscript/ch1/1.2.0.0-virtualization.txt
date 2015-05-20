@@ -50,11 +50,11 @@ Virtualization helps working teams to work faster and better:
 
 ## Virtualization tools
 
-The most famous virtualization products are VirtualBox, VMware and Docker.
+The most famous virtualization systems are probably VirtualBox, VMware and Docker and there are many others.
 
-Each product has its own features, pros and cons. Docker, for instance, has a very different approach while VirtualBox and Vmware are quite similar.
+Each product has its own approach, features, pros and cons. Docker, for instance, has a very different approach while VirtualBox and VMware are quite similar.
 
-Anyway this manual will focus only on VirtualBox (see the [Perspective](#perspective))
+Anyway this manual will focus only on VirtualBox (see the [Perspective](#perspective)).
 
 VirtualBox and two other applications called [Vagrant](https://www.vagrantup.com/) and [Packer](https://www.packer.io/) provide what's necessary to create, clone, run and destroy your virtual machines _(a.k.a. boxes or vm or vms)_ in a simple and predictable way.
 
@@ -154,9 +154,17 @@ W> Edit the `./bin/install_packer.sh` script before running it and change the va
 
 The _parent_dir_ and the _bashrc_file_ parameters and _packer_version_ are the parameters you should take care of the most.
 
-* _parent_dir_ sets where you want to have it installed. I prefer to install it in my home directory. You can put any valid path
-* _bashrc_file_ sets which is the bash file in which the PATH variable should be altered so that your bash can find the Packer executable when you open a terminal
-* _packer_version_ this should be the latest packer version. You need to check it on the [Packer website](https://packer.io/downloads.html).
+_parent_dir_
+
+:sets where you want to have it installed. I prefer to install it in my home directory. You can put any valid path
+
+_bashrc_file_
+
+:sets which is the bash file in which the PATH variable should be altered so that your bash can find the Packer executable when you open a terminal
+
+_packer_version_
+
+:this should be the latest packer version. You need to check it on the [Packer website](https://packer.io/downloads.html).
 
 Once you are done, run the installation:
 
