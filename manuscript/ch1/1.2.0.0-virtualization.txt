@@ -33,14 +33,13 @@ Virtualization grants isolated environments:
 : this means that each software project can be run in isolation inside its own virtual machine and the developer's workstation is totally decoupled from the projects.
 To clarify consider this case: you have the application A requiring PHP 5.3 and the application B requiring PHP 5.6. Installing PHP 5.3 and 5.6 at the same time on your workstation is not easy but you can set up two different virtual machines each one with a different PHP version.
 
-Virtualization can address and solve the problem of inhomogeneous environments:
+Virtualization can solve the problem of inhomogeneous environments:
 
 : with the help of some [automation tools](#automation_tools_paragraph) each environment of the same project can be configured with specific software and services accordingly to the application needs. In this way the developers can be sure that are using the same type and version of software in each environment
 
 Virtualization helps working teams to work faster and better:
 
-: for instance:
-
+:
 * all the team members can develop in the same exact environment even when the team mates work remotely from different locations
 * any change/update to the environment (like a new configuration or a new software) can be easily shared with the team members. It's just a matter of sharing a few configuration files
 
@@ -48,6 +47,8 @@ Virtualization helps working teams to work faster and better:
 ## Virtualization tools
 
 The most famous virtualization products are VirtualBox, VMware and Docker but this manual will focus only on VirtualBox (see the [Perspective](#perspective)).
+
+Each product has its own way to
 
 VirtualBox and two other applications called [Vagrant](https://www.vagrantup.com/) and [Packer](https://www.packer.io/) provide what's necessary to create, clone, run and destroy your virtual machines _(a.k.a. boxes or vm or vms)_ in a simple and predictable way.
 
