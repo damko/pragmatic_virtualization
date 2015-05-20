@@ -80,6 +80,7 @@ VirtualBox is also different from the so-called _paravirtualization_ solutions (
 Download from the [VirtualBox official website](https://www.virtualbox.org/wiki/Linux_Downloads) the latest package that suits at best your workstation operating system and install it:
 
 Ex.:
+
 {linenos=off, lang=bash}
 ~~~~~~~
     cd /tmp
@@ -98,6 +99,7 @@ Vagrant also takes care to create a directory shared between your host and the v
 Download from the [Vagrant official website](http://www.vagrantup.com/downloads.html) the latest package that suits at best your workstation operating system and install it:
 
 Ex.:
+
 {linenos=off, lang=bash}
 ~~~~~~~
     cd /tmp

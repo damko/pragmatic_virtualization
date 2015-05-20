@@ -21,7 +21,7 @@ In two ways:
 Vagrant Cloud is a great solution: it's simple, quick and saves you a lot of time.
 Basically Vagrant Cloud lists boxes created by other people who have decided to share them publicly.
 
-You go on the Vagrant Cloud website, look for the operating system that you need, run few commands on the terminal and Vagrant takes care of everything (see later).<!-- TODO add internal link here -->
+You go on the Vagrant Cloud website, look for the operating system that you need, run few commands on the terminal and Vagrant takes care of everything (see section 2.4).
 
 Perfect, isn't it? Well, it depends.
 
@@ -30,4 +30,4 @@ What if need a Linux distro not listed in Vagrant Cloud?
 
 In these cases you have no other choice than creating your own box.
 
-The next paragraph will show how to create a Vagrant box using Packer starting from an iso file but if you prefer to use Vagrant Cloud you can skip it and move to the next one.<!-- TODO add internal link here -->
+In section 2.3 will show how to create a Vagrant box using Packer starting from an iso file but, if you prefer to use Vagrant Cloud, you can move straight to section 2.4.
