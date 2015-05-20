@@ -6,9 +6,13 @@ If you don't know what's the meaning of _virtualization_, I will describe it bet
 
 ## What to expect from this manual
 
-The aim of this manual is to help you to hit the ground running with virtualization and, therefore, it's written for beginners.
+The aim of this manual is to help you to hit the ground running with virtualization.
 
-Be aware that I will not cover in detail the theory behind virtualization and that this guide will **not** make you an expert [devop](http://en.wikipedia.org/wiki/DevOps). Becoming an expert devop requires a lot of practice and studying.
+Nowadays virtualization is considered a common practice in many activities, especially in development, and brings great advantages.
+
+I tried to keep things simple and to limit assumptions so that the reading will be easy also for total beginners in virtualization and in applications development.
+
+I will not cover in detail the theory behind virtualization and this manual will **not** make you an expert [devop](http://en.wikipedia.org/wiki/DevOps). As always, becoming an expert requires a lot of practice and studying.
 
 Anyway this manual will provide what's necessary to:
 
@@ -19,7 +23,7 @@ Anyway this manual will provide what's necessary to:
 
 ### The PHPBridge Project
 
-While I was writing the manual, though, I felt the need to make it more useful and real so I wrote it to fit in smoothly in the awesome [PHPBridge Project](http://phpbridge.org).
+While I was writing the manual I felt the need to make it more useful and real so I wrote it in such a way that it can fit in smoothly in the awesome [PHPBridge Project](http://phpbridge.org).
 
 The PHPBridge Project, generously created by the [PHP Women group](http://phpwomen.org/), helps beginners to learn PHP and it's split in sections:
 
@@ -32,9 +36,10 @@ Unfortunately, as written in the Installfest documentation, the virtual machine 
 
 This is not exactly a big deal because there are several ways to overcome the obstacle but it's definitely not ideal for a remote beginner.
 
-Anyway I thought that it would be nice to offer to the PHPBridge students a closer sight to some virtualization aspects and an easy way to produce their own virtual machines.
+So I thought that it would be nice to offer to the PHPBridge students a closer sight to some virtualization aspects and an easy way to produce their own virtual machines.
 
-So, after reading this manual, you will end up with a Debian 64 bit virtual machine configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/). Optionally you can also decide to published it on a Digital Ocean public server. Of course the virtual machine can be reused as many times as you want and it can become the default development environment for your projects.
+After reading this manual, you will end up with a Debian 64 bit virtual machine configured to run the final [Suggestotron application](http://phpbridge.org/intro-to-php/).
+The virtual machine can be reused as many times as you want and it can become your default development environment for many projects and, optionally, you can decide to publish it on a Digital Ocean public server.
 
 <!-- TODO double check this "learning routing" -->
 
@@ -46,7 +51,9 @@ I> If you are not trying to learn PHP or you are not a PHP developer, don't worr
 
 ### Perspective
 
-Virtualization is a huge topic and you can tackle it from many angles. It's really hard to write a book that covers all the operating systems and all the virtualization softwares so it's absolutely mandatory to choose a specific perspective that, on one hand, will have some strict requirements and, on the other, will cut off some virtualization technologies. So don't be surprised by the following requirements and by my software selection.
+Virtualization is a huge topic and you can tackle it from many angles and it's really hard to write a book that covers all the operating systems and all the virtualization softwares.
+
+This is why I felt obliged to choose a specific perspective that, on one hand, will have some strict requirements and, on the other, will cut off some virtualization technologies, so don't be surprised by the following requirements and by my software selection.
 
 ### Limits and requirements
 
@@ -57,9 +64,9 @@ These are the minimum requirements for your workstation:
 * 5GB of free space
 * 2GB of RAM
 
-I> If you have a different hardware architecture or a different operating system you can probably still use this manual but be ready to adjust some commands.
+I> If you have a different hardware architecture or a different operating system you can still use this manual but be ready to adjust some commands.
 
-These are the virtualization softwares that will be used:
+These are the virtualization softwares in use:
 
 * **Packer** to create a virtual machine starting from an iso image
 * **VirtualBox** as the virtualization environment for the virtual machine
@@ -67,21 +74,34 @@ These are the virtualization softwares that will be used:
 * **Ansible** as automation tool for installing and configure software inside the virtual machine
 * **Digital Ocean** as hosting provider for the production environment
 
-These are the list of services running in the virtual machine:
+These are the list of services and softwares installed and running inside the virtual machine:
 
 <!-- TODO double check the services installed in the vm -->
 * **Nginx** as webserver
 * **Mysql** as database
 * **PHP**
 
-Of course somebody will not be happy with my choices but, at least, it brings some quick and effective results for some others.
+Somebody will not be happy with my choices (sorry) but, at least, it brings some quick and effective results for some others.
 
-I> I encourage you to adjust this manual for any different perspective and to re-publish it as a free manual :-)
+I> I encourage you to adjust this manual for any different perspective and to re-publish it for free
 
 ## Acknowledgements
 
 Many thanks to:
-* [PHP Women](http://phpwomen.org/) for the great job done with the [PHPBridge project](http://phpbridge.org/)
-* [phptherightway](http://www.phptherightway.com/) from which I took inspiration and ... some chunks of text :-)
 
-Also many thanks to [Michelle Sanver](https://twitter.com/michellesanver), [Davey Shafik](https://twitter.com/dshafik), [Erika Heidi](https://twitter.com/erikaheidi), [Phil Sturgeon](https://twitter.com/philsturgeon), [Kayla Daniels](https://twitter.com/kayladnls), [Lorna Mitchell](https://twitter.com/lornajane) and [Ben Edmunds](https://twitter.com/benedmunds) for their motivating efforts in the PHP community.
+* [PHP Women](http://phpwomen.org/) for the great job done with the [PHPBridge project](http://phpbridge.org/)
+* [PHP The Right Way](http://www.phptherightway.com/) from which I took inspiration and some chunks of text :-)
+
+<!--
+TODO finish this before 100%
+
+Also many thanks to these people for their motivating efforts in the PHP community:
+
+* [Michelle Sanver](https://twitter.com/michellesanver)
+* [Davey Shafik](https://twitter.com/dshafik)
+* [Erika Heidi](https://twitter.com/erikaheidi)
+* [Phil Sturgeon](https://twitter.com/philsturgeon)
+* [Kayla Daniels](https://twitter.com/kayladnls)
+* [Lorna Mitchell](https://twitter.com/lornajane)
+* [Ben Edmunds](https://twitter.com/benedmunds)
+-->
