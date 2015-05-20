@@ -51,9 +51,9 @@ I> If you are not trying to learn PHP or you are not a PHP developer, don't worr
 
 ### Perspective
 
-Virtualization is a huge topic and you can tackle it from many angles and it's really hard to write a book that covers all the operating systems and all the virtualization softwares.
+Virtualization is a huge topic and you can tackle it from many angles and it's really hard to write a manual that covers all the operating systems and all the virtualization softwares.
 
-This is why I felt obliged to choose a specific perspective that, on one hand, will have some strict requirements and, on the other, will cut off some virtualization technologies, so don't be surprised by the following requirements and by my software selection.
+This is why I felt obliged to choose a perspective that, on one hand, will force some strict requirements and, on the other, will cut off some virtualization technologies, so don't be surprised by the following requirements and by my software selection.
 
 ### Limits and requirements
 
