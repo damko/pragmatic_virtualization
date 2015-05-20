@@ -1,74 +1,94 @@
 ## What's virtualization {#virtualization_paragraph}
 
-The term _Virtualization_ refers to the act of creating a virtual version of something, including but not limited to a virtual computer hardware platform, operating system, storage device, or computer network resources. [Wikipedia](https://en.wikipedia.org/wiki/Virtualization)
+The term _virtualization_ refers to the act of creating a virtual version of something, including but not limited to a virtual computer hardware platform, operating system, storage device, or computer network resources. [Wikipedia](https://en.wikipedia.org/wiki/Virtualization)
 
 Basically with virtualization you can run virtual computers inside your own computer.
 
-In this manual "_virtualization_" means "_hardware virtualization_"  which is the creation of a virtual machine that acts like a real computer with its own operating system. The software executed on virtual machines is separated from the underlying hardware resources and the whole virtual machine is stored in a few files located on the host system hard-drive.
+In this manual _virtualization_ means _hardware virtualization_ which is the creation of a virtual machine that acts like a real computer with its own operating system. The software executed in the virtual machines is separated from the underlying hardware resources and the whole virtual machine is stored in a few files located on the host system hard-drive.
 
 ## Why to use the virtualization
 
-A common good practice during the development of a web application is to produce separated environments at least for the development and the production.
+While developing a web application it's a good practice to produce isolated environments at least for the development and the production stage.
 
-The development environment is the environment used by the developer to create and test a web application while the production environment is the server on which the final web application is hosted and published.
+The _development environment_ is the environment used by the developer(s) to create and test the web application while the _production environment_ is the final environment in which the application is published and lives.
 
-In this case "environment" means pretty much everything:
+In this case _environment_ means pretty much everything, like:
 
 * the operating system in use
 * the software and services installed in the system and their versions
 * the libraries used in the web application and their versions
+* the tools used to deploy the application
+* the tools used to test and/or monitor the application
 
-Running a web application on different environments, in development and production, can lead to strange bugs popping up when you go live.
+Running an application in inhomogeneous environments can lead to strange bugs popping up in an environment and not in the other. This can is due to an amount of factors like different setups and configurations or different versions of the software in use.
 
-Virtualization is the answer to the problem of inhomogeneous environments.
+### Virtualization and environments
 
-Especially when working in a team, virtualization offers other great benefits:
+Virtualization provides fast and easy creation environments:
 
-* all the team members can work in the same exact environment even when the team mates are in different locations
-* any change to the environment can be easily spread to the team members virtual machines
-* sharing different and multiple environments or environment updates among team mates is a matter of sharing a few configuration files
+: from a virtual machine template you can create as many clones as you like in minutes and you can have as many virtual machine templates as you need.
 
-Virtualization also grants **isolation**: each project can be run in isolation inside its own virtual machine and the developer's workstation is totally decoupled from the projects. This helps to have a slim workstation and avoid conflicts in software versions.
-To clarify consider this case: you have the application A requiring PHP 5.3 and the application B requiring PHP 5.6. Installing PHP 5.3 and 5.6 at the same time on your workstation is not easy. With virtualization you can set up two different virtual machines each one with a different PHP version.
+Virtualization grants isolated environments:
+
+: this means that each software project can be run in isolation inside its own virtual machine and the developer's workstation is totally decoupled from the projects.
+To clarify consider this case: you have the application A requiring PHP 5.3 and the application B requiring PHP 5.6. Installing PHP 5.3 and 5.6 at the same time on your workstation is not easy but you can set up two different virtual machines each one with a different PHP version.
+
+Virtualization can address and solve the problem of inhomogeneous environments:
+
+: with the help of some [automation tools](#automation_tools_paragraph) each environment of the same project can be configured with specific software and services accordingly to the application needs. In this way the developers can be sure that are using the same type and version of software in each environment
+
+Virtualization helps working teams to work faster and better:
+
+: for instance:
+
+* all the team members can develop in the same exact environment even when the team mates work remotely from different locations
+* any change/update to the environment (like a new configuration or a new software) can be easily shared with the team members. It's just a matter of sharing a few configuration files
+
 
 ## Virtualization tools
 
-The most famous virtualization environments are [VirtualBox](http://www.virtualbox.org/), [VMware](http://www.vmware.com/) and [Docker](http://www.docker.com/) but this manual will focus only on VirtualBox.
+The most famous virtualization products are VirtualBox, VMware and Docker but this manual will focus only on VirtualBox (see the [Perspective](#perspective)).
 
-VirtualBox and two other applications called Vagrant and Packer provide what's necessary to create, clone, run and destroy your virtual machines (aka. boxes or vm/vms) in an easy and very predictable way.
+VirtualBox and two other applications called [Vagrant](https://www.vagrantup.com/) and [Packer](https://www.packer.io/) provide what's necessary to create, clone, run and destroy your virtual machines _(a.k.a. boxes or vm or vms)_ in a simple and predictable way.
 
 In a while your workstation will have a VirtualBox virtual machine managed by Vagrant that you can use as *development environment* for your applications.
 
-Your applications code will be stored on your workstation filesystem and you will edit it locally using an editor installed on your workstation.
+Your applications code will be stored in your workstation file-system and you will edit it locally using any editor.
 
-The applications code will be run by the virtual machine and this explains why you don't need to install services like Apache or Mysql on your workstation: they will run on the virtual machine.
+The applications code will be run by the virtual machine and this explains why you don't need to install services (like Apache, Nginx or Mysql) on your workstation: they will run in the virtual machine.
+
+T> If you don't have an editor you might to try to use [Sublime Text](http://phpbridge.org/installfest/linux#step5)
+
+W> It's very important that you always have the latest version of all the software listed below otherwise you can experience misbehaviors. For this reason I don't suggest to use distribution based packages but to download the code directly from the official websites.
 
 ## VirtualBox
 
-VirtualBox offers "full virtualization" which is a particular kind of virtualization that allows an unmodified operating system with all of its installed software to run in a special environment, on top of your existing operating system. Your existing operating system is called _host_ while the virtual machines are called _guests_.
-This approach, often called "native virtualization", is different from mere emulation which is typically quite slow.
+[VirtualBox](http://www.virtualbox.org/) offers _full virtualization_ which is a particular kind of virtualization that allows an unmodified operating system with all of its installed software to run in a special environment, on top of your existing operating system. Your existing operating system is called _host_ while the virtual machines are called _guests_.
+This approach, often called _native virtualization_, is different from mere emulation which is typically quite slow.
 
-VirtualBox is also different from the so-called "paravirtualization" solutions (such as Xen) which require the guest operating system to be modified.
+VirtualBox is also different from the so-called _paravirtualization_ solutions (such as Xen) which requires the guest operating system to be modified.
 
 ### VirtualBox installation
 
-Download from [here](https://www.virtualbox.org/wiki/Linux_Downloads) the latest package that suits at best your workstation.
+Download from the [VirtualBox official website](https://www.virtualbox.org/wiki/Linux_Downloads) the latest package that suits at best your workstation operating system and install it:
 
 Ex.:
-
+{linenos=off, lang=bash}
+~~~~~~~
     cd /tmp
     wget -c http://download.virtualbox.org/virtualbox/4.3.18/virtualbox-4.3_4.3.18-96516~Ubuntu~raring_amd64.deb
     sudo dpkg -i virtualbox-4.3_4.3.18-96516~Ubuntu~raring_amd64.deb
+~~~~~~~
 
 ## Vagrant
 
-[Vagrant](http://vagrantup.com/), created by [Mitchell Hashimoto](http://mitchellh.com/), helps you building your virtual boxes on top of VirtualBox (or VMWare etc.). Vagrant is considered as a wrapper for VirtualBox and it will configure the virtual machine(s) using a single configuration file named Vagrantfile.
+[Vagrant](http://vagrantup.com/), created by [Mitchell Hashimoto](http://mitchellh.com/), helps you to manage virtual boxes on top of VirtualBox (or VMWare etc.). Vagrant is considered as a wrapper for VirtualBox and it will configure the virtual machine(s) using a single configuration file named `Vagrantfile`.
 
-Vagrant also creates a directory to share your code between your host and your virtual machine so that you can create and edit your files on your host machine and then run the code inside your virtual machine.
+Vagrant also takes care to create a directory shared between your host and the virtual machine so that you can create and edit your files locally and then run the code inside your virtual machine. More details later on.
 
 ### Vagrant installation
 
-Download from [here](http://www.vagrantup.com/downloads.html) the latest package that suits at best your workstation and then install it like this:
+Download from the [Vagrant official website](http://www.vagrantup.com/downloads.html) the latest package that suits at best your workstation operating system and install it:
 
 Ex.:
 
@@ -76,26 +96,26 @@ Ex.:
     wget -c https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4_x86_64.deb
     sudo dpkg -i vagrant_1.5.4_x86_64.deb
 
-Be sure that you are installing a Vagrant version > 1.5
+T> Be sure that you are installing a Vagrant version > 1.5
 
 ## Packer
 
-[Packer](http://packer.io), created by [Mitchell Hashimoto](http://mitchellh.com/), is a tool for creating identical machine images for multiple platforms from a single source configuration. Packer automates the creation of any type of machine image: out of the box Packer comes with support to build images for Amazon EC2, DigitalOcean, Google Compute Engine, QEMU, VirtualBox, VMware, and more.
+[Packer](http://packer.io), created by [Mitchell Hashimoto](http://mitchellh.com/), is a tool for creating identical machine images for multiple platforms starting from a single configuration source. Packer automates the creation of any type of machine image: out of the box Packer comes with support to build images for Amazon EC2, DigitalOcean, Google Compute Engine, QEMU, VirtualBox, VMware and more.
 
-This means that with Packer you write some configuration files (in json format) and then you can programmatically create the same virtual machine for different environments like VirtualBox, Vmware etc.
+This means that with Packer you write some configuration files (written in json format) and then you can programmatically create the same virtual machine for different environments like VirtualBox, Vmware etc.
 
-In this manual Packer will be used to create a Debian based virtual machine for VirtualBox which will be then used by Vagrant as a "template" virtual machine for the creation of your environments. The customization of each environment (Vagrant virtual machine) will be done using an automation tool called Ansible (see later).
+In this manual Packer will be used to create a Debian based virtual machine for VirtualBox which will be then used by Vagrant as a _template virtual machine_ for the creation of your working environments. The customization of each environment will be done using an automation tool called Ansible (more details later on).
 
 ### Packer installation
 
-Differently from Vagrant and VirtualBox, Packer doesn't come with a debian installer so the easiest way to install it in the system is to run the `install_packer.sh` script  provided in the manual extra.
+Differently from Vagrant and VirtualBox, Packer doesn't come with a debian installer so the easiest way to install it into your system is to run the `install_packer.sh` script  provided in the manual extra.
 
 Checkout the _installing_tools_ branch from the _extra_ repository
 
     cd $pve
     git checkout installing_tools
 
-Edit the script before running it and change the variables listed at the top accordingly to your needs.
+W> Edit the script before running it and change the variables listed at the top accordingly to your needs.
 
     # environment variables: set here your preferences
     tmp_dir='/tmp' # default '/tmp"
@@ -115,5 +135,3 @@ Run the installation:
 
     cd $pve
     ./bin/install_packer.sh
-
-T> It's very important that you always have the latest version of all the software listed above otherwise you can experience misbehaviors. For this reason I don't suggest to use distribution based packages but to download the code directly from the official websites.

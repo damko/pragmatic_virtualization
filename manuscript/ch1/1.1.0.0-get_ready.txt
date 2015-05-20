@@ -7,11 +7,11 @@ This manual is split in two parts each one hosted in a Github repositories:
 
 The content is of course the manual itself. It's publicly available and you can fork and reuse it.
 
-The *extra* repository is as much important as the content because it contains all you need (scripts, directories, configuration files etc) to follow the manual instructions.
+The _extra_ repository is as much important as the content because it contains all you need (scripts, directories, configuration files etc) to follow the manual instructions.
 
-The *extra* repository [branches](https://github.com/damko/pragmatic_virtualization_extra/branches/all), in fact, are bound to the manual chapters, and chapter by chapter, you will be told which branch name you should use.
+The _extra_ repository [branches](https://github.com/damko/pragmatic_virtualization_extra/branches/all), in fact, are bound to the manual chapters, and chapter by chapter, you will be told which branch name you should use.
 
-To download and use the *extra* repository you need to have [Git](http://git-scm.com/) installed in your system and a [Github](http://github.com) account.
+To download and use the _extra_ repository you need to have [Git](http://git-scm.com/) installed in your system and a [Github](http://github.com) account.
 
 If Git is not yet installed in your system, open a terminal and install it type this command:
 
@@ -20,7 +20,7 @@ If Git is not yet installed in your system, open a terminal and install it type 
     sudo apt-get install git git-core
 ~~~~~~~
 
-Once Git is installed you are ready to download the *extra* repository:
+Once Git is installed you are ready to download the _extra_ repository:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -40,13 +40,13 @@ From now on I will refer to this directory path as `$pve` so it's convenient for
 
 In this way by typing `cd $pve` in your terminal you will be brought in the `pragmatic_virtualization_extra` directory.
 
-T> You should run this last command any time you open a new terminal or after a reboot.
+T> You should run these last two commands any time you open a new terminal or after a reboot.
 
-Now that you have your *extra* on the hard drive you can switch to the specific branch in use with this command:
+Now that you have your _extra_ on the hard drive you can switch to the specific branch in use with this command:
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    git checkout _branch-name_
+    git checkout <branch-name>
 ~~~~~~~
 
-where _branch-name_ is given chapter by chapter.
+where `branch-name` is given chapter by chapter.

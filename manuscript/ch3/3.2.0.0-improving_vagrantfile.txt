@@ -125,7 +125,7 @@ It's convenient to add this information to the workstation hosts file:
 
 ### Directory sharing
 
-As already said, the code will be on the workstation filesystem but it will be run on the VM. This means that the VM needs to connect to the workstation filesystem through a directory sharing service and the most comfortable one in Linux is NFS.
+As already said, the code will be on the workstation file-system but it will be run on the VM. This means that the VM needs to connect to the workstation file-system through a directory sharing service and the most comfortable one in Linux is NFS.
 
 The NFS service is the only service that you really need to install on the workstation. To install NFS:
 

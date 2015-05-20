@@ -1,4 +1,4 @@
-## Automation tools
+## Automation tools {#automation_tools_paragraph}
 
 Besides VirtualBox, Vagrant and Packer there are additional tools that can help setting up the virtual environment.
 
