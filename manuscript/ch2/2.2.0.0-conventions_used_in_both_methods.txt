@@ -16,11 +16,11 @@ This is an arbitrary skeleton and has this meaning:
 
 the _orchestration_ directory:
 
-: it the "virtualization" directory and it contains what's needed for the management of the vms.
+: it's the "virtualization" directory and it contains what's needed for the management of the vms.
 
 
 the _projects_ directory:
 
-: contains the source code shared with the virtual machine.
+: it contains the source code shared with the virtual machine.
 
 In the future you can change this structure as you like as far as you place somewhere a valid Vagrantfile and a directory to host the code but, for now, I strongly suggest you to keep it as it is.

@@ -4,9 +4,12 @@
 
 Checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository
 
-    cd $pve
-    git checkout create_vagrant_box_from_iso
-    cd packer-templates
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve
+git checkout create_vagrant_box_from_iso
+cd packer-templates
+~~~~~~~
 
 You'll be following these steps:
 
@@ -22,38 +25,50 @@ Basically Packer will do what you do when you install Debian from a net-install 
 
 #### Get the Packer scripts
 
-    cd $pve/packer_templates
-    tree
-    .
-    ├── http
-    │   └── preseed.cfg
-    ├── LICENCE
-    ├── README.md
-    ├── scripts
-    │   ├── base.sh
-    │   ├── cleanup.sh
-    │   ├── vagrant.sh
-    │   └── virtualbox.sh
-    └── ta-debian-7-wheezy-virtualbox.json
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/packer_templates
+tree
+.
+├── http
+│   └── preseed.cfg
+├── LICENCE
+├── README.md
+├── scripts
+│   ├── base.sh
+│   ├── cleanup.sh
+│   ├── vagrant.sh
+│   └── virtualbox.sh
+└── ta-debian-7-wheezy-virtualbox.json
+~~~~~~~
 
 If you have a look at the `ta-debian-7-wheezy-virtualbox.json` file you'll see that the Packer box is configured to have 1 core, 512MB ram and 10Gb hdd but it's easy to add a core or some ram later on.
 
 Before creating the vm, check if the json file is valid:
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve/packer_templates
     packer validate ta-debian-7-wheezy-virtualbox.json
+~~~~~~~
 
 It should output "Template validated successfully."
 
 Finally this is the command to create the fresh vm:
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve/packer_templates
     packer build ta-debian-7-wheezy-virtualbox.json
+~~~~~~~
 
 The command will take a while (~ 30 minutes) because of the download and the non-attended installation of the operating system but in the end it will show this message:
 
+{linenos=off, lang=text}
+~~~~~~~
     ==> Builds finished. The artifacts of successful builds are:
     --> virtualbox-iso: 'virtualbox' provider box: debian-770-wheezy.box
+~~~~~~~
 
 _debian-770-wheezy.box_ is a file about 450MB big which lives inside the packer_template directory and contains the fresh virtual machine.
 
@@ -75,8 +90,11 @@ To fix the issue go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
 
 Now that the debian-770-wheezy.box file is ready, the next step is to tell Vagrant to import the Packer box and to make it available in the system as a template. This command will do the trick:
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve/packer_templates
     vagrant box add debian_wheezy_770_64bit ./debian-770-wheezy.box
+~~~~~~~
 
 _debian_wheezy_770_64bit_ will be the name of the Vagrant template and must be unique in the system. Imagine this Vagrant box as a "template" for a fresh Debian Wheezy 64bit based virtual machine that can be used to create as many Vagrant boxes as you want.
 
@@ -87,65 +105,69 @@ If you want, now you can delete the _debian-770-wheezy.box_ file.
 
 Finally it's time to create the development environment vm called _ariadne-dev_.
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve/ariadne/orchestration/vagrant/
+~~~~~~~
 
 The _Vagrantfile_ contained in this directory is already configured and, for now, it looks like this:
 
-    VAGRANTFILE_API_VERSION = "2"
+{linenos=on, lang=text}
+~~~~~~~
+VAGRANTFILE_API_VERSION = "2"
 
+############################################################
+# VARIABLES
 
+# Vagrant template box name
+VG_BOX_NAME = "debian_wheezy_770_64bit"
 
-    ############################################################
-    # VARIABLES
+# Local virtual machine for development
+VB_DEV_VM_NAME = "ariadne-dev"
 
-    # Vagrant template box name
-    VG_BOX_NAME = "debian_wheezy_770_64bit"
+############################################################
 
-    # Local virtual machine for development
-    VB_DEV_VM_NAME = "ariadne-dev"
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-    ############################################################
+    # Vagrant settings for the development vm
+    config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
 
+        # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant vm will be generated
+        devel.vm.box = VG_BOX_NAME
 
+        # Hostname for the generated Vagrant vm
+        devel.vm.hostname = VB_DEV_VM_NAME
 
-    Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+        # Folder sharing is now disabled
+        devel.vm.synced_folder  ".", "/projects", disabled: true
 
-        # Vagrant settings for the development vm
-        config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
+        # VirtualBox settings
+        devel.vm.provider "virtualbox" do |vb|
+            vb.name = VB_DEV_VM_NAME
 
-            # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant vm will be generated
-            devel.vm.box = VG_BOX_NAME
+            ## If true it does not boot in headless mode => shows virtualbox UI. Uncomment only for troubleshooting.
+            #vb.gui = true
 
-            # Hostname for the generated Vagrant vm
-            devel.vm.hostname = VB_DEV_VM_NAME
-
-            # Folder sharing is now disabled
-            devel.vm.synced_folder  ".", "/projects", disabled: true
-
-            # VirtualBox settings
-            devel.vm.provider "virtualbox" do |vb|
-                vb.name = VB_DEV_VM_NAME
-
-                ## If true it does not boot in headless mode => shows virtualbox UI. Uncomment only for troubleshooting.
-                #vb.gui = true
-
-                # Uses VBoxManage to customize the VM
-                vb.customize ["modifyvm", :id, "--memory", "512"]
-                vb.customize ["modifyvm", :id, "--cpus", "1"]
-                vb.customize ["modifyvm", :id, "--ioapic", "on"]
-            end
+            # Uses VBoxManage to customize the VM
+            vb.customize ["modifyvm", :id, "--memory", "512"]
+            vb.customize ["modifyvm", :id, "--cpus", "1"]
+            vb.customize ["modifyvm", :id, "--ioapic", "on"]
         end
-
     end
 
+end
+~~~~~~~
 
  It contains all the needed instructions for Vagrant to build the new vm and soon it will be used to describe also the production virtual machine, all in the same file.
 
 
 Everything is ready to launch the creation of the vm (which will take a couple of minutes) with the command:
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant up
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+vagrant up
+~~~~~~~
 
 See what's happening:
 
@@ -155,33 +177,38 @@ See what's happening:
 
 Output:
 
-    Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
-    ==> ariadne-dev: Importing base box 'debian_wheezy_770_64bit'...
-    ==> ariadne-dev: Matching MAC address for NAT networking...
-    ==> ariadne-dev: Setting the name of the VM: ariadne-dev
-    ==> ariadne-dev: Clearing any previously set network interfaces...
-    ==> ariadne-dev: Preparing network interfaces based on configuration...
-        ariadne-dev: Adapter 1: nat
-    ==> ariadne-dev: Forwarding ports...
-        ariadne-dev: 22 => 2222 (adapter 1)
-    ==> ariadne-dev: Running 'pre-boot' VM customizations...
-    ==> ariadne-dev: Booting VM...
-    ==> ariadne-dev: Waiting for machine to boot. This may take a few minutes...
-        ariadne-dev: SSH address: 127.0.0.1:2222
-        ariadne-dev: SSH username: vagrant
-        ariadne-dev: SSH auth method: private key
-        ariadne-dev: Warning: Connection timeout. Retrying...
-    ==> ariadne-dev: Machine booted and ready!
-    GuestAdditions 4.3.16 running --- OK.
-    ==> ariadne-dev: Checking for guest additions in VM...
-    ==> ariadne-dev: Setting hostname...
-    ==> ariadne-dev: Mounting shared folders...
-        ariadne-dev: /vagrant => /home/damko/projects/pragmatic_virtualization_extra/ariadne/orchestration/vagrant
-
+{linenos=off, lang=text}
+~~~~~~~
+Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
+==> ariadne-dev: Importing base box 'debian_wheezy_770_64bit'...
+==> ariadne-dev: Matching MAC address for NAT networking...
+==> ariadne-dev: Setting the name of the VM: ariadne-dev
+==> ariadne-dev: Clearing any previously set network interfaces...
+==> ariadne-dev: Preparing network interfaces based on configuration...
+    ariadne-dev: Adapter 1: nat
+==> ariadne-dev: Forwarding ports...
+    ariadne-dev: 22 => 2222 (adapter 1)
+==> ariadne-dev: Running 'pre-boot' VM customizations...
+==> ariadne-dev: Booting VM...
+==> ariadne-dev: Waiting for machine to boot. This may take a few minutes...
+    ariadne-dev: SSH address: 127.0.0.1:2222
+    ariadne-dev: SSH username: vagrant
+    ariadne-dev: SSH auth method: private key
+    ariadne-dev: Warning: Connection timeout. Retrying...
+==> ariadne-dev: Machine booted and ready!
+GuestAdditions 4.3.16 running --- OK.
+==> ariadne-dev: Checking for guest additions in VM...
+==> ariadne-dev: Setting hostname...
+==> ariadne-dev: Mounting shared folders...
+    ariadne-dev: /vagrant => /home/damko/projects/pragmatic_virtualization_extra/ariadne/orchestration/vagrant
+~~~~~~~
 
 That's it. The virtual machine is ready and running.
 
 You can now login via ssh with:
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant ssh
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+vagrant ssh
+~~~~~~~
