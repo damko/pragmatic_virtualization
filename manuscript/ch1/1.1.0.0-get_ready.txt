@@ -5,11 +5,11 @@ This manual is split in two parts each one hosted in a Github repositories:
 * [the content](https://github.com/damko/pragmatic_virtualization)
 * [the extra](https://github.com/damko/pragmatic_virtualization_extra)
 
-The content is of course the manual itself. It's publicly available and you can fork and reuse it.
+The content is, of course, the manual itself. It's publicly available and you can fork and reuse it.
 
-The _extra_ repository is as much important as the content because it contains all you need (scripts, directories, configuration files etc) to follow the manual instructions.
+The _extra_ repository is as much important as the content because it contains all you need (scripts, directories, configuration files etc) to follow the instructions.
 
-The _extra_ repository [branches](https://github.com/damko/pragmatic_virtualization_extra/branches/all), in fact, are bound to the manual chapters, and chapter by chapter, you will be told which branch name you should use.
+The _extra_ repository [branches](https://github.com/damko/pragmatic_virtualization_extra/branches/all), in fact, are bound to the chapters of the manual, and chapter by chapter, you will be told which branch name you should use.
 
 To download and use the _extra_ repository you need to have [Git](http://git-scm.com/) installed in your system and a [Github](http://github.com) account.
 

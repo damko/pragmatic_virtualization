@@ -10,7 +10,7 @@ In this manual _virtualization_ means _hardware virtualization_ which is the cre
 
 ## Why to use the virtualization
 
-While developing a web application it's a good practice to produce isolated environments at least for the development and the production stage.
+While developing an application it's a good practice to have at least a development environment and a production one.
 
 The _development environment_ is the environment used by the developer(s) to create and test the web application while the _production environment_ is the final environment in which the application is published and lives.
 
@@ -41,7 +41,7 @@ Virtualization can solve the problem of inhomogeneous environments:
 
 Virtualization helps working teams to work faster and better:
 
-:
+: in fact:
 * all the team members can develop in the same exact environment even when the team mates work remotely from different locations
 * any change/update to the environment (like a new configuration or a new software) can be easily shared with the team members. It's just a matter of sharing a few configuration files
 
