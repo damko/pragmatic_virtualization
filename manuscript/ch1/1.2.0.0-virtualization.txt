@@ -158,15 +158,15 @@ The _parent_dir_ and the _bashrc_file_ parameters and _packer_version_ are the p
 
 _parent_dir_
 
-:sets where you want to have it installed. I prefer to install it in my home directory. You can put any valid path
+: sets where you want to have it installed. I prefer to install it in my home directory. You can put any valid path
 
 _bashrc_file_
 
-:sets which is the bash file in which the PATH variable should be altered so that your bash can find the Packer executable when you open a terminal
+: sets which is the bash file in which the PATH variable should be altered so that your bash can find the Packer executable when you open a terminal
 
 _packer_version_
 
-:this should be the latest packer version. You need to check it on the [Packer website](https://packer.io/downloads.html).
+: this should be the latest packer version. You need to check it on the [Packer website](https://packer.io/downloads.html).
 
 Once you are done, run the installation:
 

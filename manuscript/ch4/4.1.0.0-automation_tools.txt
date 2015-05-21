@@ -14,7 +14,7 @@ This approach is very useful when you work in a team in which each developer has
 
 A well configured provisioning tool also gives you the freedom to destroy and rebuild your boxes in minutes or to painlessly switch your hosting provider at any time.
 
-### The Suggestotron application requirements
+### The Suggestotron requirements
 
 The Suggestotron web application, as shown in the [requirements](http://phpbridge.org/intro-to-php/) needs PHP, a webserver and a mysql database to run plus some other accessories.
 

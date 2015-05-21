@@ -1,4 +1,4 @@
-## The Suggestotron application
+# The Suggestotron application
 
 "Ariadne-dev" is now ready to host the Suggestotron application. You just need to
 

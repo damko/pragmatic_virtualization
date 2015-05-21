@@ -86,7 +86,7 @@ These are the list of services and softwares installed and running inside the vi
 
 Somebody will not be happy with my choices (sorry) but, at least, it brings some quick and effective results for some others.
 
-I> I encourage you to adjust this manual for any different perspective and to re-publish it for free
+I> I encourage you to adjust this manual for any different perspective and to re-publish it for free. See the next paragraph.
 
 {pagebreak}
 
