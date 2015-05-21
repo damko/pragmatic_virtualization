@@ -241,7 +241,7 @@ During the execution Ansible outputs the exit status (changed, Ok, skipped ...) 
 
 If a task fails Ansible throws an error and the execution stops.
 
-At this point "ariadne-dev" has _almost_ all the required software installed. 
+At this point _ariadne-dev_ has _almost_ all the required software installed. 
 
 You can check the list of the running services in this way:
 
@@ -311,4 +311,4 @@ Output:
 [ - ]  vboxadd-x11
 ~~~~~~~
 
-You've probably noticed that Mysql is missing because the playbook doesn't have any instructions about that. See the next chapter.
+You have probably noticed that Mysql is missing because the playbook doesn't have any instructions about that. See the next chapter.

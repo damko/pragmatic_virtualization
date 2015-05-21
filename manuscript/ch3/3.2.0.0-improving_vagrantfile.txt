@@ -149,7 +149,7 @@ and used in the configuration line number 25:
 devel.vm.hostname = VB_DEV_VM_NAME
 ~~~~~~~
 
-With this configuration I expect that the virtual machine hostname will be "ariadne-dev" and it will take the IP "192.168.51.10".
+With this configuration I expect that the virtual machine hostname will be _ariadne-dev_ and it will take the IP _192.168.51.10_.
 
 T> [Avoid "dots" in the hostname](http://serverfault.com/questions/229331/can-i-have-dots-in-a-hostname)
 

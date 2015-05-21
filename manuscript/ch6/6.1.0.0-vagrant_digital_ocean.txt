@@ -384,7 +384,7 @@ Done! Your production environment is ready and in your Digital Ocean administrat
 
 ![Droplet list](images/digital_ocean_droplet_list.png)
 
-You've probably noticed that _ariadne-prod_ is now missing the suggestotron code, right?
+You have probably noticed that _ariadne-prod_ is now missing the suggestotron code, right?
 
 You can copy it in the Apache vhost root folder via ssh:
 

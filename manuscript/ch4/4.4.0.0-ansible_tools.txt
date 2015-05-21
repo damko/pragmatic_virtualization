@@ -153,7 +153,7 @@ Output:
 
 I> Ansible roles are prioritized and they run before any other task. This happens even if the role configuration lines are written after the tasks.
 
-If you now check the services installed on "ariadne-dev" you will see the mysql service listed there.
+If you now check the services installed on _ariadne-dev_ you will see the mysql service listed there.
 
 {linenos=off, lang=bash}
 ~~~~~~~
