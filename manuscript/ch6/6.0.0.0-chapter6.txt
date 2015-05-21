@@ -1,1 +1,14 @@
-# Chapter 6
+## The production environment
+
+> If you are a beginner you can probably postpone this chapter because I think you already have enough on your plate. Come back when you feel ready to publish your application.
+
+Virtualization is cool because it creates as many isolated environments as you like and they can be programmatically configured. There is a specific environment which is usually out of the control of the developer: **production**.
+
+The _production environment_ is the space hosting the public version of your web application. Many applications run in shared hosting or in dedicated virtual machines created by the provider and then configured by hand.
+In these cases the developer can not be sure that the production environment is compatible with the development one until the code is published. Very likely the development and the production environment aren't equal and what's compatible today might become all of the sudden incompatible because of some differences in software versions. Troubles can be one `apt-get upgrade` far away.
+
+Fortunately there are several cool [providers](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins#providers) offering virtualized systems that can be handled exactly like the development one via Vagrant and you are going to see how to use [Digital Ocean](https://www.digitalocean.com/) as the production environment for the Suggestotron application.
+
+I didn't pick Digital Ocean for any particular reason if not the fact that it's the only one I know and use.
+
+Digital Ocean is inexpensive but definitely not for free so, if you want to try it, get ready to pay their [fees](https://www.digitalocean.com/pricing/). I suggest to look around (or ask [them](https://twitter.com/digitalocean)) for a _Promo Code_.
