@@ -98,3 +98,5 @@ vagrant box list
 Now you should not see debian_jessie_800_64bit in the list.
 
 T> After deleting a Vagrant template box don't forget to go through every single Vagrantfile and update the _VG_BOX_NAME_ variable with the new template name.
+
+{pagebreak}

@@ -64,3 +64,5 @@ end
 ~~~~~~~
 
 The only variable to take care of is _ansible.playbook_ which says where Ansible can find its own configuration file.
+
+{pagebreak}

@@ -322,3 +322,5 @@ This is not exactly what was expected because there are 2 network interfaces. Th
 I decided to start with a very minimalistic Vagrantfile, for educational purposes, to show that virtualization is not a magic thing: bad configuration can often lead to unexpected results that you need to sort out step by step.
 
 To solve the little issue with the two network interfaces you can either manually fix the _/etc/network/interfaces_ file or you can be lazy and destroy and rebuild the virtual machine using the new Vagrantfile.
+
+{pagebreak}

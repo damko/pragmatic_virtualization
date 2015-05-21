@@ -154,9 +154,11 @@ If you want to know more (I know you want) I suggest to read the awesome [Ansibl
 
 ![Ansible for devops](images/ansible_for_devops.jpg)
 
-## Run Ansible
+{pagebreak}
 
-To run Ansible simple command Vagrant in this way:
+### Run Ansible
+
+To run Ansible simply let Vagrant do it for you:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -312,3 +314,5 @@ Output:
 ~~~~~~~
 
 You have probably noticed that Mysql is missing because the playbook doesn't have any instructions about that. See the next chapter.
+
+{pagebreak}
