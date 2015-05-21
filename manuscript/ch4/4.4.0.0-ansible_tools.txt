@@ -1,64 +1,84 @@
 ## Ansible tools
 
-Configuring Ansible can be hard mostly because configuring a system in a proper way is hard job but there are very useful tools available for free.
+Configuring Ansible can be hard mostly because configuring a system in a proper way is a hard job. 
+
+Fortunately there are very useful tools available for free coming in help.
 
 ### Ansible-galaxy
 
-[Ansible Galaxy](https://galaxy.ansible.com) is an hub for finding, reusing, and sharing the best Ansible content. Basically it's a public repository for Ansible roles.
+[Ansible Galaxy](https://galaxy.ansible.com) is a hub for finding, reusing, and sharing the best Ansible content. Basically it's a public repository for _Ansible roles_.
 
-An Ansible Role is a way to organize tasks, variables and templates in a specific way with the aim to reuse it in many playbooks.
+An _Ansible Role_ is a way to organize tasks, variables and templates in a specific way with the aim to reuse it in many playbooks.
 
-You are going to install Mysql using [Benno Joy's Mysql role](https://galaxy.ansible.com/list#/roles/1). The role page provides a lot of information about how to use the role but the basics behind any Ansible Galaxy role is simple:
+You are now going to install Mysql using [Benno Joy's Mysql role](https://galaxy.ansible.com/list#/roles/1). 
+
+The role page provides a lot of information about how to use the role but the basics behind any Ansible Galaxy role is simple:
 
 1. install the role locally
-1. add it to your playbook
+2. add it to your playbook
 
 To install the role on your workstation
 
-    sudo ansible-galaxy install bennojoy.mysql
+{linenos=off, lang=bash}
+~~~~~~~
+sudo ansible-galaxy install bennojoy.mysql
+~~~~~~~
 
-The role will be copied in /etc/ansible/roles/ (where you can even store your own roles)
+The role will be copied in `/etc/ansible/roles/`, path where you can also store your own Ansible roles.
 
+<!--
 TODO add something about:
 
 * ansible-galaxy install [role],[version] --force
 * ansible-galaxy list
 /TODO
+-->
 
 Checkout the _ansible_apache_php_mysql_ branch from the _extra_ repository
 
-    cd $pve
-    git checkout ansible_apache_php_mysql
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve
+git checkout ansible_apache_php_mysql
+~~~~~~~
 
 The _ariadne-dev-playbook.yml_ now contains these additional lines
 
-    roles:
-        # installs Mysql using Benno Joy's role
-        - {
-            role: bennojoy.mysql,
+{linenos=off, lang=yaml}
+~~~~~~~
+roles:
+    # installs Mysql using Benno Joy's role
+    - {
+        role: bennojoy.mysql,
 
-                # mysql root password
-                mysql_root_db_pass: root,
+            # mysql root password
+            mysql_root_db_pass: root,
 
-                # mysql port open only for IP 127.0.0.1
-                mysql_bind_address: 127.0.0.1,
+            # mysql port open only for IP 127.0.0.1
+            mysql_bind_address: 127.0.0.1,
 
-                # do not create any db
-                mysql_db: [],
+            # do not create any db
+            mysql_db: [],
 
-                # no additional mysql user
-                mysql_users: []
-        }
+            # no additional mysql user
+            mysql_users: []
+    }
+~~~~~~~
 
-which are telling Ansible to install Mysql using the variables listed below the "role: bennojoy.mysql," line.
+They are telling Ansible to install Mysql using the variables listed below the `role: bennojoy.mysql` line.
 
-Now run:
+Now run once again:
 
+{linenos=off, lang=bash}
+~~~~~~~
     $pve/ariadne/orchestration/vagrant/
     vagrant provision
+~~~~~~~
 
 Output:
 
+{linenos=off, lang=text}
+~~~~~~~
 ==> ariadne-dev: Running provisioner: ansible...
 
     PLAY [all] ********************************************************************
@@ -129,22 +149,26 @@ Output:
 
     PLAY RECAP ********************************************************************
     ariadne-dev                : ok=27   changed=10   unreachable=0    failed=0
+~~~~~~~
 
+I> Ansible roles are prioritized and they run before any other task. This happens even if the role configuration lines are written after the tasks.
 
-**Note** Ansible roles are prioritized and run before any other task even if the role configuration lines are written after the tasks.
+If you now check the services installed on "ariadne-dev" you will see the mysql service listed there.
 
-If now you go and check the services installed on "ariadne-dev" you'll see the mysql service listed there.
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+vagrant ssh
+~~~~~~~
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant ssh
-
-    vagrant@ariadne-dev:~$ sudo service --status-all
-
+{linenos=off, lang=text}
+~~~~~~~
+vagrant@ariadne-dev:~$ sudo service --status-all
+~~~~~~~
 
 ### Phansible
 
-[Phansible](http://phansible.com/) comes in help providing a simple interface that generates Ansible Playbooks for PHP based projects.
-A few clicks on the services you like to run on the vm and you get a zip file with all the Ansible configuration files.
-Phansible is great but I suggest to check if the given configuration matches your needs: very likely there will be something that you have to add or modify.
+[Phansible](http://phansible.com/) is another interesting tool. It comes in help providing a simple web interface that generates Ansible Playbooks for PHP based projects.
+A few clicks on the services you want to run on the vm and you get a zip file with all the Ansible configuration files.
 
-
+Phansible is great but I suggest to always check that given configuration matches your needs: very likely there will be something that you have to add or modify.
