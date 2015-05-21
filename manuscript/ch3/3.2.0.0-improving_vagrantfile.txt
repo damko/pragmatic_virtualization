@@ -95,25 +95,21 @@ git difftool -g -d create_vagrant_box_from_iso
 
 which look like this:
 
-![Differences Vagrantfile](images/diff_vagrantfile.png)
+![Vagrantfile differences](images/diff_vagrantfile.png)
 
 ### Conventions for the Vagrantfile
 
-At the beginning of the _Vagrantfile_ there are some variable declarations that can be freely declared and that are used later on in the Vagrantfile. You might need to change some of the values accordingly to your situation.
+At the beginning of the _Vagrantfile_ there are some variable declarations that can be freely declared and that are used later on in the Vagrantfile.
 
-Variables declaration is not mandatory, you can hardcode the values, but I think it's highly convenient because of re-usability.
+Declaring variables is not mandatory, meaning that you can hardcode the values, but I think it's highly suggested because of re-usability.
 
-I also used some conventions that you can definitely abandon if you don't like them:
+I also used some conventions that you can definitely drop if you don't like them:
 
 * variables starting with VG = Vagrant
 * variables starting with VB = VirtualBox
-* vm hostname and VirtualBox vm name match
-* the vm name is also use to define each section of the Vagrantfile like this (this will be explained better later on)
-
-{linenos=off, lang=bash}
-~~~~~~~
-config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
-~~~~~~~
+* the virtual machine hostname and VirtualBox virtual machine name match
+* the virtual machine name is also used to define each section of the Vagrantfile like this
+    `config.vm.define VB_DEV_VM_NAME, primary: true do |devel|`
 
 ### Network settings
 
