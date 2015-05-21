@@ -1,49 +1,66 @@
 ## Ansible
 
-Ansible is a powerful automation tool that doesn't require custom scripting or custom code. No agents. Its simple configuration syntax and the ability to execute commands via ssh without a custom agent make Ansible a very appealing tool.
+Ansible is a powerful automation tool that doesn't require custom scripting or custom code or software agents pre-installed in the virtual machine. 
+
+Its simple configuration syntax, the ability to execute commands via ssh without the need of any software agent make Ansible very appealing.
+
+It also doesn't need a database or daemons running and, once installed on your workstation, you can manage an entire fleet of remote machines from that central point.
 
 ### Ansible installation
 
-Ansible must be installed on the workstation and this time it can be done using the distro
+This time it's safe to use the distro installer:
 
+{linenos=off, lang=bash}
+~~~~~~~
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+~~~~~~~
 
-    sudo apt-get install software-properties-common
-    sudo apt-add-repository ppa:ansible/ansible
-    sudo apt-get update
-    sudo apt-get install ansible
+Ansible, by default, decorates its output with the funny "cow" ASCII art.
 
-Once Ansible is installed, it will not add a database, and there will be no daemons to start or keep running. You only need to install it on the workstation and it can manage an entire fleet of remote machines from that central point.
+{linenos=off, lang=bash}
+~~~~~~~
+ ------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+~~~~~~~
 
-This command is not mandatory but will remove the funny "cow"
+It's funny but it's also "noisy" so it's better to disable it with this command:
 
-     ------------
-            \   ^__^
-             \  (oo)\_______
-                (__)\       )\/\
-                    ||----w |
-                    ||     ||
-
-from the Ansible output
-
-    sudo sed 's/#nocows/nocows/g' -i /etc/ansible/ansible.cfg
-
+{linenos=off, lang=bash}
+~~~~~~~
+sudo sed 's/#nocows/nocows/g' -i /etc/ansible/ansible.cfg
+~~~~~~~
 
 ### Ansible and Vagrant
 
 Checkout the _ansible_apache_php_ branch from the _extra_ repository
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve
     git checkout ansible_apache_php
+~~~~~~~
 
-Vagrant can be configured to be a wrapper also for Ansible. To do so the Vagrantfile has to contain these instructions:
+Vagrant can be configured to be a wrapper also for Ansible. 
 
-    # Use Ansible as automation tool
-    devel.vm.provision "ansible" do |ansible|
+To do so the Vagrantfile has to contain these instructions (have a look at your Vagrantfile):
 
-        ansible.playbook = "../ansible/ariadne-dev-playbook.yml"
+{linenos=off, lang=bash}
+~~~~~~~
+# Use Ansible as automation tool
+devel.vm.provision "ansible" do |ansible|
 
-        # Run commands as root
-        ansible.sudo = true
-    end
+    ansible.playbook = "../ansible/ariadne-dev-playbook.yml"
 
-The only variable to take care of is _ansible.playbook_ which says where Ansible can find the configuration file.
+    # Run commands as root
+    ansible.sudo = true
+end
+~~~~~~~
+
+The only variable to take care of is _ansible.playbook_ which says where Ansible can find its own configuration file.
