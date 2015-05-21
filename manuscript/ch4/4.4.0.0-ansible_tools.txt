@@ -83,7 +83,7 @@ Output:
 
     PLAY [all] ********************************************************************
 
-    [.cut.]
+    [...]
 
     TASK: [bennojoy.mysql | Add the OS specific variables] ************************
     ok: [ariadne-dev]
@@ -145,7 +145,7 @@ Output:
     TASK: [bennojoy.mysql | Change the master in slave to start the replication] ***
     skipping: [ariadne-dev]
 
-    [.cut.]
+    [...]
 
     PLAY RECAP ********************************************************************
     ariadne-dev                : ok=27   changed=10   unreachable=0    failed=0

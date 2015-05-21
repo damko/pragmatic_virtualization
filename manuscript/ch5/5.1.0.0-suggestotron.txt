@@ -14,55 +14,71 @@ But with Ansible and there is no need for manual configuration.
 
 Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
 
-    cd $pve
-    git checkout suggestotron_database_creation
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve
+git checkout suggestotron_database_creation
+~~~~~~~
 
 You can see that the playbook is now telling Mysql to create the _suggestotron_ database
 
-      roles:
-        # installs Mysql using Benno Joy's role
-        - {
-            role: bennojoy.mysql,
+{linenos=off, lang=text}
+~~~~~~~
+roles:
+# installs Mysql using Benno Joy's role
+- {
+    role: bennojoy.mysql,
 
-                # mysql root password
-                mysql_root_db_pass: root,
+        # mysql root password
+        mysql_root_db_pass: root,
 
-                # mysql port open only for IP 127.0.0.1
-                mysql_bind_address: 127.0.0.1,
+        # mysql port open only for IP 127.0.0.1
+        mysql_bind_address: 127.0.0.1,
 
-                # do not create any db
-                mysql_db: [
-                  name: suggestotron
-                ],
+        # do not create any db
+        mysql_db: [
+          name: suggestotron
+        ],
 
-                # no additional mysql user
-                mysql_users: [],
-        }
-
+        # no additional mysql user
+        mysql_users: [],
+}
+~~~~~~~
 
 If you run:
 
-    vagrant provision
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant provision
+~~~~~~~
 
 you'll see in the output:
 
-    [.cut.]
-    TASK: [bennojoy.mysql | Create the database's] ********************************
-    changed: [ariadne-dev] => (item={'name': 'suggestotron'})
-    [.cut.]
+{linenos=off, lang=text}
+~~~~~~~
+[...]
+TASK: [bennojoy.mysql | Create the database's] ********************************
+changed: [ariadne-dev] => (item={'name': 'suggestotron'})
+[...]
+~~~~~~~
 
 Ansible claims that the database has been created. To check it:
 
-    ssh vagrant@ariadne-dev 'echo "show databases" | mysql -uroot -proot'
-    #provide "vagrant" as password
+{linenos=off, lang=bash}
+~~~~~~~
+ssh vagrant@ariadne-dev 'echo "show databases" | mysql -uroot -proot'
+#provide "vagrant" as password
+~~~~~~~
 
 Output:
 
+{linenos=off, lang=text}
+~~~~~~~
     information_schema
     mysql
     performance_schema
     suggestotron
-
+~~~~~~~
 
 ### Populate the database
 
@@ -70,56 +86,76 @@ Ansible, of course, can also populate the database. One thing to keep in mind is
 
 Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve
     git checkout suggestotron_database_creation
+~~~~~~~
 
 Now you see some more files
 
+{linenos=off, lang=bash}
+~~~~~~~
     tree $pve/ariadne/orchestration/ansible
+~~~~~~~
 
-    /
-    ├── ariadne-dev-playbook.yml
-    ├── sql
-    │   └── suggestotron_init.sql
-    ├── tasks
-    │   ├── apache2.yml
-    │   ├── composer.yml
-    │   ├── init.yml
-    │   ├── php5.yml
-    │   ├── populate_suggestotron_db.yml
-    │   ├── psysh.yml
-    │   └── xdebug.yml
-    └── vars.yml
+Output:
+
+{linenos=off, lang=text}
+~~~~~~~
+/
+├── ariadne-dev-playbook.yml
+├── sql
+│   └── suggestotron_init.sql
+├── tasks
+│   ├── apache2.yml
+│   ├── composer.yml
+│   ├── init.yml
+│   ├── php5.yml
+│   ├── populate_suggestotron_db.yml
+│   ├── psysh.yml
+│   └── xdebug.yml
+└── vars.yml
+~~~~~~~
 
 and the playbook has this additional line
 
-    # populates the suggestotron db right after its creation
-    - include: tasks/populate_suggestotron_db.yml
+{linenos=off, lang=yaml}
+~~~~~~~
+# populates the suggestotron db right after its creation
+- include: tasks/populate_suggestotron_db.yml
+~~~~~~~
 
 This is the content of the populate_suggestotron_db.yml file:
 
-    ---
-    # This populates the suggestotron database
+{linenos=on, lang=yaml}
+~~~~~~~
+---
+# This populates the suggestotron database
 
-    - name: populating suggestotron database
-      shell: echo "show tables" | mysql -uroot -proot suggestotron | grep "topics"
-      ignore_errors: yes
-      register: populated
-      failed_when: "'topics' not in populated.stdout"
+- name: populating suggestotron database
+  shell: echo "show tables" | mysql -uroot -proot suggestotron | grep "topics"
+  ignore_errors: yes
+  register: populated
+  failed_when: "'topics' not in populated.stdout"
 
-    #- debug:  var=populated
+#- debug:  var=populated
 
-    # Copies the sql file containing the database data to /tmp
-    - copy: src=sql/suggestotron_init.sql dest=/tmp
-      when: populated|failed
+# Copies the sql file containing the database data to /tmp
+- copy: src=sql/suggestotron_init.sql dest=/tmp
+  when: populated|failed
 
-    # Imports the data in the database
-    - mysql_db: name=suggestotron state=import target=/tmp/suggestotron_init.sql
-      when: populated|failed
+# Imports the data in the database
+- mysql_db: name=suggestotron state=import target=/tmp/suggestotron_init.sql
+  when: populated|failed
+~~~~~~~
 
 When the populate_suggestotron_db task is run, Ansible uses the command
 
+{linenos=off, lang=bash}
+~~~~~~~
     echo "show tables" | mysql -uroot -proot suggestotron | grep "topics"
+~~~~~~~
 
 to check if the _suggestotron_ database is populated.
 
@@ -127,11 +163,16 @@ The [mysql_db Ansible command](http://docs.ansible.com/mysql_db_module.html) is 
 
 Run
 
+{linenos=off, lang=bash}
+~~~~~~~
     vagrant provision
+~~~~~~~
 
 Output:
 
-    [.cut.]
+{linenos=off, lang=text}
+~~~~~~~
+    [...]
 
     TASK: [populating suggestotron database] **************************************
     failed: [ariadne-dev] => {"changed": true, "cmd": "echo \"show tables\" | mysql -uroot -proot suggestotron | grep \"topics\"", "delta": "0:00:00.007963", "end": "2014-12-01 17:51:01.546503", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-12-01 17:51:01.538540", "stdout_lines": []}
@@ -142,83 +183,113 @@ Output:
 
     TASK: [mysql_db name=suggestotron state=import target=/tmp/suggestotron_init.sql] ***
     changed: [ariadne-dev]
+~~~~~~~
 
 Ansible says that the database has been populated (see the "changed" status in last task). Check it with this command:
 
-    ssh vagrant@ariadne-dev 'echo "select * from topics" | mysql -uroot -proot' suggestotron
-    #provide "vagrant" as password
+{linenos=off, lang=bash}
+~~~~~~~
+ssh vagrant@ariadne-dev 'echo "select * from topics" | mysql -uroot -proot' suggestotron
+#provide "vagrant" as password
+~~~~~~~
 
 Output:
 
-    id  title   description
-    1   Make Rainbow ElePHPants Create an elePHPant with rainbow fur
-    2   Make Giant Kittens  Like kittens, but larger
-    3   Complete PHPBridge  Because I am awesome
-
+{linenos=off, lang=text}
+~~~~~~~
+id  title   description
+1   Make Rainbow ElePHPants Create an elePHPant with rainbow fur
+2   Make Giant Kittens  Like kittens, but larger
+3   Complete PHPBridge  Because I am awesome
+~~~~~~~
 
 ### Get the code
 
 The [Suggestroton application repository](https://github.com/dshafik/suggestotron) uses tags in the same way this manual uses branches so it's convenient to clone the git repository in the _projects_ folder so that you can switch between tags to follow the step by step Suggestotron guide.
 
-    cd $pve/ariadne-dev/projects
-    git clone git@github.com:dshafik/suggestotron.git
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne-dev/projects
+git clone git@github.com:dshafik/suggestotron.git
+~~~~~~~
 
 What has been done till now is the equivalent of the first 6 chapters of the Suggestron guide so you should checkout the Suggestotron code at chapter 7 level.
 
-    cd suggestotron
-    git checkout Chapter_07_Adding_Topics
+{linenos=off, lang=bash}
+~~~~~~~
+cd suggestotron
+git checkout Chapter_07_Adding_Topics
+~~~~~~~
 
 ### Add virtual host for Apache
 
 Checkout the _suggestotron_apache_vhost_ branch from the _extra_ repository
 
-    cd $pve
-    git checkout suggestotron_apache_vhost
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve
+git checkout suggestotron_apache_vhost
+~~~~~~~
 
 Have a look at the differences between the current branch and the previous one to have a clear idea of what happened:
 
-    git difftool -g -d suggestotron_populate_db..suggestotron_apache_vhost
+{linenos=off, lang=bash}
+~~~~~~~
+git difftool -g -d suggestotron_populate_db..suggestotron_apache_vhost
+~~~~~~~
 
 ![Differences between branches](images/diff_suggestotron_populate_db-suggestotron_apache_vhost.png)
 
 The playbook now includes this additional task file
 
-    # creates the Apache2 vhost for http://suggestotron
-    - {
-        include: tasks/suggestotron.yml,
-        application_name: "suggestotron",
-        domain: "{{ application_name }}.ariadne-dev"
-      }
+{linenos=off, lang=yaml}
+~~~~~~~
+# creates the Apache2 vhost for http://suggestotron
+- {
+    include: tasks/suggestotron.yml,
+    application_name: "suggestotron",
+    domain: "{{ application_name }}.ariadne-dev"
+  }
+~~~~~~~
 
 which describes these tasks:
 
-    ---
-    # This task takes care of the settings required to run the Hello World example
+{linenos=on, lang=yaml}
+~~~~~~~
+---
+# This task takes care of the settings required to run the Hello World example
 
-    - name: suggestotron.yml | Create symlink /var/www/"{{ domain }}" pointing to /vagrant/"{{ application_name }}"/
-      file: src=/vagrant/"{{ application_name }}"/ dest=/var/www/"{{ domain }}" owner=www-data group=www-data state="link"
+- name: suggestotron.yml | Create symlink /var/www/"{{ domain }}" pointing to /vagrant/"{{ application_name }}"/
+  file: src=/vagrant/"{{ application_name }}"/ dest=/var/www/"{{ domain }}" owner=www-data group=www-data state="link"
 
-    - name: suggestotron.yml | Add host to /etc/hosts
-      lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ domain }} www.{{ domain }}' owner=root group=root mode=0644
+- name: suggestotron.yml | Add host to /etc/hosts
+  lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ domain }} www.{{ domain }}' owner=root group=root mode=0644
 
-    - name: suggestotron.yml | Copy Apache vhost for "{{ domain }}"
-      template: src="{{ application_name }}.vhost" dest=/etc/apache2/sites-available/ owner=root group=root mode=0644
+- name: suggestotron.yml | Copy Apache vhost for "{{ domain }}"
+  template: src="{{ application_name }}.vhost" dest=/etc/apache2/sites-available/ owner=root group=root mode=0644
 
-    - name: suggestotron.yml | Enable Apache vhost "{{ domain }}"
-      file: src=/etc/apache2/sites-available/"{{ application_name }}.vhost" dest=/etc/apache2/sites-enabled/"{{ application_name }}.vhost" owner=root group=root state="link"
-      notify: restart apache2
+- name: suggestotron.yml | Enable Apache vhost "{{ domain }}"
+  file: src=/etc/apache2/sites-available/"{{ application_name }}.vhost" dest=/etc/apache2/sites-enabled/"{{ application_name }}.vhost" owner=root group=root state="link"
+  notify: restart apache2
+~~~~~~~
 
 As you can see, Ansible accepts variables: they can be defined in the vars.yml file (included at the beginning of the playbook) or set in the playbook file at the _include_ level (as it happened already for the Mysql role, remember?) and they can be output using the double curly brackets notation "{{ }}".
 
 To apply the changes made in this branch run
 
-    vagrant provision
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant provision
+~~~~~~~
 
  and you'll be ready to run the Suggestotron application for the first time.
 
 Just add this line to the /etc/hosts file in your workstation
 
-    192.168.51.10    suggestotron.dev www.suggestotron.dev
+{linenos=off, lang=bash}
+~~~~~~~
+192.168.51.10    suggestotron.dev www.suggestotron.dev
+~~~~~~~
 
 Now open this link [http://suggestotron.ariadne-dev](http://suggestotron.ariadne-dev) and you should see this:
 
@@ -231,40 +302,52 @@ If you are a beginner in PHP development you can now learn how the Suggestotron 
 
 For instance you can roll back to chapter 2 and play a little with _psysh_, like this:
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve/ariadne/orchestration/vagrant/
     vagrant ssh
+~~~~~~~
 
 Now run
 
+{linenos=off, lang=bash}
+~~~~~~~
     psysh
+~~~~~~~
 
 and copy and paste, line by line, in the terminal:
 
-    $my_variable = 5; # This assigns the value 5 to the name $my_variable.
+{linenos=off, lang=php}
+~~~~~~~
+$my_variable = 5; # This assigns the value 5 to the name $my_variable.
 
-    $my_variable + 2;
+$my_variable + 2;
 
-    $my_variable * 3;
+$my_variable * 3;
 
-    echo $my_variable; # This shows the value of the variable
+echo $my_variable; # This shows the value of the variable
 
-    echo "Programming is easy!"; # This shows "Programming is easy"
+echo "Programming is easy!"; # This shows "Programming is easy"
 
-    echo "13 * 8";
+echo "13 * 8";
 
-    echo 13 * 8;
+echo 13 * 8;
 
-    echo "My variable is: $my_variable";
+echo "My variable is: $my_variable";
+~~~~~~~
 
 You can quit psysh by pressing _q_ and _enter_
 
 
 Or you can move to chapter 8:
 
-    cd $pve/ariadne/projects/suggestotron/
-    git checkout Chapter_08_Editing_Topics
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/projects/suggestotron/
+git checkout Chapter_08_Editing_Topics
+~~~~~~~
 
-Now refresh your browser at the page http://suggestotron.ariadne-dev/ and click the first Edit link.
+Now refresh your browser at the page `http://suggestotron.ariadne-dev/` and click the first Edit link.
 
 You should see something like this:
 

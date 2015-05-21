@@ -128,7 +128,8 @@ This is the Ansible main file, also known as _playbook_, it's written in [YAML f
 
   # Handlers are used in Ansible tasks with this syntax example
   # notify: restart apache2
-  # which means "after running this task execute `service: name=apache2 state=restarted enabled=yes`"
+  # which means "after running this task execute 
+  # `service: name=apache2 state=restarted enabled=yes`"
   handlers:
     - name: restart apache2
       service: name=apache2 state=restarted enabled=yes
