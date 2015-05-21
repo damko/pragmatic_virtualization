@@ -17,13 +17,19 @@ Brief summary of what's going to happen:
 
 This command installs the digital-ocean plugin globally in your system so it's a one time operation. You can install any other plugin in the same way.
 
-    cd $pve
-    vagrant plugin install vagrant-digitalocean
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve
+vagrant plugin install vagrant-digitalocean
+~~~~~~~
 
 Output:
 
-    Installing the 'vagrant-digitalocean' plugin. This can take a few minutes...
-    Installed the plugin 'vagrant-digitalocean (0.7.1)'!
+{linenos=off, lang=text}
+~~~~~~~
+Installing the 'vagrant-digitalocean' plugin. This can take a few minutes...
+Installed the plugin 'vagrant-digitalocean (0.7.1)'!
+~~~~~~~
 
 The plugin can:
 
@@ -45,21 +51,36 @@ It would be nice to use a customized Packer box instead of a pre-built droplet b
 
 Exactly as it happened after the creation of the Packer box you need to add the Digital Ocean droplet to your Vagrant boxes. This is done with this command:
 
-    vagrant box add digital_ocean https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant box add digital_ocean https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box
+~~~~~~~
 
 It's a one time command and it doesn't do what you might expect: it doesn't clone a box in your system (it would have no sense) but it created a simple json file in the Vagrant boxes directory:
 
+{linenos=off, lang=bash}
+~~~~~~~
     tree ~/.vagrant.d/boxes/digital_ocean
+~~~~~~~
+
+Output:
+
+{linenos=off, lang=bash}
+~~~~~~~
     /home/damko/.vagrant.d/boxes/digital_ocean
     └── 0
         └── digital_ocean
             └── metadata.json
+~~~~~~~
 
 The content of the _metadata.json_ file is just
 
+{linenos=off, lang=bash}
+~~~~~~~
     {
       "provider": "digital_ocean"
     }
+~~~~~~~
 
 This _provider_ key will be used in the Vagrantfile to refer to this Vagrant box (see later).
 
@@ -82,68 +103,80 @@ Don't forget to copy and paste the token somewhere before closing the browser ot
 
 Checkout the _* production_environment_ branch from the _extra_ repository
 
+{linenos=off, lang=bash}
+~~~~~~~
     cd $pve
     git checkout production_environment
+~~~~~~~
 
 and have a look at the Vagrantfile.
 
 There are new variables declared at the top of the file, one of which is DO_TOKEN: **you need to update it with the token you just copied**.
 
+{linenos=off, lang=bash}
+~~~~~~~
     # Digital Ocean virtual machine for production
     DO_VM_NAME = "ariadne-prod"
     DO_TOKEN = "647675865bb75263e484b50d4cff17fca9ae3a9ae1df380f1d8cfc473fff5077"
+~~~~~~~
 
 The _DO_VM_NAME_ variable sets _ariadne-prod_ as the name for the Digital Ocean droplet.
 
 In the bottom part of the Vagrantfile there are these additional lines:
 
-    #DIGITAL OCEAN
-    config.vm.define DO_VM_NAME do |production|
+{linenos=off, lang=ruby}
+~~~~~~~
+#DIGITAL OCEAN
+config.vm.define DO_VM_NAME do |production|
 
-      # this is the provider
-      production.vm.box = "digital_ocean"
-      production.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+  # this is the provider
+  production.vm.box = "digital_ocean"
+  production.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
 
-      # this disables the NFS support
-      production.vm.synced_folder ".", "/vagrant", disabled: true
+  # this disables the NFS support
+  production.vm.synced_folder ".", "/vagrant", disabled: true
 
-      # your public ssh key path
-      production.ssh.private_key_path = "/home/damko/.ssh/id_rsa"
+  # your public ssh key path
+  production.ssh.private_key_path = "/home/damko/.ssh/id_rsa"
 
-       production.vm.provider :digital_ocean do |provider|
+   production.vm.provider :digital_ocean do |provider|
 
-          # your token
-          provider.token = DO_TOKEN
+      # your token
+      provider.token = DO_TOKEN
 
-           # Droplet type.
-           # To get the list of the available droplets you can use this command
-           # curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer <your_token>' "https://api.digitalocean.com/v2/droplets"
-           provider.image = "Debian 7.0 x64"
+       # Droplet type.
+       # To get the list of the available droplets you can use this command
+       # curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer <your_token>' "https://api.digitalocean.com/v2/droplets"
+       provider.image = "Debian 7.0 x64"
 
-           # Droplet location
-           # To get the list of the available regions you can use this command
-           # curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer <your_token>' "https://api.digitalocean.com/v2/regions"
-           provider.region = "ams2"
+       # Droplet location
+       # To get the list of the available regions you can use this command
+       # curl -X GET -H 'Content-Type: application/json' -H 'Authorization: Bearer <your_token>' "https://api.digitalocean.com/v2/regions"
+       provider.region = "ams2"
 
-           # How much ram for the droplet. Careful here! The monthly cost of the droplet dipends on these parameters
-           # Check the costs here https://cloud.digitalocean.com/droplets/new before changing them
-           provider.size = "512MB"
-           provider.backups_enabled = false
+       # How much ram for the droplet. Careful here! The monthly cost of the droplet dipends on these parameters
+       # Check the costs here https://cloud.digitalocean.com/droplets/new before changing them
+       provider.size = "512MB"
+       provider.backups_enabled = false
 
-           # A string representing the name to use when creating a DigitalOcean SSH key for VPS authentication. It defaults to Vagrant.
-           provider.ssh_key_name = "damko@nitro"
-       end
+       # A string representing the name to use when creating a DigitalOcean SSH key for VPS authentication. It defaults to Vagrant.
+       provider.ssh_key_name = "damko@nitro"
+   end
 
-       production.vm.provision "ansible" do |ansible|
+   production.vm.provision "ansible" do |ansible|
 
-           ansible.playbook = "../ansible/ariadne-dev-playbook.yml"
+       ansible.playbook = "../ansible/ariadne-dev-playbook.yml"
 
-       end
-    end
+   end
+end
+~~~~~~~
 
 The first that you should notice in this Vagrantile is this line:
 
-    production.vm.synced_folder ".", "/vagrant", disabled: true
+{linenos=off, lang=text}
+~~~~~~~
+production.vm.synced_folder ".", "/vagrant", disabled: true
+~~~~~~~
 
 NFS is obviously disabled for the production machine.
 
@@ -156,11 +189,17 @@ Read the comments and be sure to **carefully update these variables** accordingl
 
 The _production.ssh.private_key_path_ is absolutely mandatory and you have to set there the path to your SSH public key which usually lays in your workstation in this file:
 
-    ~/.ssh/id_rsa.pub
+{linenos=off, lang=bash}
+~~~~~~~
+~/.ssh/id_rsa.pub
+~~~~~~~
 
 If you don't have the id_rsa.pub you can generate one by running:
 
-    ssh-keygen
+{linenos=off, lang=bash}
+~~~~~~~
+ssh-keygen
+~~~~~~~
 
 just hit enter when asked for a password.
 
@@ -173,25 +212,34 @@ In this case I removed Xdebug and Psysh from _ariadne-prod-playbook.yml_ because
 
 Also the Apache vhost configuration has to be changed:
 
-    # creates the Apache2 vhost for http://suggestotron
-    - {
-        include: tasks/suggestotron.yml,
-        application_name: "suggestotron",
-        domain: "{{ application_name }}.adriadne.prod"
-      }
+{linenos=off, lang=text}
+~~~~~~~
+# creates the Apache2 vhost for http://suggestotron
+- {
+    include: tasks/suggestotron.yml,
+    application_name: "suggestotron",
+    domain: "{{ application_name }}.adriadne.prod"
+  }
+~~~~~~~
 
 And _adriadne.prod_ should be changed with your public domain.
 
 At the top of the playbook there is now this line:
 
-    gather_facts: yes
+{linenos=off, lang=text}
+~~~~~~~
+gather_facts: yes
+~~~~~~~
 
 which forces Ansible to retrieve information about the running virtual machine that will be used in Ansible tasks.
 If you edit the _suggestotron.yml_ you will see that it now has this additional line: _when: ansible_hostname == "ariadne-dev"_
 
+{linenos=off, lang=bash}
+~~~~~~~
     - name: suggestotron.yml | Create symlink /var/www/"{{ domain }}" pointing to /vagrant/"{{ application_name }}"/
       file: src=/vagrant/"{{ application_name }}"/ dest=/var/www/"{{ domain }}" owner=www-data group=www-data state="link"
       when: ansible_hostname == "ariadne-dev"
+~~~~~~~
 
 The _ansible_hostname_ variable get populated by Ansible because of the "gather facts command" and it can be used as a parameter. In this case Ansible tries to create a symlink of the /vagrant/suggentotron directory to /var/www/ only if the running virtual machine is the _ariadne-dev_ because it uses the NFS shared folder while _ariadne-prod_ doesn't.
 
@@ -200,7 +248,10 @@ The _ansible_hostname_ variable get populated by Ansible because of the "gather 
 
 It's all set and you can create your droplet with this command:
 
-    vagrant up --provider=digital_ocean ariadne-prod
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant up --provider=digital_ocean ariadne-prod
+~~~~~~~
 
 The _--provider=digital_ocean_ parameter is required only when you are creating the droplet.
 
@@ -208,12 +259,17 @@ Notice that the _vagrant up_ command is now followed by the vm name. This is bec
 
 Look at this line in the Vagrantfile:
 
-    config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
+{linenos=off, lang=text}
+~~~~~~~
+config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
+~~~~~~~
 
 The _primary: true_ part means that _ariadne-dev_ is the default vm and if you run any _vagrant command_ without specifying the vm name then Vagrant will use _ariadne-dev_.
 
 Output:
 
+{linenos=off, lang=text}
+~~~~~~~
     Bringing machine 'ariadne-prod' up with 'digital_ocean' provider...
     ==> ariadne-prod: Using existing SSH key: damko@nitro
     ==> ariadne-prod: Creating a new droplet...
@@ -364,6 +420,7 @@ Output:
 
     PLAY RECAP ********************************************************************
     ariadne-prod               : ok=36   changed=26   unreachable=0    failed=0
+~~~~~~~
 
 Done! Your production environment is ready and in your Digital Ocean administration interface you now see the _ariadne-prod_ droplet its ip address.
 
@@ -373,13 +430,19 @@ You have probably noticed that _ariadne-prod_ is now missing the suggestotron co
 
 You can copy it in the Apache vhost root folder via ssh:
 
-    cd $pve/ariadne/projects
-    scp -r suggestotron root@<droplet_ip_address>:/var/www/
-    ssh root@<droplet_ip_address> 'chown www-data:www-data -fR /var/www/suggestotron.ariadne.prod'
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/projects
+scp -r suggestotron root@<droplet_ip_address>:/var/www/
+ssh root@<droplet_ip_address> 'chown www-data:www-data -fR /var/www/suggestotron.ariadne.prod'
+~~~~~~~
 
 Now you can configure your hosts file
 
-    sudo echo "<droplet_ip_address>    suggestotron.ariadne.prod" >> /etc/hosts
+{linenos=off, lang=bash}
+~~~~~~~
+sudo echo "<droplet_ip_address>    suggestotron.ariadne.prod" >> /etc/hosts
+~~~~~~~
 
 and you can see it at [http://suggestotron.ariadne.prod](http://suggestotron.ariadne.prod).
 

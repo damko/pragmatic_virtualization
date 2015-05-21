@@ -1,11 +1,15 @@
-## Know more about virtualization
+## Dive deeper into virtualization
 
-It should be pretty clear that virtualization is a huge and charming change in the computing world but it's such a vast field that a new professional figure, the _devops engineer_, has developed and the demand is growing rapidly.
+By now it should be pretty clear that virtualization is a huge and charming change in the computing world.
 
-This manual provides just the minimum knowledge required to a developer but it doesn't make the reader a devops engineer.
+It's such a vast field that a new professional figure, the _devops engineer_, has born and the job offers are growing rapidly.
 
-If you want to learn more about virtualization there are many books available not only on Vagrant but also on other technologies like Docker.
+If you want to learn more about virtualization there are many books available for many different virtualization technologies.
 
-Personally I highly suggest the [Vagrant CookBook](https://leanpub.com/vagrantcookbook) written by [Erika Heidi](https://twitter.com/erikaheidi), one of the clearest book I have ever read. She efficiently explains what are the differences between Ansible, Puppet and Chef and provides some Vagrant tricks and many recipes for all the three provisioning systems.
+I highly suggest to start with [Vagrant CookBook](https://leanpub.com/vagrantcookbook) written by [Erika Heidi](https://twitter.com/erikaheidi), honestly, one of the clearest book I have ever read. 
+
+She efficiently explains what are the differences between Ansible, Puppet and Chef and this helped me a lot in choosing Ansible as my favorite automation tool. 
+
+She also provides some valuable tricks and many recipes for all the three provisioning systems that will help you to speed up your learning process.
 
 ![Vagrant Cookbook](images/vagrant_cookbook.png)
