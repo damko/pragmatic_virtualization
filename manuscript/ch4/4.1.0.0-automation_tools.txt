@@ -1,19 +1,21 @@
 ## Automation tools {#automation_tools_paragraph}
 
-Besides VirtualBox, Vagrant and Packer there are additional tools that can help setting up the virtual environment.
+Besides VirtualBox, Vagrant and Packer there are additional tools that can help setting up your virtual environment.
 
-After a fresh virtual machine has been setup the additional system configuration can be done manually or with an automation tool.
+After a fresh virtual machine has been created the additional system configurations can be done manually or with an _automation tool_.
 
-The most famous automation tools (also called provisioning software) currently available are [Puppet](http://www.puppetlabs.com), [Chef](http://www.opscode.com) and [Ansible](http://www.ansible.com).
+The most famous automation tools (also called _provisioning software_) currently available are [Puppet](http://www.puppetlabs.com), [Chef](http://www.opscode.com) and [Ansible](http://www.ansible.com).
 
-These tools make systems and applications simple to deploy and are specifically designed to install any kind of software package, service, script and configuration file. They can be used on virtual machine or regular computers.
+These tools are specifically designed to install any kind of software package, service, script and configuration file. They can be used both on virtual machine and regular computers.
 
-Provisioning virtual machines grants that any other virtual machine created using the same configuration files will be identical to any other and it's the only way to programmatically create virtual machines with the same quality. This is useful when you work in a team in which each developer has his/her own development vm but also when you try to have a development environment homogeneous with the production one.
+Provisioning virtual machines grants that any other virtual machine created using the same configuration files will be identical to the others and it's the way to programmatically create virtual machines with the same quality. 
 
-A well configured provisioning tool also gives you the freedom to destroy and rebuild your boxes in minutes or to switch your hosting provider quickly and easily.
+This approach is very useful when you work in a team in which each developer has his/her own development virtual machine but also when you strive to have a development environment homogeneous with the production one.
+
+A well configured provisioning tool also gives you the freedom to destroy and rebuild your boxes in minutes or to painlessly switch your hosting provider at any time.
 
 ### Automation tools and Suggestotron
 
 The Suggestotron web application, as shown in the [requirements](http://phpbridge.org/intro-to-php/) needs PHP, a webserver and a mysql database to run.
 
-This manual uses on Ansible to automatically install and configure the software required by the Suggestotron application, both in the development and the production environment.
+This manual will use Ansible to automatically install and configure the required software both in the development and in the production environment.
