@@ -1,66 +1,99 @@
-## Destroy your development vm
+## Destroy your virtual machine
 
-### How to identify the correct vm
+I told you that virtualization is a great thing because you can easily create, destroy and rebuild a virtual machine with basically no effort.
 
-Before destroying a box it's important to know the box identification name so that you specify which the one to delete.
+Let's prove it by destroying and then rebuilding the virtual machine.
 
-Currently we have the Vagrant/VirtualBox "development" vm and the Vagrant "template" box.
+### How to identify the correct virtual machine
 
-The Vagrant template vm and the Vagrant vm have different names and they are written in the Vagrantfile:
+Before destroying a virtual machine it's important to know its identification name so that you can be sure that you are deleting the right one.
 
-    # Vagrant template box name
-    VG_BOX_NAME = "debian_jessie_800_64bit"
+Currently we have the Vagrant/VirtualBox virtual machine and the Vagrant template box and they have different names that are written in the Vagrantfile:
 
-    # Local virtual machine for development
-    VB_DEV_VM_NAME = "ariadne-dev"
+{linenos=off, lang=ruby}
+~~~~~~~
+# Vagrant template box name
+VG_BOX_NAME = "debian_jessie_800_64bit"
 
+# Local virtual machine for development
+VB_DEV_VM_NAME = "ariadne-dev"
+~~~~~~~
 
-### Destroy the Vagrant development vm
+### Destroy the Vagrant virtual machine
 
-Vagrant can be used to destroy the newly created _ariadne-dev_ but the machine must be listed in the Vagrantfile. You can not destroy any vm you like.
+Vagrant can be used to destroy the newly created _ariadne-dev_
 
-    cd $pve/ariadne/orchestration/vagrant/
-    vagrant destroy ariadne-dev
+T> The virtual machine to destroy must be defined in the Vagrantfile present in the current directory
+
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant/
+vagrant destroy ariadne-dev
+~~~~~~~
 
 Output:
 
+{linenos=off, lang=text}
+~~~~~~~
     ariadne-dev: Are you sure you want to destroy the 'ariadne-dev' VM? [y/N]
     ==> ariadne-dev: Forcing shutdown of VM...
     ==> ariadne-dev: Destroying VM and associated drives...
+~~~~~~~
 
 If you run again:
 
-    vboxmanage list vms
+{linenos=off, lang=bash}
+~~~~~~~
+vboxmanage list vms
+~~~~~~~
 
 or
 
-    vagrant global-status
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant global-status
+~~~~~~~
 
 you should not see _ariadne-dev_ anymore.
 
-If you try to destroy a vm that is not listed in the Vagrantfile, like this
+If you try to destroy a virtual machine that is not listed in the Vagrantfile, like this
 
-    vagrant destroy precise64_default_1396556373306_80830
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant destroy precise64_default_1396556373306_80830
+~~~~~~~
 
 you get
 
-    The machine with the name 'precise64_default_1396556373306_80830' was not found configured for this Vagrant environment.
+{linenos=off, lang=text}
+~~~~~~~
+The machine with the name 'precise64_default_1396556373306_80830' was not found configured for this Vagrant environment.
+~~~~~~~
 
 ### Destroy the Vagrant template box
 
-One day the Vagrant template box will become outdated and you might want to delete it. This is the command
+One day the Vagrant template box will become outdated and you might want to delete it to replace it with a new one.
 
-    vagrant box remove debian_jessie_800_64bit
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant box remove debian_jessie_800_64bit
+~~~~~~~
 
-and it can be executed from any directory because it doesn't need the Vagrantfile.
+This command can be executed from any directory because it doesn't need the Vagrantfile.
 
 Output:
 
-    Removing box 'debian_jessie_800_64bit' (v0) with provider 'virtualbox'...
+{linenos=off, lang=text}
+~~~~~~~
+Removing box 'debian_jessie_800_64bit' (v0) with provider 'virtualbox'...
+~~~~~~~
 
 Run again:
 
-    vagrant box list
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant box list
+~~~~~~~
 
 Now you should not see debian_jessie_800_64bit in the list.
 
