@@ -202,7 +202,7 @@ At the top of the playbook there is now this line:
     gather_facts: yes
 
 which forces Ansible to retrieve information about the running virtual machine that will be used in Ansible tasks.
-If you edit the _suggestotron.yml_ you'll see that it now has this additional line: _when: ansible_hostname == "ariadne-dev"_
+If you edit the _suggestotron.yml_ you will see that it now has this additional line: _when: ansible_hostname == "ariadne-dev"_
 
     - name: suggestotron.yml | Create symlink /var/www/"{{ domain }}" pointing to /vagrant/"{{ application_name }}"/
       file: src=/vagrant/"{{ application_name }}"/ dest=/var/www/"{{ domain }}" owner=www-data group=www-data state="link"

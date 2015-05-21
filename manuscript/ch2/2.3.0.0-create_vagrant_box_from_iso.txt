@@ -40,7 +40,7 @@ tree
 └── ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-If you have a look at the `ta-debian-8-jessie-virtualbox.json` file you'll see that the Packer box is configured to have 1 core, 512MB ram and 10Gb hdd but it's easy to add a core or some ram later on.
+If you have a look at the `ta-debian-8-jessie-virtualbox.json` file you will see that the Packer box is configured to have 1 core, 512MB ram and 10Gb hdd but it's easy to add a core or some ram later on.
 
 Before creating the vm, check if the json file is valid:
 

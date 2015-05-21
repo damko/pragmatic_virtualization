@@ -42,7 +42,7 @@ nfsd running
 ==> ariadne-dev: to force provisioning. Provisioners marked to run always will still run.
 ~~~~~~~
 
-I> If you destroyed the virtual machine but you didn't rebuild it yet you'll see a different result because Vagrant automatically starts Ansible at the first `vagrant up`. 
+I> If you destroyed the virtual machine but you didn't rebuild it yet you will see a different result because Vagrant automatically starts Ansible at the first `vagrant up`. 
 
 T> If this is your case I suggest to go back to the previous branch (_improving_vagrantfile_) and rebuild the machine so that you won't see anything difference from what explained.
 

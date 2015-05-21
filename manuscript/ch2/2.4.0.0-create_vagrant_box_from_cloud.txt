@@ -10,7 +10,7 @@ cd $pve
 git checkout create_vagrant_box_from_cloud
 ~~~~~~~
 
-What has been made with Packer can be done with [Vagrant Cloud](http://vagrantcloud.com/). If you look for "Debian Jessie" in the "Discover Boxes" section you'll get many results: the first one that I have found claiming to produce a clean and minimal Debian Jessie 64 bit is the ARCO Research Group [deb/jessie-amd64](https://atlas.hashicorp.com/deb/boxes/jessie-amd64)
+What has been made with Packer can be done with [Vagrant Cloud](http://vagrantcloud.com/). If you look for "Debian Jessie" in the "Discover Boxes" section you will get many results: the first one that I have found claiming to produce a clean and minimal Debian Jessie 64 bit is the ARCO Research Group [deb/jessie-amd64](https://atlas.hashicorp.com/deb/boxes/jessie-amd64)
 
 To use this box run:
 

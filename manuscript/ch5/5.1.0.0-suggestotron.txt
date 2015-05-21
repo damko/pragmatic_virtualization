@@ -10,7 +10,8 @@
 ### Create the database
 
 In the Suggestotron guide, [chapter 5](http://phpbridge.org/intro-to-php/creating_a_database), there are detailed instructions about how to create by hand the Mysql database necessary to store Suggestotron data.
-But with Ansible and there is no need for manual configuration.
+
+With Ansible that can be automated, no need for manual configuration.
 
 Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
 
@@ -45,14 +46,14 @@ roles:
 }
 ~~~~~~~
 
-If you run:
+Run:
 
 {linenos=off, lang=bash}
 ~~~~~~~
 vagrant provision
 ~~~~~~~
 
-you'll see in the output:
+and you will see in the output:
 
 {linenos=off, lang=text}
 ~~~~~~~
@@ -74,29 +75,31 @@ Output:
 
 {linenos=off, lang=text}
 ~~~~~~~
-    information_schema
-    mysql
-    performance_schema
-    suggestotron
+information_schema
+mysql
+performance_schema
+suggestotron
 ~~~~~~~
 
 ### Populate the database
 
-Ansible, of course, can also populate the database. One thing to keep in mind is that the database will be populated only if it's empty, i.e. right after its creation, otherwise every time `vagrant provision` is run the database will be populated with duplicated records.
+Ansible can also populate the database. 
+
+One thing to keep in mind is that the database will be populated only if it's empty, i.e. right after its creation, otherwise every time `vagrant provision` is run the database will be populated with duplicated records.
 
 Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    cd $pve
-    git checkout suggestotron_database_creation
+cd $pve
+git checkout suggestotron_database_creation
 ~~~~~~~
 
 Now you see some more files
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    tree $pve/ariadne/orchestration/ansible
+tree $pve/ariadne/orchestration/ansible
 ~~~~~~~
 
 Output:
@@ -118,7 +121,7 @@ Output:
 └── vars.yml
 ~~~~~~~
 
-and the playbook has this additional line
+and the playbook has this additional line:
 
 {linenos=off, lang=yaml}
 ~~~~~~~
@@ -126,7 +129,7 @@ and the playbook has this additional line
 - include: tasks/populate_suggestotron_db.yml
 ~~~~~~~
 
-This is the content of the populate_suggestotron_db.yml file:
+This is the content of the `populate_suggestotron_db.yml` file:
 
 {linenos=on, lang=yaml}
 ~~~~~~~
@@ -150,7 +153,7 @@ This is the content of the populate_suggestotron_db.yml file:
   when: populated|failed
 ~~~~~~~
 
-When the populate_suggestotron_db task is run, Ansible uses the command
+When the populate_suggestotron_db task runs, Ansible uses this command
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -159,33 +162,37 @@ When the populate_suggestotron_db task is run, Ansible uses the command
 
 to check if the _suggestotron_ database is populated.
 
-The [mysql_db Ansible command](http://docs.ansible.com/mysql_db_module.html) is one of the many [Ansible modules](http://docs.ansible.com/list_of_all_modules.html) created to interact with software like Mysql, Apache etc. As you can see the mysql_db module can be used to create, drop, dump and import a database.
+The [mysql_db Ansible command](http://docs.ansible.com/mysql_db_module.html) is one of the many [Ansible modules](http://docs.ansible.com/list_of_all_modules.html) available and they are created to interact with services like Mysql, Apache etc. 
 
-Run
+As you can see the `mysql_db` module can be used to create, drop, dump and import a database.
+
+Run again the provisioning:
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    vagrant provision
+vagrant provision
 ~~~~~~~
 
 Output:
 
 {linenos=off, lang=text}
 ~~~~~~~
-    [...]
+[...]
 
-    TASK: [populating suggestotron database] **************************************
-    failed: [ariadne-dev] => {"changed": true, "cmd": "echo \"show tables\" | mysql -uroot -proot suggestotron | grep \"topics\"", "delta": "0:00:00.007963", "end": "2014-12-01 17:51:01.546503", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-12-01 17:51:01.538540", "stdout_lines": []}
-    ...ignoring
+TASK: [populating suggestotron database] **************************************
+failed: [ariadne-dev] => {"changed": true, "cmd": "echo \"show tables\" | mysql -uroot -proot suggestotron | grep \"topics\"", "delta": "0:00:00.007963", "end": "2014-12-01 17:51:01.546503", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-12-01 17:51:01.538540", "stdout_lines": []}
+...ignoring
 
-    TASK: [copy src=sql/suggestotron_init.sql dest=/tmp] **************************
-    ok: [ariadne-dev]
+TASK: [copy src=sql/suggestotron_init.sql dest=/tmp] **************************
+ok: [ariadne-dev]
 
-    TASK: [mysql_db name=suggestotron state=import target=/tmp/suggestotron_init.sql] ***
-    changed: [ariadne-dev]
+TASK: [mysql_db name=suggestotron state=import target=/tmp/suggestotron_init.sql] ***
+changed: [ariadne-dev]
 ~~~~~~~
 
-Ansible says that the database has been populated (see the "changed" status in last task). Check it with this command:
+Ansible says that the database has been populated (see the "changed" status in last task). 
+
+Let's see if it's true with this command:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -203,9 +210,9 @@ id  title   description
 3   Complete PHPBridge  Because I am awesome
 ~~~~~~~
 
-### Get the code
+### Get the Suggestotron code
 
-The [Suggestroton application repository](https://github.com/dshafik/suggestotron) uses tags in the same way this manual uses branches so it's convenient to clone the git repository in the _projects_ folder so that you can switch between tags to follow the step by step Suggestotron guide.
+The [Suggestroton repository](https://github.com/dshafik/suggestotron) uses tags in the same way this manual uses branches therefore it's convenient to clone the git repository in the _projects_ folder so that you can switch between tags to follow the step by step Suggestotron guide.
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -213,7 +220,9 @@ cd $pve/ariadne-dev/projects
 git clone git@github.com:dshafik/suggestotron.git
 ~~~~~~~
 
-What has been done till now is the equivalent of the first 6 chapters of the Suggestron guide so you should checkout the Suggestotron code at chapter 7 level.
+What has been done till now is roughly the equivalent of the first 6 chapters of the Suggestron guide so you should checkout the Suggestotron code at chapter 7 level.
+
+T> Maybe you need to have a look at the Creating A Data Class chapter first to understand how the Class is made
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -257,7 +266,7 @@ which describes these tasks:
 {linenos=on, lang=yaml}
 ~~~~~~~
 ---
-# This task takes care of the settings required to run the Hello World example
+# This task takes care of the Apache vhost
 
 - name: suggestotron.yml | Create symlink /var/www/"{{ domain }}" pointing to /vagrant/"{{ application_name }}"/
   file: src=/vagrant/"{{ application_name }}"/ dest=/var/www/"{{ domain }}" owner=www-data group=www-data state="link"
@@ -273,18 +282,22 @@ which describes these tasks:
   notify: restart apache2
 ~~~~~~~
 
-As you can see, Ansible accepts variables: they can be defined in the vars.yml file (included at the beginning of the playbook) or set in the playbook file at the _include_ level (as it happened already for the Mysql role, remember?) and they can be output using the double curly brackets notation "{{ }}".
+As you can see, Ansible accepts variables. 
 
-To apply the changes made in this branch run
+They can be defined in the `vars.yml` file (included at the beginning of the playbook) or in the playbook file at the _include_ level (as it happened already for the Mysql role, remember?) and they can be output using the double curly brackets notation "{{ }}".
+
+To apply the changes made in this branch run:
 
 {linenos=off, lang=bash}
 ~~~~~~~
 vagrant provision
 ~~~~~~~
 
- and you'll be ready to run the Suggestotron application for the first time.
+### Run Suggestotron
 
-Just add this line to the /etc/hosts file in your workstation
+Now you are ready to run the Suggestotron application for the first time.
+
+Just add this line to the `/etc/hosts` file in your workstation
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -296,11 +309,15 @@ Now open this link [http://suggestotron.ariadne-dev](http://suggestotron.ariadne
 ![Index page](images/suggestotron_index_0.png)
 
 
-### Play with the application
+### Play with Suggestotron
 
-If you are a beginner in PHP development you can now learn how the Suggestotron application works by reading the Suggestotron guide and checking out the right tag every time you move to a new chapter. The only difference with the Suggestotron guide will be the URLs: just replace localhost:8080 with suggestotron.ariadne-dev.
+If you are a beginner in PHP you can now dive in the [Intro to PHP guide](http://phpbridge.org/intro-to-php/) and play with the Seggestotron application just checking out the right tag every time you move to a new chapter. 
 
-For instance you can roll back to chapter 2 and play a little with _psysh_, like this:
+T> The only difference with the Suggestotron guide will be the URLs: just replace `http://localhost:8080` with `http://suggestotron.ariadne-dev`.
+
+For instance, you can roll back to chapter 2 and play a little with _psysh_, in this way:
+
+Log in the virtual machine: 
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -308,14 +325,14 @@ For instance you can roll back to chapter 2 and play a little with _psysh_, like
     vagrant ssh
 ~~~~~~~
 
-Now run
+and run:
 
 {linenos=off, lang=bash}
 ~~~~~~~
     psysh
 ~~~~~~~
 
-and copy and paste, line by line, in the terminal:
+now copy and paste, line by line, in the terminal these commands:
 
 {linenos=off, lang=php}
 ~~~~~~~
@@ -336,10 +353,10 @@ echo 13 * 8;
 echo "My variable is: $my_variable";
 ~~~~~~~
 
-You can quit psysh by pressing _q_ and _enter_
+T> You can quit psysh by pressing _q_ and _enter_
 
 
-Or you can move to chapter 8:
+Then you can move to chapter 8. Switch the tag first
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -347,7 +364,7 @@ cd $pve/ariadne/projects/suggestotron/
 git checkout Chapter_08_Editing_Topics
 ~~~~~~~
 
-Now refresh your browser at the page `http://suggestotron.ariadne-dev/` and click the first Edit link.
+and then refresh your browser at the page `http://suggestotron.ariadne-dev/` and click the first _Edit_ link.
 
 You should see something like this:
 
