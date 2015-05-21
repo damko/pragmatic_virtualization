@@ -1,8 +1,10 @@
-## Improving Vagrantfile
+## Improving the Vagrantfile
 
 The Vagrantfile used till now is quite simple and can be improved to do more.
 
-The _improving_vagrantfile_ _extra_ branch contains an improved version of the Vagrantfile but before doing anything you need to backup your `.vagrant` directory because it contains some important and unique information about your vagrant virtual machine.
+The Vagrantfile can be written to configure several virtual machines and to host many different configurations (like network settings, host name etc.) for each virtual machine.
+
+The _improving_vagrantfile_ _extra_ branch has an improved version of the previous Vagrantfile but before doing anything you need to backup your `.vagrant` directory because it contains some important and unique information about your vagrant virtual machine.
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -24,7 +26,7 @@ and finally restore your `.vagrant` directory:
 mv /tmp/.vagrant $pve/ariadne/orchestration/vagrant/
 ~~~~~~~
 
-The Vagrantfile provided in this branch looks like this:
+Now have a look at the Vagrantfile provided with this branch. It looks like this:
 
 {linenos=on, lang=ruby}
 ~~~~~~~
@@ -47,7 +49,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Vagrant settings for the development vm
     config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
 
-        # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant vm will be generated
+        # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant virtual machine will be generated
         devel.vm.box = VG_BOX_NAME
 
         # Hostname for the generated Vagrant vm
@@ -97,7 +99,7 @@ which look like this:
 
 ![Vagrantfile differences](images/diff_vagrantfile.png)
 
-### Conventions for the Vagrantfile
+### Conventions in use
 
 At the beginning of the _Vagrantfile_ there are some variable declarations that can be freely declared and that are used later on in the Vagrantfile.
 
@@ -108,21 +110,21 @@ I also used some conventions that you can definitely drop if you don't like them
 * variables starting with VG = Vagrant
 * variables starting with VB = VirtualBox
 * the virtual machine hostname and VirtualBox virtual machine name match
-* the virtual machine name is also used to define each section of the Vagrantfile like this
+* the virtual machine name is also used to define each section of the Vagrantfile, like this
     `config.vm.define VB_DEV_VM_NAME, primary: true do |devel|`
 
-### Network settings
+### Virtual machine network settings
 
-It can be convenient to automatically configure the IP for the virtual machine especially if you don't have a DHCP server running in your network.
+Especially if you don't have a DHCP server running in your network, it can be convenient to automatically set the IP for the virtual machine.
 
-To do so I used a variable declaration
+Vagrant can take care of this and to do so I declare the variable `VB_DEV_VM_IP`:
 
 {linenos=off, lang=text}
 ~~~~~~~
 VB_DEV_VM_IP = "192.168.51.10"
 ~~~~~~~
 
-and I use that variable in this configuration line
+and then I use that variable in line 28
 
 {linenos=off, lang=text}
 ~~~~~~~
@@ -130,16 +132,16 @@ and I use that variable in this configuration line
 devel.vm.network "private_network", ip: VB_DEV_VM_IP
 ~~~~~~~
 
-T> if there is already a machine using the IP address 192.168.51.10 in your network then you must change the "VB_DEV_VM_IP" variable and set an IP that does not belong to your workstation network class.
+T> if there is already a machine using the IP address 192.168.51.10 in your network (i.e. another vm) then you must change the "VB_DEV_VM_IP" variable and set an IP that **does not belong** to your workstation network class.
 
-Same thing for the hostname. Variable:
+The same thing happens for the host name. Variable:
 
 {linenos=off, lang=text}
 ~~~~~~~
 VB_DEV_VM_NAME = "ariadne-dev"
 ~~~~~~~
 
-and configuration line:
+and used in the configuration line number 25:
 
 {linenos=off, lang=text}
 ~~~~~~~
@@ -147,21 +149,20 @@ and configuration line:
 devel.vm.hostname = VB_DEV_VM_NAME
 ~~~~~~~
 
-This means that the vm hostname will be "ariadne-dev" and it will take the IP "192.168.51.10".
+With this configuration I expect that the virtual machine hostname will be "ariadne-dev" and it will take the IP "192.168.51.10".
 
 T> [Avoid "dots" in the hostname](http://serverfault.com/questions/229331/can-i-have-dots-in-a-hostname)
 
-It's convenient to add this information to the workstation hosts file:
+It's better to add this information to the workstation hosts file `/etc/hosts`:
 
 {linenos=off, lang=text}
 ~~~~~~~
-# add host
 sudo echo "192.168.51.10    ariadne-dev" >> /etc/hosts
 ~~~~~~~
 
 ### Directory sharing
 
-As already said, the code will be on the workstation file-system but it will be run on the VM. This means that the VM needs to connect to the workstation file-system through a directory sharing service and the most comfortable one in Linux is NFS.
+As already said, the code will be stored on the workstation file-system but it will run on the virtual machine. This means that the virtual machine needs to connect to the workstation file-system through a directory sharing service. The most comfortable way to do so in Linux is by using the NFS service.
 
 The NFS service is the only service that you really need to install on the workstation. To install NFS:
 
@@ -170,20 +171,20 @@ The NFS service is the only service that you really need to install on the works
 sudo apt-get install nfs-kernel-server
 ~~~~~~~
 
-This configuration line
+This configuration line (31)
 
 {linenos=off, lang=text}
 ~~~~~~~
-# NFS settings
 devel.vm.synced_folder "../../projects", "/vagrant", type: "nfs"
 ~~~~~~~
 
-tells Vagrant which is the directory that should be shared with the vm right each time the vm is booted. Vagrant will automatically take care of the configuration of the NFS shares (which are set in the /etc/exports file of your workstation).
-In this case the _$pve/ariadne/projects_ directory will be mounted on the _/vagrant_ directory of the vm. As you can see the source directory path is relative to the directory containing the Vagrantfile.
+tells Vagrant which is the directory that should be shared with the virtual machine right each time the virtual machine is booted. Vagrant will automatically take care of the configuration of the NFS shares (which are set in the `/etc/exports` file of your workstation).
 
-### Apply changes
+In this case the _$pve/ariadne/projects_ directory will be mounted on the _/vagrant_ directory of the virtual machine file-system. As you can see the source directory path is relative to the directory containing the Vagrantfile (`../../projects`).
 
-To apply the changes added to the Vagrantfile, stop the vm and restart it:
+### How to apply the changes
+
+To apply the changes added to the Vagrantfile, stop the virtual machine and restart it:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -221,7 +222,11 @@ GuestAdditions 4.3.16 running --- OK.
 [sudo] password for damko:
 ~~~~~~~
 
-Vagrant will immediately apply the changes made to the Vagrant file. NFS requires root privileges to modify the /etc/exports so Vagrant will stop the booting process and ask for your user's system password (your user is supposed to be in the sudoers group). Then it will continue:
+As you can see NFS requires root privileges to modify the `/etc/exports` file so Vagrant will pause the booting process and ask for your user's system password 
+
+T> your user is supposed to be in the sudoers group 
+
+Then Vagrant will continue:
 
 {linenos=off, lang=text}
 ~~~~~~~
@@ -231,14 +236,16 @@ Vagrant will immediately apply the changes made to the Vagrant file. NFS require
     ==> ariadne-dev: to force provisioning. Provisioners marked to run always will still run.
 ~~~~~~~
 
-Login to the vm with
+### How to test the changes
+
+Login to the virtual machine via SSH with:
 
 {linenos=off, lang=bash}
 ~~~~~~~
 vagrant ssh
 ~~~~~~~
 
-or
+or using the virtual machine hostname:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -246,9 +253,9 @@ ssh vagrant@ariadne-dev
 #provide "vagrant" as password
 ~~~~~~~
 
-and see if the changes have been applied correctly.
+and check if the changes have been applied correctly.
 
-#### NFS
+#### Checking NFS
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -262,20 +269,20 @@ Output:
 I'm a test file
 ~~~~~~~
 
-This looks good. The _projects_ directory contains _testfile_ and it's also visible inside the vm.
+This looks good. The _projects_ directory contains _testfile_ and it's also visible inside the virtual machine.
 
-#### Hostname
+#### Checking the hostname
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    vagrant@ariadne-dev:~$ cat /etc/hostname
+vagrant@ariadne-dev:~$ cat /etc/hostname
 ~~~~~~~
 
 Output: 
 
 {linenos=off, lang=text}
 ~~~~~~~
-    ariadne-dev
+ariadne-dev
 ~~~~~~~
 
 This looks good.
@@ -284,7 +291,7 @@ This looks good.
 
 {linenos=off, lang=bash}
 ~~~~~~~
-    vagrant@ariadne-dev:~$ sudo ifconfig
+vagrant@ariadne-dev:~$ sudo ifconfig
 ~~~~~~~
 
 Output:
@@ -310,8 +317,8 @@ eth1      Link encap:Ethernet  HWaddr 08:00:27:06:d4:da
           RX bytes:9996 (9.7 KiB)  TX bytes:2100 (2.0 KiB)
 ~~~~~~~
 
-This is not exactly what was expected because there are 2 network interfaces. This is due to the fact that when the first `vagrant up` was run there was no ethernet configuration set in the Vagrantfile and so eth0 was created by default.
+This is not exactly what was expected because there are 2 network interfaces. This is due to the fact that when the first `vagrant up` was run there was no ethernet configuration set in the Vagrantfile and so an `eth0 device` was created by default.
 
-I decided to start with a minimalistic Vagrantfile for educational purposes, to show what happens step by step and to show that virtualization is not a magic thing: bad configuration can often lead to unexpected results.
+I decided to start with a very minimalistic Vagrantfile, for educational purposes, to show that virtualization is not a magic thing: bad configuration can often lead to unexpected results that you need to sort out step by step.
 
-To solve the "2 network interfaces" little issue you can either manually fix the _/etc/network/interfaces_ file or you can be lazy and destroy and rebuild the vm.
+To solve the little issue with the two network interfaces you can either manually fix the _/etc/network/interfaces_ file or you can be lazy and destroy and rebuild the virtual machine using the new Vagrantfile.
