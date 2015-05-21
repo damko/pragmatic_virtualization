@@ -1,6 +1,6 @@
 ## Dive deeper into virtualization
 
-By now it should be pretty clear that virtualization is a huge and charming change in the computing world.
+The manual is almost over. I tried to share all I could and, by now, it should be pretty clear that virtualization is a huge and charming change in the computing world.
 
 It's such a vast field that a new professional figure, the _devops engineer_, has born and the job offers are growing rapidly.
 
