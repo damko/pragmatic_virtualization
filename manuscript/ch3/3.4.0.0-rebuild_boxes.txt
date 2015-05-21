@@ -1,12 +1,19 @@
-## Rebuild the Vagrant development vm
+## Rebuild the Vagrant virtual machine
 
-Once you have a well configured Vagrantfile and a ready Vagrant template you just need to run `vagrant up` to rebuild the whole machine. This should be pretty clear already.
+Once you have a well configured Vagrantfile and a ready Vagrant template box all you need to do to rebuild you Vagrant virtual machine is to run 
+
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant up
+~~~~~~~
 
 ## How to build another copy
 
-If you want to create another virtual machine equal to _ariadne_ you just need to copy the Vagrantfile in another directory and modify its variables
+If you want to create a clone of _ariadne_ you just need to copy the Vagrantfile in another directory and modify its variables
 
-    VB_DEV_VM_NAME = "newvm-dev"
-    VB_DEV_VM_IP = "192.168.51.xx"
-
-and run `vagrant up`. That's it.
+{linenos=off, lang=text}
+~~~~~~~
+VB_DEV_VM_NAME = "newvm-dev"
+VB_DEV_VM_IP = "192.168.51.xx"
+~~~~~~~
+then run `vagrant up`. That's it.
