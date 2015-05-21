@@ -14,7 +14,7 @@ ch2/2.0.0.0-chapter2.txt
     ch2/2.5.0.0-considerations_about_vagrant.txt
 
 ch3/3.0.0.0-chapter3.txt
-    ch3/3.1.0.0-listing_vagrant_templates_vms.txt
+    ch3/3.1.0.0-listing_vms.txt
     ch3/3.2.0.0-improving_vagrantfile.txt
     ch3/3.3.0.0-destroy_boxes.txt
     ch3/3.4.0.0-rebuild_boxes.txt

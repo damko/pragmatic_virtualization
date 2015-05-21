@@ -11,7 +11,7 @@ To solve this problem Vagrant uses _boxes_ which can be considered as _template 
 
 If you are thinking that this solution just moves the problem from VirtualBox to Vagrant you are right. Something still has to create the _boxes_.
 
-Q> How are Vagrant "boxes" created?
+How are Vagrant "boxes" created?
 
 In two ways:
 

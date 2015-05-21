@@ -8,9 +8,12 @@ This means that the development machine will be named _ariadne-dev_ and the prod
 
 In the both the _extra_ branches there is a directory called _ariadne_ having this structure:
 
-    ├── orchestration
-    │   └── vagrant
-    └── projects
+{linenos=off, lang=text}
+~~~~~~~
+├── orchestration
+│   └── vagrant
+└── projects
+~~~~~~~
 
 This is an arbitrary skeleton and has this meaning:
 

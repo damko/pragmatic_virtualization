@@ -1,6 +1,6 @@
 {pagebreak}
 
-## Create a Vagrant Template box from iso file
+## Create a Vagrant template box from iso file
 
 Checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository
 
@@ -27,10 +27,6 @@ Basically Packer will do what you do when you install Debian from a net-install 
 ~~~~~~~
 cd $pve/packer-templates
 tree
-~~~~~~~
-
-{linenos=off, lang=text}
-~~~~~~~
 .
 ├── http
 │   └── preseed.cfg
@@ -84,16 +80,16 @@ The debian iso file name contains the version number and, as soon as a new relea
 
 To fix the issue:
 
-    * go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
-    * check which is the latest net-inst version
-    * copy its checksum from the MD5SUMS file
-    * edit the .json file
+* go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
+* check which is the latest net-inst version
+* copy its checksum from the MD5SUMS file
+* edit the .json file
 
 Then update these variables on the top of the file:
 
-    * "iso_url": update the link to the iso file
-    * "iso_md5": insert the new MD5 checksum
-    * "vm_name": update the version and the name
+* "iso_url": update the link to the iso file
+* "iso_md5": insert the new MD5 checksum
+* "vm_name": update the version and the name
 
 {pagebreak}
 
