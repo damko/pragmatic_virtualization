@@ -1,6 +1,6 @@
 ## Create the database
 
-In the Suggestotron guide, [chapter 5](http://phpbridge.org/intro-to-php/creating_a_database), there are detailed instructions about how to create by hand the Mysql database necessary to store Suggestotron data.
+In the Suggestotron guide, [chapter 5](http://phpbridge.org/intro-to-php/creating_a_database), there are detailed instructions about how to create by hand the Mysql database necessary to store the Suggestotron data.
 
 With Ansible that can be automated, no need for manual configuration.
 

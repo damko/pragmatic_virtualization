@@ -1,4 +1,4 @@
-## The production environment
+# The production environment
 
 > If you are a beginner you can probably postpone this chapter because I think you already have enough on your plate. Come back when you feel ready to publish your application.
 

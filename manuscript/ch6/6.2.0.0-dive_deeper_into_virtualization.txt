@@ -6,7 +6,7 @@ It's such a vast field that a new professional figure, the _devops engineer_, ha
 
 If you want to learn more about virtualization there are many books available for many different virtualization technologies.
 
-I highly suggest to start with [Vagrant CookBook](https://leanpub.com/vagrantcookbook) written by [Erika Heidi](https://twitter.com/erikaheidi), honestly, one of the clearest book I have ever read. 
+I highly suggest to start with [Vagrant CookBook](https://leanpub.com/vagrantcookbook) written by [Erika Heidi](https://twitter.com/erikaheidi), honestly, the clearest book I have ever read. 
 
 She efficiently explains what are the differences between Ansible, Puppet and Chef and this helped me a lot in choosing Ansible as my favorite automation tool. 
 

@@ -1,6 +1,6 @@
 # The Suggestotron application
 
-"Ariadne-dev" is now ready to host the Suggestotron application. You just need to
+_Ariadne-dev_ is now ready to host the Suggestotron application. You just need to
 
 * create the database
 * populate the database
