@@ -1,42 +1,52 @@
 ## Ansible configuration
 
-I assume that you've followed step by step the manual and that you destroyed and rebuild the _ariadne-dev_ virtual machine.
+I assume that you have followed step by step the manual and that you destroyed and rebuild the _ariadne-dev_ virtual machine.
 
-If you run `vagrant up` the vm will start and the output will not be different from the one you are used to, which looks like this:
+If you run `vagrant up` the virtual machine will start and the output will not be different from the one you are used to, which looks like this:
 
-    vagrant up
-    Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
-    ==> ariadne-dev: Clearing any previously set forwarded ports...
-    ==> ariadne-dev: Clearing any previously set network interfaces...
-    ==> ariadne-dev: Preparing network interfaces based on configuration...
-        ariadne-dev: Adapter 1: nat
-        ariadne-dev: Adapter 2: hostonly
-    ==> ariadne-dev: Forwarding ports...
-        ariadne-dev: 22 => 2222 (adapter 1)
-    ==> ariadne-dev: Running 'pre-boot' VM customizations...
-    ==> ariadne-dev: Booting VM...
-    ==> ariadne-dev: Waiting for machine to boot. This may take a few minutes...
-        ariadne-dev: SSH address: 127.0.0.1:2222
-        ariadne-dev: SSH username: vagrant
-        ariadne-dev: SSH auth method: private key
-        ariadne-dev: Warning: Connection timeout. Retrying...
-    ==> ariadne-dev: Machine booted and ready!
-    GuestAdditions 4.3.16 running --- OK.
-    ==> ariadne-dev: Checking for guest additions in VM...
-    ==> ariadne-dev: Setting hostname...
-    ==> ariadne-dev: Configuring and enabling network interfaces...
-    ==> ariadne-dev: Exporting NFS shared folders...
-    ==> ariadne-dev: Preparing to edit /etc/exports. Administrator privileges will be required...
-    [sudo] password for damko:
-    nfsd running
-    ==> ariadne-dev: Mounting NFS shared folders...
-    ==> ariadne-dev: Machine already provisioned. Run `vagrant provision` or use the `--provision`
-    ==> ariadne-dev: to force provisioning. Provisioners marked to run always will still run.
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant up
+~~~~~~~
 
-If you destroyed the virtual machine but didn't rebuild it yet you'll see a different result because Vagrant automatically starts Ansible at the first `vagrant up`. If this is your case I suggest to go back to the previous branch and rebuild the machine so that you won't see anything different from what explained in the manual.
+Output:
 
+{linenos=off, lang=text}
+~~~~~~~
+Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
+==> ariadne-dev: Clearing any previously set forwarded ports...
+==> ariadne-dev: Clearing any previously set network interfaces...
+==> ariadne-dev: Preparing network interfaces based on configuration...
+    ariadne-dev: Adapter 1: nat
+    ariadne-dev: Adapter 2: hostonly
+==> ariadne-dev: Forwarding ports...
+    ariadne-dev: 22 => 2222 (adapter 1)
+==> ariadne-dev: Running 'pre-boot' VM customizations...
+==> ariadne-dev: Booting VM...
+==> ariadne-dev: Waiting for machine to boot. This may take a few minutes...
+    ariadne-dev: SSH address: 127.0.0.1:2222
+    ariadne-dev: SSH username: vagrant
+    ariadne-dev: SSH auth method: private key
+    ariadne-dev: Warning: Connection timeout. Retrying...
+==> ariadne-dev: Machine booted and ready!
+GuestAdditions 4.3.16 running --- OK.
+==> ariadne-dev: Checking for guest additions in VM...
+==> ariadne-dev: Setting hostname...
+==> ariadne-dev: Configuring and enabling network interfaces...
+==> ariadne-dev: Exporting NFS shared folders...
+==> ariadne-dev: Preparing to edit /etc/exports. Administrator privileges will be required...
+[sudo] password for damko:
+nfsd running
+==> ariadne-dev: Mounting NFS shared folders...
+==> ariadne-dev: Machine already provisioned. Run `vagrant provision` or use the `--provision`
+==> ariadne-dev: to force provisioning. Provisioners marked to run always will still run.
+~~~~~~~
 
-The _ansible_ directory in the _extra_ contains the scripts and the configuration files for Ansible required to install:
+I> If you destroyed the virtual machine but you didn't rebuild it yet you'll see a different result because Vagrant automatically starts Ansible at the first `vagrant up`. 
+
+T> If this is your case I suggest to go back to the previous branch (_improving_vagrantfile_) and rebuild the machine so that you won't see anything difference from what explained.
+
+The _ansible_ directory in the _extra_ contains the scripts and the configuration files for Ansible required to install the following softwares:
 
 * Apache
 * PHP5
@@ -46,224 +56,258 @@ The _ansible_ directory in the _extra_ contains the scripts and the configuratio
 
 which is pretty much all the software you need to run and develop Suggestotron.
 
-    tree $pve/ariadne/orchestration/
-    ├── ansible
-    │   ├── ariadne-dev-playbook.yml
-    │   ├── tasks
-    │   │   ├── apache2.yml
-    │   │   ├── composer.yml
-    │   │   ├── init.yml
-    │   │   ├── php5.yml
-    │   │   ├── psysh.yml
-    │   │   └── xdebug.yml
-    │   └── vars.yml
-    └── vagrant
-        └── Vagrantfile
+{linenos=off, lang=bash}
+~~~~~~~
+tree $pve/ariadne/orchestration/
 
-_ariadne-dev-playbook.yml_ is the file name written in the Vagrantfile
+├── ansible
+│   ├── ariadne-dev-playbook.yml
+│   ├── tasks
+│   │   ├── apache2.yml
+│   │   ├── composer.yml
+│   │   ├── init.yml
+│   │   ├── php5.yml
+│   │   ├── psysh.yml
+│   │   └── xdebug.yml
+│   └── vars.yml
+└── vagrant
+    └── Vagrantfile
+~~~~~~~
 
-    ansible.playbook = "../ansible/ariadne-dev-playbook.yml"
+_ariadne-dev-playbook.yml_ is the file name written in the Vagrantfile, remember?
 
-and it's Ansible main file, also known as "playbook". It looks like this:
+{linenos=off, lang=text}
+~~~~~~~
+ansible.playbook = "../ansible/ariadne-dev-playbook.yml"
+~~~~~~~
 
-    ---
-    - hosts: all
+This is the Ansible main file, also known as _playbook_, it's written in [YAML format](http://en.wikipedia.org/wiki/YAML) and it looks like this:
 
-      # Tells Ansible to run the commands with sudo
-      sudo: true
+{linenos=on, lang=yaml}
+~~~~~~~
+---
+- hosts: all
 
-      # File containing the variables used in Ansible scripts
-      vars_files:
-        - vars.yml
+  # Tells Ansible to run the commands with sudo
+  sudo: true
 
-      # List of actions to execute before any task
-      pre_tasks:
-        - name: playbook.yml | Run apt-get update if it was run last time more than 12 hours ago
-          apt: update_cache=yes cache_valid_time=43200
+  # File containing the variables used in Ansible scripts
+  vars_files:
+    - vars.yml
 
-      # List of tasks that will be executed sequentially
-      tasks:
+  # List of actions to execute before any task
+  pre_tasks:
+    - name: playbook.yml | Run apt-get update if it was run last time more than 12 hours ago
+      apt: update_cache=yes cache_valid_time=43200
 
-        # initial setup: it installs common packages like 'curl', 'vim' ...
-        - include: tasks/init.yml
+  # List of tasks that will be executed sequentially
+  tasks:
 
-        # installs PHP5
-        - include: tasks/php5.yml
+    # initial setup: it installs common packages like 'curl', 'vim' ...
+    - include: tasks/init.yml
 
-        # installs the Apache2 web server
-        - include: tasks/apache2.yml
+    # installs PHP5
+    - include: tasks/php5.yml
 
-        # install Xdebug that can be used to debug the PHP code in your editor
-        - include: tasks/xdebug.yml
+    # installs the Apache2 web server
+    - include: tasks/apache2.yml
 
-        # installs Composer, a tool for dependency management in PHP
-        - {
-          include: tasks/composer.yml,
-          # these variable declarations override the variables declared in vars.yml
-          composer_path: "/usr/local/bin/composer",
-          composer_keep_updated: true
-        }
+    # install Xdebug that can be used to debug the PHP code in your editor
+    - include: tasks/xdebug.yml
 
-        # installs Psysh a runtime console for PHP used in the PHPBridge course
-        - include: tasks/psysh.yml
+    # installs Composer, a tool for dependency management in PHP
+    - {
+      include: tasks/composer.yml,
+      # these variable declarations override the variables declared in vars.yml
+      composer_path: "/usr/local/bin/composer",
+      composer_keep_updated: true
+    }
 
-      # Handlers are used in Ansible tasks with this syntax example
-      # notify: restart apache2
-      # which means "after running this task execute `service: name=apache2 state=restarted enabled=yes`"
-      handlers:
-        - name: restart apache2
-          service: name=apache2 state=restarted enabled=yes
+    # installs Psysh a runtime console for PHP used in the PHPBridge course
+    - include: tasks/psysh.yml
 
-        - name: restart php5-fpm
-          service: name=php5-fpm state=restarted enabled=yes
+  # Handlers are used in Ansible tasks with this syntax example
+  # notify: restart apache2
+  # which means "after running this task execute `service: name=apache2 state=restarted enabled=yes`"
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted enabled=yes
 
-        - name: restart mysql
-          service: name=mysql state=restarted enabled=yes
+    - name: restart php5-fpm
+      service: name=php5-fpm state=restarted enabled=yes
 
+    - name: restart mysql
+      service: name=mysql state=restarted enabled=yes
+~~~~~~~
 
-Ansible will be executed with the command `vagrant provision` and it will start executing the tasks listed below "tasks:" in a sequential order. In order to keep things clean, each Ansible task is kept in a separated file stored in the "tasks" sub-folder and included in the playbook.
+Ansible will be executed via Vagrant with the command `vagrant provision` 
 
-The YAML syntax used by Ansible files is human readable and I tried to add as many comments as I could to show what happens.
+Ansible will start executing the tasks listed below the _tasks:_ line in sequential order. 
 
-Deepening Ansible, though, is beyond the purpose of this manual but if you want to know more I suggest to read the awesome [Ansible documentation](http://docs.ansible.com/) and to purchase the excellent book [Ansible for DevOps](https://leanpub.com/ansible-for-devops) written by [Jeff Geerling](https://twitter.com/geerlingguy) (even if it's not yet finished).
+In order to keep things clean, each Ansible task is kept in a separated file stored in the `tasks` subdirectory and included in the playbook.
+
+Please have a close look at the _playbook_: the YAML syntax is human readable and I tried to add comments to show what happens.
+
+I> Deepening Ansible is beyond the purpose of this manual because it's a vary huge topic.
+If you want to know more (I know you want) I suggest to read the awesome [Ansible online documentation](http://docs.ansible.com/) and to purchase the excellent ebook [Ansible for DevOps](https://leanpub.com/ansible-for-devops) written by [Jeff Geerling](https://twitter.com/geerlingguy) (yes even if it's currently not finished, 94% at the time of writing).
 
 ![Ansible for devops](images/ansible_for_devops.jpg)
 
-Run:
+## Run Ansible
 
-    vagrant provision
+To run Ansible simple command Vagrant in this way:
 
-This is the (Ansible) output:
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant provision
+~~~~~~~
 
-    PLAY [all] ********************************************************************
+Ansible output:
 
-    GATHERING FACTS ***************************************************************
-    ok: [ariadne-dev]
+{linenos=off, lang=text}
+~~~~~~~
+PLAY [all] ********************************************************************
 
-    TASK: [playbook.yml | Run apt-get update if it was run last time more than 12 hours ago] ***
-    ok: [ariadne-dev]
+GATHERING FACTS ***************************************************************
+ok: [ariadne-dev]
 
-    TASK: [init.yml | Install Sys Packages] ***************************************
-    changed: [ariadne-dev] => (item=curl,vim,python-pycurl,python-apt,aptitude,multitail,tree)
+TASK: [playbook.yml | Run apt-get update if it was run last time more than 12 hours ago] ***
+ok: [ariadne-dev]
 
-    TASK: [init.yml | run Security Upgrade] ***************************************
-    changed: [ariadne-dev]
+TASK: [init.yml | Install Sys Packages] ***************************************
+changed: [ariadne-dev] => (item=curl,vim,python-pycurl,python-apt,aptitude,multitail,tree)
 
-    TASK: [init.yml | Ensure NTP is installed] ************************************
-    ok: [ariadne-dev]
+TASK: [init.yml | run Security Upgrade] ***************************************
+changed: [ariadne-dev]
 
-    TASK: [init.yml | Ensure NTP is running] **************************************
-    changed: [ariadne-dev]
+TASK: [init.yml | Ensure NTP is installed] ************************************
+ok: [ariadne-dev]
 
-    TASK: [php5.yml | Check if php5-fpm is already installed] *********************
-    failed: [ariadne-dev] => {"changed": true, "cmd": ["dpkg", "-s", "php5-fpm"], "delta": "0:00:00.010319", "end": "2014-11-29 14:44:39.151516", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-11-29 14:44:39.141197", "stdout_lines": []}
-    stderr: dpkg-query: package 'php5-fpm' is not installed and no information is available
-    Use dpkg --info (= dpkg-deb --info) to examine archive files,
-    and dpkg --contents (= dpkg-deb --contents) to list their contents.
-    ...ignoring
+TASK: [init.yml | Ensure NTP is running] **************************************
+changed: [ariadne-dev]
 
-    TASK: [php5.yml | Add php5 repository] ****************************************
-    changed: [ariadne-dev]
+TASK: [php5.yml | Check if php5-fpm is already installed] *********************
+failed: [ariadne-dev] => {"changed": true, "cmd": ["dpkg", "-s", "php5-fpm"], "delta": "0:00:00.010319", "end": "2014-11-29 14:44:39.151516", "failed": true, "failed_when_result": true, "rc": 1, "start": "2014-11-29 14:44:39.141197", "stdout_lines": []}
+stderr: dpkg-query: package 'php5-fpm' is not installed and no information is available
+Use dpkg --info (= dpkg-deb --info) to examine archive files,
+and dpkg --contents (= dpkg-deb --contents) to list their contents.
+...ignoring
 
-    TASK: [php5.yml | Add php5 repository key] ************************************
-    changed: [ariadne-dev]
+TASK: [php5.yml | Add php5 repository] ****************************************
+changed: [ariadne-dev]
 
-    TASK: [php5.yml | Update apt] *************************************************
-    ok: [ariadne-dev]
+TASK: [php5.yml | Add php5 repository key] ************************************
+changed: [ariadne-dev]
 
-    TASK: [php5.yml | Install PHP Packages] ***************************************
-    changed: [ariadne-dev] => (item=php5-fpm,php5-curl,php5-cli)
+TASK: [php5.yml | Update apt] *************************************************
+ok: [ariadne-dev]
 
-    TASK: [apache2.yml | Install Apache Packages] *********************************
-    changed: [ariadne-dev] => (item=apache2,libapache2-mod-php5,libapache2-mod-macro)
+TASK: [php5.yml | Install PHP Packages] ***************************************
+changed: [ariadne-dev] => (item=php5-fpm,php5-curl,php5-cli)
 
-    TASK: [apache2.yml | Enable Apache rewrite module] ****************************
-    changed: [ariadne-dev]
+TASK: [apache2.yml | Install Apache Packages] *********************************
+changed: [ariadne-dev] => (item=apache2,libapache2-mod-php5,libapache2-mod-macro)
 
-    TASK: [xdebug.yml | Install xdebug] *******************************************
-    changed: [ariadne-dev] => (item=php5-xdebug)
+TASK: [apache2.yml | Enable Apache rewrite module] ****************************
+changed: [ariadne-dev]
 
-    TASK: [Ensure curl is installed (Debian).] ************************************
-    ok: [ariadne-dev]
+TASK: [xdebug.yml | Install xdebug] *******************************************
+changed: [ariadne-dev] => (item=php5-xdebug)
 
-    TASK: [Install Composer into the current directory.] **************************
-    changed: [ariadne-dev]
+TASK: [Ensure curl is installed (Debian).] ************************************
+ok: [ariadne-dev]
 
-    TASK: [Move Composer into globally-accessible location.] **********************
-    changed: [ariadne-dev]
+TASK: [Install Composer into the current directory.] **************************
+changed: [ariadne-dev]
 
-    TASK: [Update Composer to latest version (if configured).] ********************
-    ok: [ariadne-dev]
+TASK: [Move Composer into globally-accessible location.] **********************
+changed: [ariadne-dev]
 
-    TASK: [psysh.yml | Install psysh for the vagrant user] ************************
-    changed: [ariadne-dev]
+TASK: [Update Composer to latest version (if configured).] ********************
+ok: [ariadne-dev]
 
-    TASK: [psysh.yml | Ensure that ~/.composer/vendor/bin is in PATH] *************
-    changed: [ariadne-dev]
+TASK: [psysh.yml | Install psysh for the vagrant user] ************************
+changed: [ariadne-dev]
 
-    PLAY RECAP ********************************************************************
-    ariadne-dev                : ok=20   changed=14   unreachable=0    failed=0
+TASK: [psysh.yml | Ensure that ~/.composer/vendor/bin is in PATH] *************
+changed: [ariadne-dev]
 
+PLAY RECAP ********************************************************************
+ariadne-dev                : ok=20   changed=14   unreachable=0    failed=0
+~~~~~~~
 
-During the execution Ansible outputs the exit status (changed, Ok, skipped ...) of every single tasks so that you can see if something went wrong. If a task fails Ansible will throw an error and the execution will be interrupted.
+During the execution Ansible outputs the exit status (changed, Ok, skipped ...) of every single task so that you can see if something goes wrong. 
 
-At this point "ariadne-dev" have _almost_ all the required installed. You can get the list of the running services in this way:
+If a task fails Ansible throws an error and the execution stops.
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant ssh
+At this point "ariadne-dev" has _almost_ all the required software installed. 
 
-    vagrant@ariadne-dev:~$ sudo service --status-all
+You can check the list of the running services in this way:
+
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+#logging into the virtual machine
+vagrant ssh
+~~~~~~~
+
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant@ariadne-dev:~$ sudo service --status-all
+~~~~~~~
 
 Output:
 
-    [ + ]  acpid
-    [ + ]  apache2
-    [ + ]  atd
-    [ - ]  bootlogs
-    [ ? ]  bootmisc.sh
-    [ ? ]  checkfs.sh
-    [ ? ]  checkroot-bootclean.sh
-    [ - ]  checkroot.sh
-    [ - ]  console-setup
-    [ + ]  cron
-    [ + ]  exim4
-    [ - ]  hostname.sh
-    [ ? ]  hwclock.sh
-    [ - ]  kbd
-    [ - ]  keyboard-setup
-    [ ? ]  killprocs
-    [ ? ]  kmod
-    [ - ]  lvm2
-    [ - ]  motd
-    [ ? ]  mountall-bootclean.sh
-    [ ? ]  mountall.sh
-    [ ? ]  mountdevsubfs.sh
-    [ ? ]  mountkernfs.sh
-    [ ? ]  mountnfs-bootclean.sh
-    [ ? ]  mountnfs.sh
-    [ ? ]  mtab.sh
-    [ ? ]  networking
-    [ + ]  nfs-common
-    [ + ]  ntp
-    [ + ]  php5-fpm
-    [ - ]  procps
-    [ ? ]  rc.local
-    [ - ]  rmnologin
-    [ + ]  rpcbind
-    [ - ]  rsync
-    [ + ]  rsyslog
-    [ ? ]  sendsigs
-    [ + ]  ssh
-    [ - ]  sudo
-    [ + ]  udev
-    [ ? ]  udev-mtab
-    [ ? ]  umountfs
-    [ ? ]  umountnfs.sh
-    [ ? ]  umountroot
-    [ - ]  urandom
-    [ + ]  vboxadd
-    [ + ]  vboxadd-service
-    [ - ]  vboxadd-x11
+{linenos=off, lang=text}
+~~~~~~~
+[ + ]  acpid
+[ + ]  apache2
+[ + ]  atd
+[ - ]  bootlogs
+[ ? ]  bootmisc.sh
+[ ? ]  checkfs.sh
+[ ? ]  checkroot-bootclean.sh
+[ - ]  checkroot.sh
+[ - ]  console-setup
+[ + ]  cron
+[ + ]  exim4
+[ - ]  hostname.sh
+[ ? ]  hwclock.sh
+[ - ]  kbd
+[ - ]  keyboard-setup
+[ ? ]  killprocs
+[ ? ]  kmod
+[ - ]  lvm2
+[ - ]  motd
+[ ? ]  mountall-bootclean.sh
+[ ? ]  mountall.sh
+[ ? ]  mountdevsubfs.sh
+[ ? ]  mountkernfs.sh
+[ ? ]  mountnfs-bootclean.sh
+[ ? ]  mountnfs.sh
+[ ? ]  mtab.sh
+[ ? ]  networking
+[ + ]  nfs-common
+[ + ]  ntp
+[ + ]  php5-fpm
+[ - ]  procps
+[ ? ]  rc.local
+[ - ]  rmnologin
+[ + ]  rpcbind
+[ - ]  rsync
+[ + ]  rsyslog
+[ ? ]  sendsigs
+[ + ]  ssh
+[ - ]  sudo
+[ + ]  udev
+[ ? ]  udev-mtab
+[ ? ]  umountfs
+[ ? ]  umountnfs.sh
+[ ? ]  umountroot
+[ - ]  urandom
+[ + ]  vboxadd
+[ + ]  vboxadd-service
+[ - ]  vboxadd-x11
+~~~~~~~
 
-
-You've probably noticed that Mysql is missing because the playbook doesn't have any instruction about that.
+You've probably noticed that Mysql is missing because the playbook doesn't have any instructions about that. See the next chapter.

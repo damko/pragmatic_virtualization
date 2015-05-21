@@ -78,10 +78,11 @@ These are the virtualization softwares in use:
 
 These are the list of services and softwares installed and running inside the virtual machine:
 
-<!-- TODO double check the services installed in the vm -->
-* **Nginx** as webserver
-* **Mysql** as database
-* **PHP**
+* Apache
+* PHP5
+* Composer
+* Psysh
+* Xdebug
 
 Somebody will not be happy with my choices (sorry) but, at least, it brings some quick and effective results for some others.
 
