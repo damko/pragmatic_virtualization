@@ -1,78 +1,101 @@
 ## Improving Vagrantfile
 
-Save your .vagrant directory:
-
-    cp -fR $pve/ariadne/orchestration/vagrant/.vagrant /tmp/
-
-checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository
-
-    cd $pve
-    git checkout improving_vagrantfile
-
-move back .vagrant
-
-    mv /tmp/.vagrant $pve/ariadne/orchestration/vagrant/
-
 The Vagrantfile used till now is quite simple and can be improved to do more.
 
-In this branch the Vagrantfile contains some improvements and it looks like this:
+The _improving_vagrantfile_ _extra_ branch contains an improved version of the Vagrantfile but before doing anything you need to backup your `.vagrant` directory because it contains some important and unique information about your vagrant virtual machine.
 
-    VAGRANTFILE_API_VERSION = "2"
+{linenos=off, lang=bash}
+~~~~~~~
+cp -fR $pve/ariadne/orchestration/vagrant/.vagrant /tmp/
+~~~~~~~
 
+Now you should checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository:
 
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve
+git checkout improving_vagrantfile
+~~~~~~~
 
-    ############################################################
-    # VARIABLES
+and finally restore your `.vagrant` directory:
 
-    # Vagrant template box name
-    VG_BOX_NAME = "debian_jessie_800_64bit"
+{linenos=off, lang=bash}
+~~~~~~~
+mv /tmp/.vagrant $pve/ariadne/orchestration/vagrant/
+~~~~~~~
 
-    # Local virtual machine for development
-    VB_DEV_VM_NAME = "ariadne-dev"
-    VB_DEV_VM_IP = "192.168.51.10"
+The Vagrantfile provided in this branch looks like this:
 
-    ############################################################
+{linenos=on, lang=ruby}
+~~~~~~~
+VAGRANTFILE_API_VERSION = "2"
 
+############################################################
+# VARIABLES
 
+# Vagrant template box name
+VG_BOX_NAME = "debian_jessie_800_64bit"
 
-    Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+# Local virtual machine for development
+VB_DEV_VM_NAME = "ariadne-dev"
+VB_DEV_VM_IP = "192.168.51.10"
 
-        # Vagrant settings for the development vm
-        config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
+############################################################
 
-            # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant vm will be generated
-            devel.vm.box = VG_BOX_NAME
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-            # Hostname for the generated Vagrant vm
-            devel.vm.hostname = VB_DEV_VM_NAME
+    # Vagrant settings for the development vm
+    config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
 
-            # Sets the IP
-            devel.vm.network "private_network", ip: VB_DEV_VM_IP
+        # Vagrant box name. This the Vagrant template (created by Packer) from which the vagrant vm will be generated
+        devel.vm.box = VG_BOX_NAME
 
-            # NFS settings
-            devel.vm.synced_folder "../../projects", "/vagrant", type: "nfs"
+        # Hostname for the generated Vagrant vm
+        devel.vm.hostname = VB_DEV_VM_NAME
 
-            # VirtualBox settings
-            devel.vm.provider "virtualbox" do |vb|
-                vb.name = VB_DEV_VM_NAME
+        # Sets the IP
+        devel.vm.network "private_network", ip: VB_DEV_VM_IP
 
-                ## If true it does not boot in headless mode => shows virtualbox UI. Uncomment only for troubleshooting.
-                #vb.gui = true
+        # NFS settings
+        devel.vm.synced_folder "../../projects", "/vagrant", type: "nfs"
 
-                # Uses VBoxManage to customize the VM
-                vb.customize ["modifyvm", :id, "--memory", "512"]
-                vb.customize ["modifyvm", :id, "--cpus", "1"]
-                vb.customize ["modifyvm", :id, "--ioapic", "on"]
-            end
+        # VirtualBox settings
+        devel.vm.provider "virtualbox" do |vb|
+            vb.name = VB_DEV_VM_NAME
+
+            ## If true it does not boot in headless mode => shows virtualbox UI. Uncomment only for troubleshooting.
+            #vb.gui = true
+
+            # Uses VBoxManage to customize the VM
+            vb.customize ["modifyvm", :id, "--memory", "512"]
+            vb.customize ["modifyvm", :id, "--cpus", "1"]
+            vb.customize ["modifyvm", :id, "--ioapic", "on"]
         end
-
     end
 
+end
+~~~~~~~
 
-You can see the differences with the previous branch using your favorite diff tool (I suggest [meld](http://meldmerge.org/)):
+You can see the differences with the previous branch using your favorite `diff` tool.
 
-    git difftool -g -d create_vagrant_box_from_iso..improve_vagrantfile
+If you don't have a favorite diff tool yet I suggest [meld](http://meldmerge.org/). Once `meld` has been install you can configure your `git` preferences to use `meld` with these commands:
 
+{linenos=off, lang=bash}
+~~~~~~~
+git config --global diff.guitool meld
+git config --global difftool.prompt false
+~~~~~~~
+
+Then you can see the differences between the previous and the current branch:
+
+{linenos=off, lang=bash}
+~~~~~~~
+git difftool -g -d create_vagrant_box_from_iso
+~~~~~~~
+
+which look like this:
+
+![Differences Vagrantfile](images/diff_vagrantfile.png)
 
 ### Conventions for the Vagrantfile
 
@@ -87,8 +110,10 @@ I also used some conventions that you can definitely abandon if you don't like t
 * vm hostname and VirtualBox vm name match
 * the vm name is also use to define each section of the Vagrantfile like this (this will be explained better later on)
 
-> config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
-
+{linenos=off, lang=bash}
+~~~~~~~
+config.vm.define VB_DEV_VM_NAME, primary: true do |devel|
+~~~~~~~
 
 ### Network settings
 
@@ -96,23 +121,35 @@ It can be convenient to automatically configure the IP for the virtual machine e
 
 To do so I used a variable declaration
 
-    VB_DEV_VM_IP = "192.168.51.10"
+{linenos=off, lang=text}
+~~~~~~~
+VB_DEV_VM_IP = "192.168.51.10"
+~~~~~~~
 
 and I use that variable in this configuration line
 
-    # Sets the IP
-    devel.vm.network "private_network", ip: VB_DEV_VM_IP
+{linenos=off, lang=text}
+~~~~~~~
+# Sets the IP
+devel.vm.network "private_network", ip: VB_DEV_VM_IP
+~~~~~~~
 
 T> if there is already a machine using the IP address 192.168.51.10 in your network then you must change the "VB_DEV_VM_IP" variable and set an IP that does not belong to your workstation network class.
 
 Same thing for the hostname. Variable:
 
-    VB_DEV_VM_NAME = "ariadne-dev"
+{linenos=off, lang=text}
+~~~~~~~
+VB_DEV_VM_NAME = "ariadne-dev"
+~~~~~~~
 
 and configuration line:
 
-    # Hostname for the generated Vagrant vm
-    devel.vm.hostname = VB_DEV_VM_NAME
+{linenos=off, lang=text}
+~~~~~~~
+# Hostname for the generated Vagrant vm
+devel.vm.hostname = VB_DEV_VM_NAME
+~~~~~~~
 
 This means that the vm hostname will be "ariadne-dev" and it will take the IP "192.168.51.10".
 
@@ -120,8 +157,11 @@ T> [Avoid "dots" in the hostname](http://serverfault.com/questions/229331/can-i-
 
 It's convenient to add this information to the workstation hosts file:
 
-    # add host
-    sudo echo "192.168.51.10    ariadne-dev" >> /etc/hosts
+{linenos=off, lang=text}
+~~~~~~~
+# add host
+sudo echo "192.168.51.10    ariadne-dev" >> /etc/hosts
+~~~~~~~
 
 ### Directory sharing
 
@@ -129,12 +169,18 @@ As already said, the code will be on the workstation file-system but it will be 
 
 The NFS service is the only service that you really need to install on the workstation. To install NFS:
 
-    sudo apt-get install nfs-kernel-server
+{linenos=off, lang=bash}
+~~~~~~~
+sudo apt-get install nfs-kernel-server
+~~~~~~~
 
 This configuration line
 
-    # NFS settings
-    devel.vm.synced_folder "../../projects", "/vagrant", type: "nfs"
+{linenos=off, lang=text}
+~~~~~~~
+# NFS settings
+devel.vm.synced_folder "../../projects", "/vagrant", type: "nfs"
+~~~~~~~
 
 tells Vagrant which is the directory that should be shared with the vm right each time the vm is booted. Vagrant will automatically take care of the configuration of the NFS shares (which are set in the /etc/exports file of your workstation).
 In this case the _$pve/ariadne/projects_ directory will be mounted on the _/vagrant_ directory of the vm. As you can see the source directory path is relative to the directory containing the Vagrantfile.
@@ -143,90 +189,130 @@ In this case the _$pve/ariadne/projects_ directory will be mounted on the _/vagr
 
 To apply the changes added to the Vagrantfile, stop the vm and restart it:
 
-    cd $pve/ariadne/orchestration/vagrant
-    vagrant halt
-    vagrant up
+{linenos=off, lang=bash}
+~~~~~~~
+cd $pve/ariadne/orchestration/vagrant
+vagrant halt
+vagrant up
+~~~~~~~
 
 Output:
 
-    Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
-    ==> ariadne-dev: Clearing any previously set forwarded ports...
-    ==> ariadne-dev: Clearing any previously set network interfaces...
-    ==> ariadne-dev: Preparing network interfaces based on configuration...
-        ariadne-dev: Adapter 1: nat
-        ariadne-dev: Adapter 2: hostonly
-    ==> ariadne-dev: Forwarding ports...
-        ariadne-dev: 22 => 2222 (adapter 1)
-    ==> ariadne-dev: Running 'pre-boot' VM customizations...
-    ==> ariadne-dev: Booting VM...
-    ==> ariadne-dev: Waiting for machine to boot. This may take a few minutes...
-        ariadne-dev: SSH address: 127.0.0.1:2222
-        ariadne-dev: SSH username: vagrant
-        ariadne-dev: SSH auth method: private key
-        ariadne-dev: Warning: Connection timeout. Retrying...
-    ==> ariadne-dev: Machine booted and ready!
-    GuestAdditions 4.3.16 running --- OK.
-    ==> ariadne-dev: Checking for guest additions in VM...
-    ==> ariadne-dev: Setting hostname...
-    ==> ariadne-dev: Configuring and enabling network interfaces...
-    ==> ariadne-dev: Exporting NFS shared folders...
-    ==> ariadne-dev: Preparing to edit /etc/exports. Administrator privileges will be required...
-    [sudo] password for damko:
+{linenos=off, lang=text}
+~~~~~~~
+Bringing machine 'ariadne-dev' up with 'virtualbox' provider...
+==> ariadne-dev: Clearing any previously set forwarded ports...
+==> ariadne-dev: Clearing any previously set network interfaces...
+==> ariadne-dev: Preparing network interfaces based on configuration...
+    ariadne-dev: Adapter 1: nat
+    ariadne-dev: Adapter 2: hostonly
+==> ariadne-dev: Forwarding ports...
+    ariadne-dev: 22 => 2222 (adapter 1)
+==> ariadne-dev: Running 'pre-boot' VM customizations...
+==> ariadne-dev: Booting VM...
+==> ariadne-dev: Waiting for machine to boot. This may take a few minutes...
+    ariadne-dev: SSH address: 127.0.0.1:2222
+    ariadne-dev: SSH username: vagrant
+    ariadne-dev: SSH auth method: private key
+    ariadne-dev: Warning: Connection timeout. Retrying...
+==> ariadne-dev: Machine booted and ready!
+GuestAdditions 4.3.16 running --- OK.
+==> ariadne-dev: Checking for guest additions in VM...
+==> ariadne-dev: Setting hostname...
+==> ariadne-dev: Configuring and enabling network interfaces...
+==> ariadne-dev: Exporting NFS shared folders...
+==> ariadne-dev: Preparing to edit /etc/exports. Administrator privileges will be required...
+[sudo] password for damko:
+~~~~~~~
 
 Vagrant will immediately apply the changes made to the Vagrant file. NFS requires root privileges to modify the /etc/exports so Vagrant will stop the booting process and ask for your user's system password (your user is supposed to be in the sudoers group). Then it will continue:
 
+{linenos=off, lang=text}
+~~~~~~~
     nfsd running
     ==> ariadne-dev: Mounting NFS shared folders...
     ==> ariadne-dev: Machine already provisioned. Run `vagrant provision` or use the `--provision`
     ==> ariadne-dev: to force provisioning. Provisioners marked to run always will still run.
+~~~~~~~
 
 Login to the vm with
 
-    vagrant ssh
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant ssh
+~~~~~~~
 
 or
 
-    ssh vagrant@ariadne-dev
-    #provide "vagrant" as password
+{linenos=off, lang=bash}
+~~~~~~~
+ssh vagrant@ariadne-dev
+#provide "vagrant" as password
+~~~~~~~
 
 and see if the changes have been applied correctly.
 
 #### NFS
 
-    vagrant@ariadne-dev:~$ cat /vagrant/testfile
-    I'm a test file
+{linenos=off, lang=bash}
+~~~~~~~
+vagrant@ariadne-dev:~$ cat /vagrant/testfile
+~~~~~~~
+
+Output:
+
+{linenos=off, lang=text}
+~~~~~~~
+I'm a test file
+~~~~~~~
 
 This looks good. The _projects_ directory contains _testfile_ and it's also visible inside the vm.
 
 #### Hostname
 
+{linenos=off, lang=bash}
+~~~~~~~
     vagrant@ariadne-dev:~$ cat /etc/hostname
+~~~~~~~
 
+Output: 
+
+{linenos=off, lang=text}
+~~~~~~~
     ariadne-dev
+~~~~~~~
 
 This looks good.
 
 #### Ethernet
 
+{linenos=off, lang=bash}
+~~~~~~~
     vagrant@ariadne-dev:~$ sudo ifconfig
+~~~~~~~
 
-    eth0      Link encap:Ethernet  HWaddr 08:00:27:2e:98:c9
-              inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-              inet6 addr: fe80::a00:27ff:fe2e:98c9/64 Scope:Link
-              UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-              RX packets:916 errors:0 dropped:0 overruns:0 frame:0
-              TX packets:602 errors:0 dropped:0 overruns:0 carrier:0
-              collisions:0 txqueuelen:1000
-              RX bytes:87745 (85.6 KiB)  TX bytes:71271 (69.6 KiB)
+Output:
 
-    eth1      Link encap:Ethernet  HWaddr 08:00:27:06:d4:da
-              inet addr:192.168.51.10  Bcast:192.168.51.255  Mask:255.255.255.0
-              inet6 addr: fe80::a00:27ff:fe06:d4da/64 Scope:Link
-              UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-              RX packets:74 errors:0 dropped:0 overruns:0 frame:0
-              TX packets:22 errors:0 dropped:0 overruns:0 carrier:0
-              collisions:0 txqueuelen:1000
-              RX bytes:9996 (9.7 KiB)  TX bytes:2100 (2.0 KiB)
+{linenos=off, lang=text}
+~~~~~~~
+eth0      Link encap:Ethernet  HWaddr 08:00:27:2e:98:c9
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe2e:98c9/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:916 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:602 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:87745 (85.6 KiB)  TX bytes:71271 (69.6 KiB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:06:d4:da
+          inet addr:192.168.51.10  Bcast:192.168.51.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe06:d4da/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:74 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:22 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:9996 (9.7 KiB)  TX bytes:2100 (2.0 KiB)
+~~~~~~~
 
 This is not exactly what was expected because there are 2 network interfaces. This is due to the fact that when the first `vagrant up` was run there was no ethernet configuration set in the Vagrantfile and so eth0 was created by default.
 
