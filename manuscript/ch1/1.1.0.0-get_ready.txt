@@ -25,7 +25,7 @@ Once Git is installed you are ready to download the _extra_ repository:
 {linenos=off, lang=bash}
 ~~~~~~~
     cd <your-favorite-directory>
-    git clone git@github.com:damko/pragmatic_virtualization_extra.git
+    git clone https://github.com/damko/pragmatic_virtualization_extra.git
 ~~~~~~~
 
 This will create the `pragmatic_virtualization_extra` subdirectory inside `your-favorite-directory`.

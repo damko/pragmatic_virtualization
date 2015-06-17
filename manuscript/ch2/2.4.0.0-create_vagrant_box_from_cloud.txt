@@ -17,7 +17,7 @@ To use this box run:
 {linenos=off, lang=bash}
 ~~~~~~~
 cd $pve/ariadne/orchestration/vagrant
-vagrant init deb/jessie-amd64 --provider virtualbox
+vagrant init deb/jessie-amd64
 ~~~~~~~
 
 Output:
