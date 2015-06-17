@@ -83,7 +83,7 @@ Checkout the _suggestotron_database_creation_ branch from the _extra_ repository
 {linenos=off, lang=bash}
 ~~~~~~~
 cd $pve
-git checkout suggestotron_database_creation
+git checkout suggestotron_populate_db
 ~~~~~~~
 
 Now you see some more files
@@ -187,7 +187,7 @@ Let's see if it's true with this command:
 
 {linenos=off, lang=bash}
 ~~~~~~~
-ssh vagrant@ariadne-dev 'echo "select * from topics" | mysql -uroot -proot' suggestotron
+ssh vagrant@ariadne-dev 'echo "select * from topics" | mysql -uroot -proot suggestotron'
 #provide "vagrant" as password
 ~~~~~~~
 
@@ -207,8 +207,8 @@ The [Suggestroton repository](https://github.com/dshafik/suggestotron) uses tags
 
 {linenos=off, lang=bash}
 ~~~~~~~
-cd $pve/ariadne-dev/projects
-git clone git@github.com:dshafik/suggestotron.git
+cd $pve/ariadne/projects
+git clone https://github.com/dshafik/suggestotron.git
 ~~~~~~~
 
 What has been done till now is roughly the equivalent of the first 6 chapters of the Suggestron guide so you should checkout the Suggestotron code at chapter 7 level.
@@ -292,7 +292,7 @@ Just add this line to the `/etc/hosts` file in your workstation
 
 {linenos=off, lang=bash}
 ~~~~~~~
-192.168.51.10    suggestotron.dev www.suggestotron.dev
+192.168.51.10    suggestotron.ariadne-dev www.suggestotron.ariadne-dev
 ~~~~~~~
 
 Now open this link [http://suggestotron.ariadne-dev](http://suggestotron.ariadne-dev) and you should see this:
