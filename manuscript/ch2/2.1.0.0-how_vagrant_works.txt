@@ -30,4 +30,4 @@ What if need a Linux distro not listed in Vagrant Cloud?
 
 In these cases you have no other choice than creating your own box.
 
-In section 2.3 will show how to create a Vagrant box using Packer starting from an iso file but, if you prefer to use Vagrant Cloud, you can move straight to section 2.4.
+Section 2.3 will show how to create a Vagrant box using Packer starting from an iso file but, if you prefer to use Vagrant Cloud, you can move straight to section 2.4.
