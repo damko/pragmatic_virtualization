@@ -92,13 +92,13 @@ I> I encourage you to adjust this manual for any different perspective and to re
 
 ## Copyleft
 
-You can copy, share, modify and reuse accordingly to the [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US).
+You can copy, share, modify and reuse this manual accordingly to the [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US).
 
-If you have got this manual from a friend I strongly suggest you to go and get a new fresh copy **for free** from the [Leanpub website](https://leanpub.com/pragmatic_virtualization) because in this way you can be notified by Leanpub about any future update of this manual. The updates, of course, will be for free.
+If you have got this manual from a friend I strongly suggest you to go and get a new fresh copy **for free** from the [Leanpub website](https://leanpub.com/pragmatic_virtualization) because in this way you can be notified by Leanpub about any future update. The updates, of course, will be for free.
 
-While you are on Leanpub, you can consider donating to support the PHP Women cause. That would be really appreciated.
+While you are on Leanpub, please consider donating to support the PHP Women cause. That would be really appreciated.
 
-W> I'd love to have this manual reviewed by a native English speaker. If you want to review and improve this manual please send me a PR. Github [content](https://github.com/damko/pragmatic_virtualization) and [extra](https://github.com/damko/pragmatic_virtualization_extra). Thank you.
+W> I'd love to have this manual reviewed by a native English speaker. If you want to review and improve this manual please send me a Github PR: [content](https://github.com/damko/pragmatic_virtualization) and [extra](https://github.com/damko/pragmatic_virtualization_extra). Thank you.
 
 ## The PHP Women cause
 
