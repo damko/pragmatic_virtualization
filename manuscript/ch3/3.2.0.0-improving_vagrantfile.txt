@@ -2,16 +2,9 @@
 
 The Vagrantfile used till now is quite simple and can be improved to do more.
 
-The Vagrantfile can be written to configure several virtual machines and to host many different configurations (like network settings, host name etc.) for each virtual machine.
+The Vagrantfile can be written to configure several virtual machines and to host many different configurations (like network settings, host name etc.) for each one.
 
-The _improving_vagrantfile_ _extra_ branch has an improved version of the previous Vagrantfile but before doing anything you need to backup your `.vagrant` directory because it contains some important and unique information about your vagrant virtual machine.
-
-{linenos=off, lang=bash}
-~~~~~~~
-cp -fR $pve/ariadne/orchestration/vagrant/.vagrant /tmp/
-~~~~~~~
-
-Now you should checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository:
+Checkout the _create_vagrant_box_from_iso_ branch from the _extra_ repository:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -19,14 +12,7 @@ cd $pve
 git checkout improving_vagrantfile
 ~~~~~~~
 
-and finally restore your `.vagrant` directory:
-
-{linenos=off, lang=bash}
-~~~~~~~
-mv /tmp/.vagrant $pve/ariadne/orchestration/vagrant/
-~~~~~~~
-
-Now have a look at the Vagrantfile provided with this branch. It looks like this:
+This branch provides an improved version of the previous Vagrantfile. It looks like this:
 
 {linenos=on, lang=ruby}
 ~~~~~~~
