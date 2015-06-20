@@ -21,7 +21,7 @@ You'll be following these steps:
 
 Packer will download a net-install iso from the Debian servers and will use it to launch the installation process and create a virtual machine image compatible with VirtualBox and Vagrant.
 
-Basically Packer will do what you do when you install Debian from a net-install cd and will adjust it for the virtualization environment.
+Basically Packer will what you would do when you manually install Debian from a net-install cd and will adjust it for the virtualization environment.
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -40,7 +40,9 @@ tree
 └── ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-If you have a look at the `ta-debian-8-jessie-virtualbox.json` file you will see that the Packer box is configured to have 1 core, 512MB ram and 10Gb hdd but it's easy to add a core or some ram later on.
+The `ta-debian-8-jessie-virtualbox.json` file contains all the options to pass to the Debian installer to perfom an unattended installation.
+
+If you have a look at it you see that the Packer box is configured to have 1 core, 512MB ram and 10Gb hdd. That's enough for now: later on you will see how easy it is to add a core or some ram.
 
 Before creating the vm, check if the json file is valid:
 
@@ -50,9 +52,9 @@ cd $pve/packer-templates
 packer validate ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-It should output _Template validated successfully_
+This should output _Template validated successfully_
 
-Finally this is the command to create the fresh vm:
+Finally, this is the command to create the fresh vm:
 
 {linenos=off, lang=bash}
 ~~~~~~~
@@ -60,9 +62,9 @@ cd $pve/packer-templates
 packer build ta-debian-8-jessie-virtualbox.json
 ~~~~~~~
 
-This last command will launch a VirtualBox window and you will be able to see the unattended installation of the operating system.
+This last command will launch a VirtualBox window and you will be able to see the Debian installation running unattended.
 
-You are not supposed to interact with the installation window unless you see the process stuck on a dialog window and asking for user input.
+You are not supposed to interact with the installation window unless you see the process stuck on a dialog window for long time and asking for user input.
 
 When the installation process ends (it will take a while) you will see this message in the terminal:
 
@@ -73,23 +75,6 @@ When the installation process ends (it will take a while) you will see this mess
 ~~~~~~~
 
 _debian-800-jessie.box_ is a file about 829MB big which lives inside the packer-templates directory and contains the fresh virtual machine.
-
-#### The Debian version issue
-
-The debian iso file name contains the version number and, as soon as a new release will be out, the 800 will be removed from the debian servers and the debian-800-jessie.json file will be outdated. And you will get the _ISO download failed_ error right after running the build command.
-
-To fix the issue:
-
-* go on http://cdimage.debian.org/debian-cd/current/amd64/iso-cd/
-* check which is the latest net-inst version
-* copy its checksum from the MD5SUMS file
-* edit the .json file
-
-Then update these variables on the top of the file:
-
-* "iso_url": update the link to the iso file
-* "iso_md5": insert the new MD5 checksum
-* "vm_name": update the version and the name
 
 {pagebreak}
 
