@@ -74,7 +74,7 @@ When the installation process ends (it will take a while) you will see this mess
 --> virtualbox-iso: 'virtualbox' provider box: debian-800-jessie.box
 ~~~~~~~
 
-_debian-800-jessie.box_ is a file about 829MB big which lives inside the packer-templates directory and contains the fresh virtual machine.
+In my case, _debian-800-jessie.box_ is a file about 829MB big which lives inside the packer-templates directory and contains the fresh virtual machine.
 
 {pagebreak}
 
