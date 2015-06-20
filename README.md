@@ -7,4 +7,4 @@ You can download the manual from [Leanpub](http://leanpub.com/pragmatic_virtuali
 
 ## Get the extra content
 
-    git clone git@github.com:damko/pragmatic_virtualization_extra.git
+    git clone https://github.com/damko/pragmatic_virtualization_extra.git
